@@ -281,11 +281,14 @@ if (!class_exists('Foodbakery_buyer_email_invoice_template')) {
                             $heading_extra_item = isset($extra_item['heading']) ? $extra_item['heading'] : '';
                             $title_extra_item = isset($extra_item['title']) ? $extra_item['title'] : '';
                             $price_extra_item = isset($extra_item['price']) ? $extra_item['price'] : '';
+                             $price_extra_quantity = isset($extra_item['quantity ']) ? (int)$extra_item['quantity '] : '';
+                            
+                            
                             if ($title_extra_item != '') {
-                                  $html_temp .= '<li>' . $heading_extra_item . ' - ' . $title_extra_item . ' : <span class="category-price">' . foodbakery_get_currency($price_extra_item, true, '', '', true) . '</span></li>';
+                                  $html_temp .= '<li>'. $title_extra_item . 'X '.$price_extra_quantity.' : <span class="category-price">' . foodbakery_get_currency($price_extra_item, true, '', '', true) . '</span></li>';
                             }
-                            $order_m_total += floatval($price_extra_item);
-                            $sa_category_price += floatval($price_extra_item);
+                            $order_m_total += floatval($price_extra_item*$price_extra_quantity);
+                            $sa_category_price += floatval($price_extra_item*$price_extra_quantity);
                         }
                         $html_temp .= '</ul>';
                     }

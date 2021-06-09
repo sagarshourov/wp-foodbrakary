@@ -367,13 +367,14 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                                                         //$this_item_heading = isset($restaurant_menu_list[$this_item_id]['menu_item_extra']['heading'][$extra_m_counter]) ? $restaurant_menu_list[$this_item_id]['menu_item_extra']['heading'][$extra_m_counter] : '';
                                                         $item_extra_at_title = isset($this_item_extra_at['title']) ? $this_item_extra_at['title'] : '';
                                                         $item_extra_at_price = isset($this_item_extra_at['price']) ? $this_item_extra_at['price'] : '';
+                                                        $item_extra_quantitye = isset($this_item_extra_at['quantity']) ? (int)$this_item_extra_at['quantity'] : '';
                                                         if ($item_extra_at_title != '' || $item_extra_at_price > 0) {
-                                                            $menu_extra_li .= '<li>' . $this_item_heading . ' - ' . $item_extra_at_title . ' : <span class="category-price">' . foodbakery_get_currency($item_extra_at_price, true) . ' </span></li>';
+                                                            $menu_extra_li .= '<li>' . $this_item_heading . ' - ' . $item_extra_at_title . ' X '.$item_extra_quantitye.' : <span class="category-price">' . foodbakery_get_currency($item_extra_at_price* $item_extra_quantitye, true) . ' </span></li>';
                                                         }
                                                         //$menu_extra_li .= '<li>some detsils</li>';
-                                                        $menu_t_price += floatval($item_extra_at_price);
+                                                        $menu_t_price += floatval($item_extra_at_price*$item_extra_quantitye);
                                                         $extra_m_counter ++;
-                                                        $sa_category_price +=floatval($item_extra_at_price);;
+                                                        $sa_category_price +=floatval($item_extra_at_price*$item_extra_quantitye);
                                                     }
                                                     $menu_extra_li .= '</ul>';
                                                     $popup_id = 'edit_extras-' . $this_menu_cat_id . '-' . $this_item_id;

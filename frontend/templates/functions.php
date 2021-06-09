@@ -7200,7 +7200,8 @@ if (!function_exists('restaurant_menu_price_calc')) {
                     if (is_array($this_item_extras) && sizeof($this_item_extras) > 0) {
                         foreach ($this_item_extras as $this_item_extra_at) {
                             $item_extra_at_price = isset($this_item_extra_at['price']) ? $this_item_extra_at['price'] : '';
-                            $menu_t_price += floatval($item_extra_at_price);
+                             $item_extra_at_quantity = isset($this_item_extra_at['quantity']) ? (int) $this_item_extra_at['quantity'] : '';
+                            $menu_t_price += floatval($item_extra_at_price*$item_extra_at_quantity);
                         }
                     }
                 }

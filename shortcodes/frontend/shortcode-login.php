@@ -103,8 +103,7 @@ if (!class_exists('Foodbakery_Shortcode_Login_Frontend')) {
                 </script>
                 <?php
             }
-			$output = "<span id='translator_widget'>".do_shortcode('[gtranslate]')."</span>";
-            $output .= '';
+            $output = '';
             if (is_user_logged_in()) {
                 $output .= $this->foodbakery_profiletop_menu();
             } else {
@@ -1023,7 +1022,11 @@ if (!class_exists('Foodbakery_Shortcode_Login_Frontend')) {
                         <li class="user-dashboard-menu-children">
                             <a href="javascript:void(0);">
                                 <figure class="profile-image">
-                                   <img src="/wp-content/uploads/2021/05/material-design-user-icon-29-300x300-1.png" alt="profile Image" />
+                                    <?php
+                                    if ($foodbakery_profile_image != '') {
+                                        echo '<img src="' . esc_url($foodbakery_profile_image) . '" alt="">';
+                                    }
+                                    ?>
                                 </figure>
                                 <?php echo esc_html($fullName) ?>
                             </a>
@@ -1222,7 +1225,7 @@ if (!class_exists('Foodbakery_Shortcode_Login_Frontend')) {
                         <header>
                         <a href="javascript:void(0);">
                                 <figure class="profile-image">
-                                   <img src="/wp-content/uploads/2021/05/material-design-user-icon-29-300x300-1.png" alt="profile Image" />
+									<img src="https://delivery.food-fellas.gr/wp-content/uploads/2021/05/material-design-user-icon-29-300x300-1.png" alt="profile Image">
                                 </figure>
                                 <?php echo esc_html($fullName) ?>
                             </a>

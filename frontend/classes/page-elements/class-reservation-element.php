@@ -396,30 +396,30 @@ if (!class_exists('foodbakery_reservation_element')) {
             $arr_position = explode(',', $position);
 
 
-            $menu_item_id = (int) $menu_id;
+            $menu_item_arr = explode(',', $menu_id);
             $qty = (int) $qtys;
 
             foreach ($arr_extra as $key => $extra_id) {
-
-                $extra_id = (int) $extra_id;
-
-                $position_id = (int) $arr_position[$key];
-
-                $old_quantity = $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id];
-
-
-                $new_quentity = $old_quantity + $qty;
-
-
-                $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id] = $new_quentity;
+                if ($extra_id !== '') {
+                    $extra_id = (int) $extra_id;
+                    $position_id = (int) $arr_position[$key];
+                    
+                    $menu_item_id = (int) $menu_item_arr[$key];
+                    
+                    $old_quantity = $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id];
+                    if ($old_quantity !== 0 && empty($old_quantity)) {
+                        $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id] = '';
+                    } else {
+                        $old_quantity = (int) $old_quantity;
+                        $new_quentity = $old_quantity + $qty;
+                        $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id] = $new_quentity;
+                    }
+                }
             }
-
-
-
             update_post_meta($resturent_id, 'foodbakery_menu_items', $restaurant_menu_list);
 
 
-            return $extras;
+            return $menu_id;
         }
 
         public function foodbakery_restaurant_remove_menu_item() {
@@ -436,6 +436,8 @@ if (!class_exists('foodbakery_reservation_element')) {
             $sa_extra = isset($_POST['extra']) ? $_POST['extra'] : '';
 
             $sa_position = isset($_POST['position']) ? $_POST['position'] : '';
+
+            $sa_menu_id = isset($_POST['menu_id']) ? $_POST['menu_id'] : '';
 
 
 
@@ -489,9 +491,9 @@ if (!class_exists('foodbakery_reservation_element')) {
                 }
             }
 
-            print_r($this->sa_quantuty_reverse($restaurant_id, $qty, $menu_item_id, $sa_extra, $sa_position));
-
-
+           //$this->sa_quantuty_reverse($restaurant_id, $qty, $sa_menu_id, $sa_extra, $sa_position);
+          
+       
             die();
         }
 
@@ -564,7 +566,7 @@ if (!class_exists('foodbakery_reservation_element')) {
                 $old_quantity = $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id];
 
                 if ($old_quantity == '') {
-                    
+                    $restaurant_menu_list[$menu_item_id]['menu_item_extra'][$position_id]['quantity'][$extra_id] = '';
                 } else {
                     $new_quentity = $old_quantity - $extra_quantity;
 
@@ -604,13 +606,6 @@ if (!class_exists('foodbakery_reservation_element')) {
 //            if(){
 //                
 //            }
-
-
-
-
-
-
-
 
 
             $unique_id = $rand_numb;
@@ -683,7 +678,7 @@ if (!class_exists('foodbakery_reservation_element')) {
                                             'extra_id' => $menu_extra_att
                                         );
 
-                                        $extras_html .= '<li extra="' . $menu_extra_att . '" position="' . $extra_name[$key] . '" qty="' . $menu_sa_quantity_arr . '" dat="extra-' . $menu_extra_att . '-' . $extra_name[$key] . '-' . $menu_item_id . '">' . $menu_extra_at_label . ' x ' . $menu_sa_quantity_arr . ' : <span class="category-price">' . foodbakery_get_currency($menu_extra_at_price, true) . '</span></li>';
+                                        $extras_html .= '<li class="sa_quantity_info" old_qty="'.$old_qty.'" menu_id="'.$menu_item_id.'" extra="' . $menu_extra_att . '" position="' . $extra_name[$key] . '" qty="' . $menu_sa_quantity_arr . '" dat="extra-' . $menu_extra_att . '-' . $extra_name[$key] . '-' . $menu_item_id . '">' . $menu_extra_at_label . ' x ' . $menu_sa_quantity_arr . ' : <span class="category-price">' . foodbakery_get_currency($menu_extra_at_price * $menu_sa_quantity_arr, true) . '</span></li>';
 
                                         $menu_t_price += floatval($menu_extra_at_price * $menu_sa_quantity_arr);
 
@@ -695,7 +690,7 @@ if (!class_exists('foodbakery_reservation_element')) {
                                     $menu_ext_counter++;
                                 }
                             }
-                            $this->sa_quantity_process($extras_arra, $restaurant_id);
+                            //$this->sa_quantity_process($extras_arra, $restaurant_id);
                         }
 
                         $get_added_menus = get_transient('add_menu_items_' . $publisher_id);
@@ -746,7 +741,7 @@ if (!class_exists('foodbakery_reservation_element')) {
 
                         $li_html = '
 				<li    class="menu-added-' . $rand_numb_class . '" id="menu-added-' . $rand_numb . '" data-pr="' . foodbakery_get_currency($menu_t_price, false, '', '', false) . '" data-conpr="' . foodbakery_get_currency($menu_t_price, false, '', '', true) . '">
-					<a qty="' . $menu_sa_quantity_arr . '" href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
+					<a class="btn-cross dev-remove-menu-item" old_qty="'.$old_qty.'" qty="' . $menu_sa_quantity_arr . '" href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
 					<a>' . $this_item_title . ' X ' . $menu_sa_quantity_arr . '</a>
 					<span class="category-price">' . foodbakery_get_currency($menu_t_price, true) . '</span>';
                         if ($extras_html != '') {
@@ -831,17 +826,17 @@ if (!class_exists('foodbakery_reservation_element')) {
                                 );
 
                                 // $extras_html .= '<li>' . $this_item_heading . ' - ' . $menu_extra_at_label . ' : <span class="category-price">' . foodbakery_get_currency($menu_extra_at_price, true) . '</span></li>';
-                                $extras_html .= '<li extra="' . $menu_extra_att . '" position="' . $extra_name[$key] . '" qty="' . $menu_sa_quantity_arr . '" dat="extra-' . $menu_extra_att . '-' . $extra_name[$key] . '-' . $menu_item_id . '">' . $menu_extra_at_label . ' x ' . $menu_sa_quantity_arr . ' : <span class="category-price">' . foodbakery_get_currency($menu_extra_at_price, true) . '</span></li>';
-                                $menu_t_price += floatval($menu_extra_at_price);
+                                $extras_html .= '<li menu_id="'.$menu_item_id.'" extra="' . $menu_extra_att . '" position="' . $extra_name[$key] . '" qty="' . $menu_sa_quantity_arr . '" dat="extra-' . $menu_extra_att . '-' . $extra_name[$key] . '-' . $menu_item_id . '">' . $menu_extra_at_label . ' x ' . $menu_sa_quantity_arr . ' : <span class="category-price">' . foodbakery_get_currency($menu_extra_at_price * $menu_sa_quantity_arr, true) . '</span></li>';
+                                $menu_t_price += floatval($menu_extra_at_price * $menu_sa_quantity_arr);
 
-                                $sa_category_price += $menu_extra_at_price;
+                                $sa_category_price += floatval($menu_extra_at_price * $menu_sa_quantity_arr);
                             } else {
                                 $extras_html .= '<li><span>out of stock </span></li>';
                             }
 
                             // $menu_ext_counter ++;
                         }
-                        $this->sa_quantity_process($extras_arra, $restaurant_id);
+                        //$this->sa_quantity_process($extras_arra, $restaurant_id);
                     }
                 }
 
@@ -1175,7 +1170,7 @@ if (!class_exists('foodbakery_reservation_element')) {
                                             'restaurant_id' => $restaurant_id,
                                             'menu_item_id' => $menu_item_id,
                                             'position_id' => $this_item_extra_at['position_id'],
-                                            'extra_id' => $this_item_extra_at['menu_item_id']
+                                            'extra_id' => $this_item_extra_at['extra_id']
                                         );
                                     } else {
 

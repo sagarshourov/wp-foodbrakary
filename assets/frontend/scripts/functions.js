@@ -1,5 +1,5 @@
 /*
- *  jquery document.ready functions 
+ *  jquery document.ready functions
  */
 var $ = jQuery;
 var ajaxRequest;
@@ -463,7 +463,7 @@ jQuery(document).on("click", "#profile_form", function () {
         return false;
     }
 
-    
+
     foodbakery_show_loader('#profile_form', '', 'button_loader', thisObj);
 
     var serializedValues = jQuery("#publisher_profile").serialize();
@@ -484,7 +484,7 @@ jQuery(document).on("click", "#profile_form", function () {
                 var image_src = jQuery('#cropContainerModal img').attr('src');
                 foodbakery_appned_profile_image(image_src, default_image_url, false);
             }
-			if(response.type == 'success')
+            if(response.type == 'success')
             {
                 window.location.href = '/';
             }
@@ -597,7 +597,7 @@ function foodbakery_show_loader(loading_element, loader_data, loader_style, this
  * Loader Show Response Function
  */
 function foodbakery_show_response(loader_data, loading_element, thisObj, clickTriger) {
-console.log(loader_data);
+
     if (thisObj != 'undefined' && thisObj != '' && thisObj != undefined) {
         thisObj.removeClass('foodbakery-processing');
     }
@@ -1444,10 +1444,10 @@ function foodbakery_map_location_load(field_postfix) {
                         jQuery('#profile_form').attr('dis', 0);
 
                         console.log('gllpSearchButton');
-                        
+
                     });
 
-                   
+
 
 
                     // Search function by gllp_perform_search listener
@@ -1566,7 +1566,7 @@ jQuery(document).ready(function () {
 
 
 
-    
+
 
 
     $(document).on('click','.sa_location', function(){
@@ -1584,7 +1584,7 @@ jQuery(document).ready(function () {
 
 
               var latLang = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-           
+
 
                geocoder.geocode({
                 'latLng': latLang
@@ -1595,11 +1595,11 @@ jQuery(document).ready(function () {
                            // alert(results[1].formatted_address);
                             $(document).find('#loc_address').val(results[1].formatted_address);
 
-                            var gMap = new google.maps.Map(document.getElementById('cs-map-location-fe-id')); 
+                            var gMap = new google.maps.Map(document.getElementById('cs-map-location-fe-id'));
                             gMap.setZoom(13);      // This will trigger a zoom_changed on the map
                             gMap.setCenter(latLang);
                             gMap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-            
+
                            var marker = new google.maps.Marker({
                                 position: latLang,
                                 map : gMap,
@@ -1613,7 +1613,7 @@ jQuery(document).ready(function () {
                                 document.getElementById("foodbakery_post_loc_latitude").value = this.getPosition().lat();
                                 document.getElementById("foodbakery_post_loc_longitude").value = this.getPosition().lng();
 
-                            
+
 
                                 geocoder.geocode({
                                     'latLng': new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng())
@@ -1654,13 +1654,13 @@ jQuery(document).ready(function () {
                 });
 
 
-            
-                
-              
-              
+
+
+
+
             });
         }
-      
+
     });
 
 });

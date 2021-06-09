@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -123,6 +124,7 @@ if (!function_exists('ajax_login')) :
                     update_post_meta($order_id, 'foodbakery_order_user', $publisher_id);
                     $foodbakery_redirect_url = $default_url;
                 } else {
+
                     if ($foodbakery_page_id != '') {
                         /* redirect to the current restaurant URL */
                         $user_company_id = get_user_meta($uid, 'foodbakery_company', true);
@@ -130,8 +132,8 @@ if (!function_exists('ajax_login')) :
                         if (strpos($default_url, '/restaurants') !== false && $publisher_profile_type != 'restaurant') {
                             $foodbakery_redirect_url = $default_url;
                         }else{
-                            //$foodbakery_redirect_url = get_permalink($foodbakery_page_id);
-                             $foodbakery_redirect_url = $default_url;
+                            // $foodbakery_redirect_url = get_permalink($foodbakery_page_id);
+                            $foodbakery_redirect_url = $default_url;
                         }
                     } else {
                         $foodbakery_redirect_url = $default_url;  // home URL if page not set
@@ -151,7 +153,7 @@ add_action('wp_ajax_ajax_login', 'ajax_login');
 add_action('wp_ajax_nopriv_ajax_login', 'ajax_login');
 /*
  *
- * Start Function  for  user registration validation 
+ * Start Function  for  user registration validation
  *
  */
 if (!function_exists('foodbakery_registration_validation')) {
@@ -167,7 +169,7 @@ if (!function_exists('foodbakery_registration_validation')) {
         if ($given_params != '' && is_array($given_params)) {
             extract($given_params);
         } else {
-            $id = isset($_POST['id']) ? $_POST['id'] : ''; //rand id 
+            $id = isset($_POST['id']) ? $_POST['id'] : ''; //rand id
             $username = isset($_POST['user_login' . $id]) ? $_POST['user_login' . $id] : '';
 
             $profile_type = isset($_POST['foodbakery_profile_type' . $id]) ? $_POST['foodbakery_profile_type' . $id] : '';
@@ -377,7 +379,7 @@ if (!function_exists('foodbakery_registration_validation')) {
                     // insert Restaurant for Member
 
                     if ($given_params != '' && is_array($given_params)) {
-                        
+
                     } else {
                         $res_data = array(
                             'post_title' => wp_strip_all_tags($display_name),
@@ -411,7 +413,7 @@ if (!function_exists('foodbakery_registration_validation')) {
                 do_action('foodbakery_user_register', $reg_user, $random_password);
 
                 if (class_exists('foodbakery_register_email_template') && isset(Foodbakery_register_email_template::$is_email_sent1)) {
-                    
+
                     $json['type'] = "success";
                     $json['msg'] = esc_html__("Please check your email for login details.", "foodbakery");
                 } else {
@@ -473,7 +475,7 @@ if (!function_exists('foodbakery_verify_terms_policy_callback')) {
         $cs_terms_policy_switch = isset($foodbakery_plugin_options['foodbakery_cs_terms_condition_check']) && !empty($foodbakery_plugin_options['foodbakery_cs_terms_condition_check']) ? $foodbakery_plugin_options['foodbakery_cs_terms_condition_check'] : '';
         $cs_danger_html = '<div class="alert alert-danger"><button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button><p><i class="icon-warning4"></i>';
         $cs_msg_html = '</p></div>';
-        $id = $array_data['id']; //rand id 
+        $id = $array_data['id']; //rand id
         $terms_check = $array_data['terms-' . $id];
         if (empty($terms_check) && $cs_terms_policy_switch == 'on') {
             $json['type'] = "error";
@@ -481,14 +483,14 @@ if (!function_exists('foodbakery_verify_terms_policy_callback')) {
             echo json_encode($json);
             exit();
         } else {
-            
+
         }
     }
 }
 if (!function_exists('foodbakery_contact_validation')) {
     function foodbakery_contact_validation($atts = '') {
         global $wpdb, $foodbakery_plugin_options, $foodbakery_form_fields_frontend;
-        $id = rand(10000000, 91564689); //rand id 
+        $id = rand(10000000, 91564689); //rand id
         $username = $_POST['user_login' . $id];
         $json = array();
         if ($foodbakery_captcha_switch == 'on') {

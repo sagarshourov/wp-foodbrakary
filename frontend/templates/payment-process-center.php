@@ -614,7 +614,7 @@ if (!function_exists('sa_quantity_process')) {
 
     function sa_quantity_process($data) {
 
-        // print_r($data);
+     //  print_r($data);
         // $restaurant_menu_list = get_post_meta($restaurant_id, 'foodbakery_menu_items', true);
 
         $restaurant_id = $data[0]['extras'][0]['restaurant_id'];
@@ -627,8 +627,8 @@ if (!function_exists('sa_quantity_process')) {
 
 
 
-                $menu_item_id = $value2['menu_item_id'];
-                $extra_id = $value2['extra_id'];
+                $menu_item_id = (int) $value2['menu_item_id'];
+                $extra_id = (int) $value2['extra_id'];
                 $extra_quantity = (int) $value2['quantity'];
 
                 $position_id = (int) $value2['position_id'];
@@ -654,7 +654,16 @@ if (!function_exists('sa_quantity_process')) {
 
 
         }
-        update_post_meta($restaurant_id, 'foodbakery_menu_items', $restaurant_menu_list);
+        
+//        echo 'menu_id -- '.$menu_item_id;
+//        
+//         echo '$position_id -- '.$position_id;
+//               echo '$extra_id -- '.$extra_id;
+//        
+//        //print_r($restaurant_menu_list);
+        
+        
+       update_post_meta($restaurant_id, 'foodbakery_menu_items', $restaurant_menu_list);
 
 
     }
@@ -830,7 +839,7 @@ if (!function_exists('foodbakery_payment_process')) {
 
                     $order_menu_list = get_post_meta($transaction_id, 'menu_items_list', true);
 
-                    //sa_quantity_process($order_menu_list);
+                    sa_quantity_process($order_menu_list);
 
                     // print_r($order_menu_list); //sa_edit_order
                     //$restaurant_menu_list = get_post_meta($restaurant_id, 'foodbakery_menu_items', true);
