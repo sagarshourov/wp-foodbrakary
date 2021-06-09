@@ -1,0 +1,60 @@
+ /****ansuman CSS 24 april 2021*****/
+
+@media screen and (max-width: 650px) {
+
+    header .main-header > .container > div.row:first-child >.col-lg-8.col-md-8.col-sm-12.col-xs-12{
+        z-index: 999999999999 !important;
+        width: 40%;
+    }
+    .col-lg-8.col-md-8.col-sm-12.col-xs-12 > div.logo a {
+        z-index: 99999 !important;
+    }
+
+    .main-header .login-option {
+        padding-top: 30px;
+        position: absolute;
+        top: 0;
+        right: 15px;
+        z-index: 1;
+        width: 40%;
+    }
+    .main-header .login-option a.cs-color.cs-popup-joinus-btn.login-popup {
+        float: right;
+    }
+
+    .logged-in .main-header .login-option {
+        padding: 0;
+        position: relative;
+        display: block;
+        float: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .user-dashboard-menu > ul > li.user-dashboard-menu-children > a {
+        padding-top: 20px;
+        line-height: 26px;
+        float: right;
+    }
+    .user-dashboard-menu > ul > li.user-dashboard-menu-children > ul {
+        max-width: 100%;
+        position: absolute;
+        top: 70px;
+        transition: 1s;
+        height: auto;
+    
+       
+    }
+    .user-dashboard-menu > ul > li > a + ul {
+            transition: 1s !important;
+        right: -1000px !important; 
+    }
+    .user-dashboard-menu > ul > li.menu-open > a.open-overlay + ul {
+        right: 0px !IMPORTANT;
+        transition: 1s;
+    }
+}
+
+.transparent-header .main-header .login-option a.login-popup {
+    color: #fff !important;
+}
