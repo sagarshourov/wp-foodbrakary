@@ -3,7 +3,7 @@
   Plugin Name: WP Foodbakery
   Plugin URI: http://themeforest.net/user/Chimpstudio/
   Description: Foodbakery
-  Version: 5.5
+  Version: 5.6
   Author: ChimpStudio
   Text Domain: foodbakery
   Author URI: http://themeforest.net/user/Chimpstudio/
