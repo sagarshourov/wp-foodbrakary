@@ -1001,7 +1001,7 @@ if ( ! class_exists( 'Foodbakery_Publisher_Profile' ) ) {
                                             'cust_type' => 'text',
                                             'id' => 'foodbakery_user_beel',
                                             'cust_name' => 'foodbakery_user_beel',
-                                            'classes' => 'foodbakery_user_beel',
+                                            'classes' => 'foodbakery_user_beel foodbakery-dev-req-field',
                                             'placeholder' => "Bell",
                                             'force_std' => true
                                         ),
@@ -1026,7 +1026,7 @@ if ( ! class_exists( 'Foodbakery_Publisher_Profile' ) ) {
                                             'cust_type' => 'number',
                                             'id' => 'foodbakery_user_floor',
                                             'cust_name' => 'foodbakery_user_floor',
-                                            'classes' => 'foodbakery_user_floor',
+                                            'classes' => 'foodbakery_user_floor foodbakery-dev-req-field',
                                             'force_std' => true
                                         ),
                                     );

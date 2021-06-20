@@ -58,3 +58,31 @@
 .transparent-header .main-header .login-option a.login-popup {
     color: #fff !important;
 }
+@media screen and (max-width: 767px){
+
+    .mobile-menu-sidebar {
+        position: fixed;
+        right: -250px;
+        width: 200px;
+        top: 0;
+          height: calc(100% - 70px) !important;
+        background: #042331;
+        transition: all 0.5s ease;
+        overflow: auto;
+        z-index: 9 !important;
+    }
+
+    .menu-order-detail .modal-dialog {
+        max-height: max-content !important;
+        margin: 0px !important;
+        width: 100% !important;
+    }
+
+    .modal-content.mCustomScrollbar._mCS_1.mCS-autoHide {
+        height: 97vh !important;
+        z-index: 9999999 !important;
+    }
+    .mobile-menu-conatiner li:hover a {
+        padding-left: 0px !important;
+    }
+}

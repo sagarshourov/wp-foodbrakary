@@ -42,6 +42,7 @@ if ( ! class_exists('Foodbakery_Publisher_FoodMenus') ) {
 			);
 			$custom_query = new WP_Query($args);
 			$pub_restaurant = $custom_query->posts;
+
 			?>
 			<form method="post" enctype="multipart/form-data">
 				<ul class="restaurant-menu-nav nav nav-tabs">
@@ -90,16 +91,16 @@ if ( ! class_exists('Foodbakery_Publisher_FoodMenus') ) {
 
 						if ( isset($pub_restaurant[0]) && $pub_restaurant[0] != '' ) {
 							$get_restaurant_id = $pub_restaurant[0];
-							$menu_html = apply_filters('foodbakery_restaurant_menu_items', $restaurant_add_counter, $restaurant_type_id, $get_restaurant_id);
+							echo  $menu_html = apply_filters('foodbakery_restaurant_menu_items', $restaurant_add_counter, $restaurant_type_id, $get_restaurant_id);
 						} else {
 
-							$menu_html = '<div class="not-found">
+							echo  $menu_html = '<div class="not-found">
 									<i class="icon-error"></i>
 									<p>' . esc_html__('Sorry! No Menu Found.', 'foodbakery') . '</p>
 								</div>';
 						}
 
-						echo force_balance_tags($menu_html);
+						// echo force_balance_tags($menu_html);
 						?>
 					</div>
 				</div>

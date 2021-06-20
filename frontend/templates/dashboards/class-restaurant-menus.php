@@ -416,14 +416,24 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
             global $foodbakery_plugin_options, $restaurant_add_counter, $foodbakery_html_fields;
             $currency_sign = foodbakery_get_currency_sign();
 
+
+			foreach ($menu_item_extra['heading'] as $key => $value) {
+				 $menu_item_extra_titles = isset($menu_item_extra[$key]['title']) ? $menu_item_extra[$key]['title'] : array();
+				 foreach ($menu_item_extra_titles as $key1 => $menu_item_extra_title) {
+					 $condition_array[$value][] = $menu_item_extra_title;
+				 }
+				
+			}
             if (isset($menu_item_extra['heading']) && is_array($menu_item_extra['heading']) && sizeof($menu_item_extra['heading']) > 0) {
 
                 $form_extra_html = '';
                 $count_extra_li = 0;
                 $count_extra_inner_li = 0;
+				$main = 0;
                 foreach ($menu_item_extra['heading'] as $key => $value) {
                     $value_type = $menu_item_extra['type'][$key];
                     $required_num = $menu_item_extra['required'][$key];
+                    $condition_num = $menu_item_extra['condition'][$key];
                     $menu_item_extra_titles = isset($menu_item_extra[$key]['title']) ? $menu_item_extra[$key]['title'] : array();
                     $menu_item_extra_prices = isset($menu_item_extra[$key]['price']) ? $menu_item_extra[$key]['price'] : array();
                     $menu_item_extra_precheck = isset($menu_item_extra[$key]['precheck']) ? $menu_item_extra[$key]['precheck'] : array();
@@ -459,7 +469,36 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 													<label>' . __('Required', 'foodbakery') . '</label>
 													<input class="menu-item-extra-required" id="menu_item_extra_required_' . $menu_item_counter . '" name="menu_item_extra[' . $menu_item_counter . '][required][]" type="text" value="' . $required_num . '" placeholder="' . __('Required options', 'foodbakery') . '">
 												</div></div>';
-
+												
+												
+										$form_extra_html .= '<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+												<div class="field-holder">
+													<label>' . __('Condition', 'foodbakery') . '</label>
+													
+													<select  class="menu-item-extra-condition" id="menu_item_extra_condition_' . $menu_item_counter . '" name="menu_item_extra[' . $menu_item_counter . '][condition][]" >
+													<option value="select">----Select----</option>';
+													$inner = 0;
+													
+													foreach($condition_array as $key3 => $conditionvalue){
+														
+														if($main > $inner ){
+														$form_extra_html .= '<optgroup label="'.$key3.'">';
+														foreach($conditionvalue as $k => $v){
+															$option_value = $inner.'-'.$v;
+															
+															$selected = '';
+															if($condition_num == $option_value){
+																$selected = 'selected';
+															}
+															$form_extra_html .= '<option value="'.$option_value.'" '.$selected.'>'.$v.'</option>';
+														}
+														$form_extra_html .= '</optgroup>';
+														}
+														$inner++;
+													}
+													$form_extra_html .= '</select>
+													
+												</div></div>';
                     $form_extra_html = apply_filters('foodbakery_extras_main_fields_backend', $form_extra_html, $menu_item_counter, $menu_item_extra, $key);
 
                     $form_extra_html .= '<a class="cross-icon" href="javascript:void(0);" onClick="remove_more_extra_option_heading(\'' . $key . '\',\'' . $menu_item_counter . '\',\'' . $count_extra_li . '\');"><i class="icon-cross-out"></i></a>';
@@ -525,6 +564,7 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
                     $form_extra_html .= '</li>';
                     $count_extra_li++;
                     $count_extra_inner_li++;
+					$main++;
                 }
                 return $form_extra_html;
             }

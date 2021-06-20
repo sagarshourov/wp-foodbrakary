@@ -245,10 +245,10 @@ if (!class_exists('Foodbakery_Order_Detail')) {
                                             $this->order_user_details($order_id);
 
                                             // Order menu list.
-                                            $this->order_menu_list($order_id);
+                                            //$this->order_menu_list($order_id);
 
                                             // Order price.
-                                            $this->order_price($order_id);
+                                            //$this->order_price($order_id);
                                             ?>
                         </div>
                     </div>
@@ -555,6 +555,211 @@ if (!class_exists('Foodbakery_Order_Detail')) {
             }
 
 
+
+             $menu_order_fee_type = get_post_meta($order_id, 'menu_order_fee_type', true);
+            $menu_order_fee = get_post_meta($order_id, 'menu_order_fee', true);
+            $currency_sign = get_post_meta($order_id, 'foodbakery_currency', true);
+            $order_subtotal_price = get_post_meta($order_id, 'order_subtotal_price', true);
+
+            $services_total_price = get_post_meta($order_id, 'services_total_price', true);
+            $order_vat_percent = get_post_meta($order_id, 'order_vat_percent', true);
+            $order_vat_cal_price = get_post_meta($order_id, 'order_vat_cal_price', true);
+
+
+            $wooc_order_all_data = get_post_meta($order_id, 'foodbakery_wooc_order_data', true);
+
+
+            $order_menu_list = get_post_meta($order_id, 'menu_items_list', true);
+            $currency_sign = get_post_meta($order_id, 'foodbakery_currency', true);
+            if (is_array($order_menu_list)) {
+                $menu_order_fee = get_post_meta($order_id, 'menu_order_fee', true);
+                $menu_order_fee_type = get_post_meta($order_id, 'menu_order_fee_type', true);
+                $payment_list = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+                $payment_list .= '
+                <h2 class="heading">' . esc_html__('Food Menu', 'foodbakery') . '</h2>
+                <div class="responsive-table">    
+                <ul class="categories-order table-generic">';
+                $payment_list .= '<li class="order-heading-titles">
+                    <div>' . esc_html__('Products', 'foodbakery') . '</div> 
+                    <div>' . esc_html__('Price per', 'foodbakery') . '</div>
+                    </li>';
+                $order_m_total = 0;
+                foreach ($order_menu_list as $_menu_list) {
+                    $title_item_cat = isset($_menu_list['category']) ? $_menu_list['category'] : '';
+                    $title_item = isset($_menu_list['title']) ? $_menu_list['title'] : '';
+                    $price_item = isset($_menu_list['price']) ? $_menu_list['price'] : '';
+                    $extras_item = isset($_menu_list['extras']) ? $_menu_list['extras'] : '';
+
+                    $extras_notes = isset($_menu_list['notes']) ? '<li>'.$_menu_list['notes'].'</li>' : '';
+
+                 
+
+                    //$order_m_total += floatval($price_item);
+
+                    $sa_category_price = 0;
+                    $quantity = 1;
+                    $heading_extra_item ='';
+                    $payment_list .= '
+                    <li  class="order-heading-titles">
+                    <div>
+                        <h4>' . $title_item_cat . '</h4>
+                        <h5>' . $title_item . '</h5>
+                        ';
+                    if (is_array($extras_item) && sizeof($extras_item) > 0) {
+                        $payment_list .= '<ul>';
+                        foreach ($extras_item as $extra_item) {
+                            //$heading_extra_item = isset($extra_item['heading']) ? $extra_item['heading'] : '';
+                            $title_extra_item = isset($extra_item['title']) ? $extra_item['title'] : '';
+                            $price_extra_item = isset($extra_item['price']) ? $extra_item['price'] : '';
+                            $quantity = isset($extra_item['quantity']) ? (int) $extra_item['quantity'] : '';
+                            if ($title_extra_item != '' || $price_extra_item > 0) {
+                                $payment_list .= '<li>' . $heading_extra_item . ' - ' . $title_extra_item . ' : ' . foodbakery_get_currency($price_extra_item, true, '', '', false) . '</li>';
+                               
+                            }
+                            
+                            $order_m_total += floatval($price_extra_item);
+                            $sa_category_price += floatval($price_extra_item);
+                        }
+
+                        $payment_list .= $extras_notes;
+                       
+                        $payment_list .= '</ul>';
+                    }
+
+                    $sa_category_price = $sa_category_price * $quantity;
+                    $payment_list .= '</div>';
+                    $payment_list .= '<div>';
+                    
+                    $payment_list .= '<span> X '.$quantity.' </span>';
+                        
+                    $payment_list .= '</div>';
+                    
+                    $payment_list .= '<div>';
+                    $payment_list .= '<span class="category-price">' . foodbakery_get_currency($sa_category_price, true, '', '', false) . '</span>';
+                    $payment_list .= '</div>';
+                    $payment_list .= '
+                    </li>';
+                }
+                $payment_list .= '
+                    </ul></div>';
+            }
+            
+            $payment_list .= '</div>';
+
+            echo force_balance_tags($payment_list);
+
+            if ($order_subtotal_price != '' || ($menu_order_fee_type != '' && $menu_order_fee != '') || $order_vat_cal_price != '' || $services_total_price != '') {
+
+?>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            <h3><?php echo esc_html__('Order Total', 'foodbakery'); ?></h3>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <ul class="order-detail-options order-total">
+                <?php
+
+                                if ($order_subtotal_price != '') { ?>
+                <li class="created-date">
+                    <strong><?php esc_html_e('Subtotal:', 'foodbakery'); ?></strong>
+                    <span><?php echo foodbakery_get_currency($order_subtotal_price, true, '', '', false); ?></span>
+                </li>
+                <?php } ?>
+                <?php
+                                $check_delivery_fee = apply_filters('foodbakery_check_delivery_tax', false);
+                                if (!$check_delivery_fee) {
+                                    if (!isset($wooc_order_all_data) || empty($wooc_order_all_data)) { ?>
+                <?php if ($menu_order_fee_type != '' && $menu_order_fee != '') { ?>
+                <li class="order-type">
+                    <strong>
+                        <?php
+                                                    if ($menu_order_fee_type == 'delivery') {
+                                                        esc_html_e('Delivery Fee:', 'foodbakery');
+                                                    } else {
+                                                        esc_html_e('Pick Up Fee:', 'foodbakery');
+                                                    }
+                                                    ?>
+                    </strong>
+                    <span><?php echo foodbakery_get_currency($menu_order_fee, true, '', '', false); ?></span>
+                </li>
+                <?php } ?>
+                <?php if ($order_vat_cal_price != '') { ?>
+                <li class="order-type">
+                    <strong><?php printf(esc_html__('VAT (%s&#37;)', 'foodbakery'), $order_vat_percent) ?></strong>
+                    <span><?php echo foodbakery_get_currency($order_vat_cal_price, true, '', '', false) ?></span>
+                </li>
+                <?php }
+                                    }
+                                    ?>
+                <?php if (isset($wooc_order_all_data) && !empty($wooc_order_all_data)) {
+
+                                        ?>
+                <?php
+                                        $pickup_fee_flag = false;
+                                        foreach ($wooc_order_all_data as $wooc_order_data) {
+                                            if (strip_tags($wooc_order_data['label']) == 'Pickup:' || strip_tags($wooc_order_data['label']) == 'Delivery:') {
+                                                $pickup_fee_flag = true;
+                                            }
+
+                                            ?>
+                <li class="order-type">
+                    <strong><?php echo esc_html(strip_tags($wooc_order_data['label'])); ?></strong>
+                    <?php
+                                                // $value = number_format(floatval(strip_tags($wooc_order_data['value'])), 2);
+                                                // $value = foodbakery_get_currency($value, true, '', '', false); ?>
+                    <?php //echo esc_html($value); ?>
+                    <span><?php echo $wooc_order_data['value']; ?></span>
+                </li>
+                <?php } ?>
+
+                <?php
+                                        if ($pickup_fee_flag == false) {
+                                            if ($menu_order_fee_type != '' && $menu_order_fee != '') {
+                                                ?>
+                <li class="order-type">
+                    <strong>
+                        <?php
+                                                        if ($menu_order_fee_type == 'delivery') {
+                                                            esc_html_e('Delivery Fee:', 'foodbakery');
+                                                        } else {
+                                                            esc_html_e('Pick Up Fee:', 'foodbakery');
+                                                        }
+                                                        ?>
+                    </strong>
+                    <span>
+                        5 x <?php echo foodbakery_get_currency($menu_order_fee, true, '', '', false); ?>
+                    </span>
+                </li>
+                <?php
+                                            }
+                                        }
+                                    }
+                                } /*else {
+                                    do_action('foodbakery_add_delivery_taxes_in_buyer_order_details', $order_id, $currency_sign);
+                                }*/
+                                ?>
+
+
+                <?php if ($services_total_price != '') { ?>
+                <li class="order-type total-price">
+                    <strong><?php esc_html_e('Total:', 'foodbakery') ?></strong>
+                    <span><?php
+                                            if ($check_delivery_fee) {
+                                                echo foodbakery_get_currency($services_total_price, true, '', '', false);
+                                            } else {
+                                                echo restaurant_menu_price_calc('defined', $order_subtotal_price, $menu_order_fee, true, false, false, '', true);
+                                            } ?></span>
+                </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php 
+}
+
+
             ?>
 
 
@@ -832,13 +1037,13 @@ if($foodbakery_post_loc_latitude_publisher[0] !=''){
                 $menu_order_fee_type = get_post_meta($order_id, 'menu_order_fee_type', true);
                 $payment_list = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
                 $payment_list .= '
-				<h2 class="heading">' . esc_html__('Food Menu', 'foodbakery') . '</h2>
-				<div class="responsive-table">    
-				<ul class="categories-order table-generic">';
+                <h2 class="heading">' . esc_html__('Food Menu', 'foodbakery') . '</h2>
+                <div class="responsive-table">    
+                <ul class="categories-order table-generic">';
                 $payment_list .= '<li class="order-heading-titles">
-					<div>' . esc_html__('Products', 'foodbakery') . '</div>	
-					<div>' . esc_html__('Price per', 'foodbakery') . '</div>
-				    </li>';
+                    <div>' . esc_html__('Products', 'foodbakery') . '</div> 
+                    <div>' . esc_html__('Price per', 'foodbakery') . '</div>
+                    </li>';
                 $order_m_total = 0;
                 foreach ($order_menu_list as $_menu_list) {
                     $title_item_cat = isset($_menu_list['category']) ? $_menu_list['category'] : '';
@@ -856,11 +1061,11 @@ if($foodbakery_post_loc_latitude_publisher[0] !=''){
                     $quantity = 1;
                     $heading_extra_item ='';
                     $payment_list .= '
-					<li  class="order-heading-titles">
-					<div>
-						<h4>' . $title_item_cat . '</h4>
-						<h5>' . $title_item . '</h5>
-						';
+                    <li  class="order-heading-titles">
+                    <div>
+                        <h4>' . $title_item_cat . '</h4>
+                        <h5>' . $title_item . '</h5>
+                        ';
                     if (is_array($extras_item) && sizeof($extras_item) > 0) {
                         $payment_list .= '<ul>';
                         foreach ($extras_item as $extra_item) {
@@ -894,10 +1099,10 @@ if($foodbakery_post_loc_latitude_publisher[0] !=''){
                     $payment_list .= '<span class="category-price">' . foodbakery_get_currency($sa_category_price, true, '', '', false) . '</span>';
                     $payment_list .= '</div>';
                     $payment_list .= '
-					</li>';
+                    </li>';
                 }
                 $payment_list .= '
-					</ul></div>';
+                    </ul></div>';
             }
             
             $payment_list .= '</div>';
