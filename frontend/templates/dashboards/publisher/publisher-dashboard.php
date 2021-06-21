@@ -764,7 +764,9 @@ if ($publisher_profile_type == 'restaurant') {
                                                             }
 
                                                         </script>
+                                                       
                                                         <div class="user-dashboard loader-holder 4">
+
                                                             <div class="user-holder">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <?php

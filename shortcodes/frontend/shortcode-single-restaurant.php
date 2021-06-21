@@ -206,7 +206,39 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                 <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
                     <!--Tabs Start-->
                     <div class="back-to-t"></div>
+                     <div class="user_last_order">
+                                                            <?php
+                                                            global $post;   
+$lastposts = get_posts( array(
+     'post_type'              => array( 'orders_inquiries' ),
+     'post_status'    => 'publish', 
+     'orderby'        => 'post_date',
+     'order'          => 'DESC',
+     'author'         => get_current_user_id(),
+     'posts_per_page' => 2
+) );
+ 
+//Code to check only the latest post from  each user is displayed.
+if ( $lastposts ) {
+    $auther=""; 
+    foreach ( $lastposts as $post ) :
+        setup_postdata( $post ); 
+            if($auther!=get_the_author()) { 
+
+                ?>
+                <!--Do your html code here -->
+                <!-- <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2> -->
+                <?php 
+
+            }
+     
+    endforeach; 
+    wp_reset_postdata();
+}
+?>
+                                                        </div>
                     <div class="tabs-holder horizontal">
+
                         <ul class="stickynav-tabs nav nav-tabs">
                             <?php
                             $menu_active = 'class="active"';
