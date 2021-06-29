@@ -7859,10 +7859,10 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 if ($menu_item_extra_sub_titles != '') {
                                                     ?>
 
-                                                    <div class="extras-detail-att" style="border-top:1px solid #ebedf3">
+                                                    <div class="extras-detail-att" style="border-top:1px solid #ebedf3;margin: 0;border-bottom: 0;padding-bottom: 5px;">
                                                         <div class="row">
                                                             <div class="col-lg-12 col-xs-12">
-                                                                <h4 class="text-center"><?php echo $menu_item_extra_sub_titles; ?></h4>
+                                                                <h4 class="text-center" style="margin-bottom:0; margin-top: 5px"><?php echo $menu_item_extra_sub_titles; ?></h4>
 
                                                             </div>
                                                         </div>
