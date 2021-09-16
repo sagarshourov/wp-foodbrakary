@@ -1,5 +1,24 @@
  /****ansuman CSS 24 april 2021*****/
 
+.user_last_order_desktop {display: block;}
+.user_last_order_mobile {display: none;}
+
+.transparent-header .main-header .login-option a.login-popup {
+    color: #fff !important;
+}
+.jc-bs3-row.row.justify-content-md-center.justify-content-sm-center.justify-content-xs-center.justify-content-lg-center {
+    text-align: center;
+}
+.box_wrapper span.category-price {
+    position: absolute;
+    padding-top: 28px;
+}
+
+h3.subtitle{
+    padding-left: 16px !important;
+
+}
+
 @media screen and (max-width: 650px) {
 
     header .main-header > .container > div.row:first-child >.col-lg-8.col-md-8.col-sm-12.col-xs-12{
@@ -55,9 +74,12 @@
     }
 }
 
-.transparent-header .main-header .login-option a.login-popup {
-    color: #fff !important;
+@media screen and (max-width: 768px) {
+.user_last_order_desktop {display: none;}
+.user_last_order_mobile{display: block; margin-bottom: 40px;}
+
 }
+
 @media screen and (max-width: 767px){
 
     .mobile-menu-sidebar {
@@ -85,4 +107,18 @@
     .mobile-menu-conatiner li:hover a {
         padding-left: 0px !important;
     }
+    #show_extra_modal .modal.fade.menu-extras-modal.add_extrass.sa_model.in {
+	    top: 40px !important;
+	}
+    #show_extra_modal .modal.fade.menu-extras-modal.add_extrass.sa_model.in .extras-btns-holder [class*="col-lg"]{
+	    	padding-left: 6px;
+	    	padding-right: 6px;
+	}
+	#show_extra_modal .modal.fade.menu-extras-modal.add_extrass.sa_model.in .extras-btns-holder [class*="col-lg"] a.reset-menu-fields.btn {
+	    font-size: 10px;
+	}
+	#show_extra_modal .modal.fade.menu-extras-modal.add_extrass.sa_model.in .extras-btns-holder [class*="col-lg"] button.add-extra-menu-btn.input-button-loader{
+	    font-size: 10px;
+
+	}
 }

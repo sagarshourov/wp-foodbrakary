@@ -26,7 +26,7 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
             global $column_container, $foodbakery_form_fields_frontend, $foodbakery_plugin_options, $current_user;
 
             $restaurant_data = '';
-            $this_item_heading='';
+            $this_item_heading = '';
             $page_element_size = isset($atts['restaurant_categories_element_size']) ? $atts['restaurant_categories_element_size'] : 100;
             $single_restaurant_title = isset($atts['single_restaurant_title']) ? $atts['single_restaurant_title'] : '';
             $single_restaurant_subtitle = isset($atts['single_restaurant_subtitle']) ? $atts['single_restaurant_subtitle'] : '';
@@ -47,7 +47,7 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
             $total_items = is_array($restaurant_menu_list) ? count($restaurant_menu_list) : array();
             $total_menu = array();
             if (isset($restaurant_menu_list) && $restaurant_menu_list != '') {
-                for ($menu_count = 0; $menu_count < $total_items; $menu_count ++) {
+                for ($menu_count = 0; $menu_count < $total_items; $menu_count++) {
                     if (isset($restaurant_menu_list[$menu_count]['restaurant_menu'])) {
                         $menu_exists = in_array($restaurant_menu_list[$menu_count]['restaurant_menu'], $total_menu);
                         if (!$menu_exists) {
@@ -76,48 +76,46 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
 
             $foodbakery_max_distance = get_post_meta($foodbakery_restaurant_id, 'foodbakery_maximum_delivary_area', true);
 
-            if (empty($foodbakery_max_distance)) { 
-            $foodbakery_max_distance = 0;
-
+            if (empty($foodbakery_max_distance)) {
+                $foodbakery_max_distance = 0;
             }
 
             $foodbakery_post_loc_latitude_restaurant = get_post_meta($foodbakery_restaurant_id, 'foodbakery_post_loc_latitude_restaurant', true);
             $foodbakery_post_loc_longitude_restaurant = get_post_meta($foodbakery_restaurant_id, 'foodbakery_post_loc_longitude_restaurant', true);
 
 
-        $foodbakery_post_loc_latitude_user = array();
-        $foodbakery_post_loc_longitude_user = array();
+            $foodbakery_post_loc_latitude_user = array();
+            $foodbakery_post_loc_longitude_user = array();
 
-        if(is_user_logged_in()){
-            $current_user = wp_get_current_user();
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
 
-        $user_id = $current_user->ID;
+                $user_id = $current_user->ID;
 
-        $publisher_id = foodbakery_company_id_form_user_id($user_id);
+                $publisher_id = foodbakery_company_id_form_user_id($user_id);
 
-        $company_id = get_user_meta( $user_id, 'foodbakery_company', true );
-
-
+                $company_id = get_user_meta($user_id, 'foodbakery_company', true);
 
 
-        if ($company_id != '' ) {
-            $foodbakery_post_loc_latitude_user = get_post_meta($publisher_id,'foodbakery_post_loc_latitude_publisher' ); 
-            $foodbakery_post_loc_longitude_user = get_post_meta($publisher_id ,'foodbakery_post_loc_longitude_publisher'); 
-        }else{
-            $foodbakery_post_loc_latitude_user = get_user_meta($user_id,'foodbakery_post_loc_latitude_publisher' ); 
-            $foodbakery_post_loc_longitude_user = get_user_meta($user_id ,'foodbakery_post_loc_longitude_publisher'); 
-        }
 
 
-  
+                if ($company_id != '') {
+                    $foodbakery_post_loc_latitude_user = get_post_meta($publisher_id, 'foodbakery_post_loc_latitude_publisher');
+                    $foodbakery_post_loc_longitude_user = get_post_meta($publisher_id, 'foodbakery_post_loc_longitude_publisher');
+                } else {
+                    $foodbakery_post_loc_latitude_user = get_user_meta($user_id, 'foodbakery_post_loc_latitude_publisher');
+                    $foodbakery_post_loc_longitude_user = get_user_meta($user_id, 'foodbakery_post_loc_longitude_publisher');
+                }
 
 
-  //  echo 'user logged in';
-  //  print_r($foodbakery_post_loc_longitude_user);
 
-            }else{
-                $foodbakery_post_loc_latitude_user[0] =0;
-                $foodbakery_post_loc_longitude_user[0]=0;
+
+
+                //  echo 'user logged in';
+                //  print_r($foodbakery_post_loc_longitude_user);
+            } else {
+                $foodbakery_post_loc_latitude_user[0] = 0;
+                $foodbakery_post_loc_longitude_user[0] = 0;
             }
 
 
@@ -139,10 +137,10 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                         </div>
                     </div>
                 <?php } ?>
-                   <?php
-                     $s_bg_color = get_theme_mod('m_bg_color');
-                     $s_font_color = get_theme_mod('m_font_color');
-                     $s_bottom_color = get_theme_mod('m_bottom_color',"#c33332");
+                <?php
+                $s_bg_color = get_theme_mod('m_bg_color');
+                $s_font_color = get_theme_mod('m_font_color');
+                $s_bottom_color = get_theme_mod('m_bottom_color', "#c33332");
                 ?>
                 <style type="text/css">
                     .swiper-container.swiper-container-horizontal.fixed-header { background:<?php echo $s_bg_color; ?>; }
@@ -150,32 +148,143 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                     .swiper-slide > a {color:<?php echo $s_font_color; ?>; font-weight: 600;}
                     .swiper-container.swiper-container-horizontal.fixed-header {
                         border-bottom: 3px solid <?php echo $s_bottom_color; ?>;}
+
+
                 </style>
-                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 sticky-sidebar">
-                     <div class="swiper-container">
-                             <div class="swiper-wrapper">
-                             
-                                    <?php
-                                    if ($total_items > 0) {
-                                        $active_class = 'active';
-                                        for ($menu_loop = 0; $menu_loop < $total_menu_count; $menu_loop ++) {
-                                            for ($menu_items_loop = 0; $menu_items_loop < $total_items; $menu_items_loop ++) {
-                                                if (isset($restaurant_menu_list[$menu_items_loop]['restaurant_menu']) && $total_menu[$menu_loop] == $restaurant_menu_list[$menu_items_loop]['restaurant_menu']) {
-                                                    
+
+                <?php
+                /*                 * ****Ansu Repeate Order Start****** */
+                $publisher_id = foodbakery_company_id_form_user_id(get_current_user_id());
+                $publisher_type = get_post_meta($publisher_id, 'foodbakery_publisher_profile_type', true);
+                if (is_user_logged_in() && $publisher_type != 'restaurant') {
+
+                    global $post;
+                    $lastposts = get_posts(array(
+                        'post_type' => array('orders_inquiries'),
+                        'post_status' => 'publish',
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'author' => get_current_user_id(),
+                        'posts_per_page' => 2
+                    ));
+
+//Code to check only the latest post from  each user is displayed.
+                    if ($lastposts && !empty($lastposts)) {
+                        ?>
+                        <div class="user_last_order user_last_order_mobile">
+
+                            <h4 class="recent_order_title"><?php echo __('Πρόσφατες Παραγγελίες', 'foodbakery'); ?></h4>
+                            <?php
+                            $auther = "";
+                            foreach ($lastposts as $post) :
+                                setup_postdata($post);
+                                if ($auther != get_the_author()) {
+                                    $order_id = get_the_ID();
+                                    $order_menu_list = get_post_meta($order_id, 'menu_items_list', true);
+                                    $currency_sign = get_post_meta($order_id, 'foodbakery_currency', true);
+
+                                    if (is_array($order_menu_list)) {
+                                        $menu_order_fee = get_post_meta($order_id, 'menu_order_fee', true);
+                                        $menu_order_fee_type = get_post_meta($order_id, 'menu_order_fee_type', true);
+                                        $payment_list = "";
+
+                                        $order_m_total = 0;
+
+                                        foreach ($order_menu_list as $_menu_list) {
+
+
+
+                                            $title_item_cat = isset($_menu_list['category']) ? $_menu_list['category'] : '';
+                                            $title_item = isset($_menu_list['title']) ? $_menu_list['title'] : '';
+                                            $price_item = isset($_menu_list['price']) ? $_menu_list['price'] : '';
+                                            $extras_item = isset($_menu_list['extras']) ? $_menu_list['extras'] : '';
+
+                                            $extras_notes = isset($_menu_list['notes']) ? '<li>' . $_menu_list['notes'] . '</li>' : '';
+
+                                            $order_m_total = 0;
+                                            if (!empty($extras_item)) {
+                                                foreach ($extras_item as $key => $eitem) {
+                                                    $order_m_total += floatval($eitem['quantity'] * $eitem['price']);
                                                 }
+                                            } else {
+                                                $order_m_total = $price_item;
                                             }
-                                            if (isset($total_menu[$menu_loop])) {
-                                                ?>
-                                                 <div class="swiper-slide <?php echo ($active_class); ?>"><a href="javascript:void(0)" class="menu-category-link" data-id="<?php echo absint($menu_loop) ?>"> <?php echo esc_html($total_menu[$menu_loop]); ?> </a></div>
-                                                <?php
-                                                $active_class = '';
-                                            }
+
+
+                                            $sa_category_price = 0;
+                                            $quantity = 1;
+                                            $heading_extra_item = '';
+                                            $order_m_total = get_post_meta($order_id, 'services_total_price', true);
+                                            $payment_list .= '
+                   
+                    
+                        <p>' . $title_item . '</p>
+                        <p><strong>' . __('Λεπτομέρειες', 'foodbakery') . '</strong></p>
+                        <span class="category-price">' . __('Total', 'foodbakery') . ': ' . foodbakery_get_currency($order_m_total, true, '', '', false) . '</span>
+                    ';
+
+                                            break;
                                         }
                                     }
                                     ?>
+                                    <div class="order_box row">
+                                        <!--Do your html code here -->
+                                        <div class="box_wrapper">
+                                            <div  class="order-heading-titles col-lg-9 col-sm-12 col-md-9">
+                                                <?php
+                                                echo $payment_list;
+                                                ?> 
+                                            </div>
+                                            <div class="repeat_order_icon col-lg-3 col-sm-12 col-sm-3">
+                                                <a href="javascript:void(0);" data-order_id="<?php echo $order_id; ?>" class="btn btn-info btn-repeat_order">+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
 
+                            endforeach;
+                            wp_reset_postdata();
+                            ?>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <div class="user_last_order_empty">
+                            <div class="alert alert-info" role="alert">
+                                <a href="/user-dashboard/?dashboard=account"><?php echo __('Ενημερώστε τα προσωπικά σας στοιχεία πριν κάνετε την πρώτη σας παραγγελία', 'foodbakery'); ?></a>
                             </div>
                         </div>
+                        <?php
+                    }
+                }
+                ?>
+
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 sticky-sidebar">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+
+                            <?php
+                            if ($total_items > 0) {
+                                $active_class = 'active';
+                                for ($menu_loop = 0; $menu_loop < $total_menu_count; $menu_loop++) {
+                                    for ($menu_items_loop = 0; $menu_items_loop < $total_items; $menu_items_loop++) {
+                                        if (isset($restaurant_menu_list[$menu_items_loop]['restaurant_menu']) && $total_menu[$menu_loop] == $restaurant_menu_list[$menu_items_loop]['restaurant_menu']) {
+                                            
+                                        }
+                                    }
+                                    if (isset($total_menu[$menu_loop])) {
+                                        ?>
+                                        <div class="swiper-slide <?php echo ($active_class); ?>"><a href="javascript:void(0)" class="menu-category-link" data-id="<?php echo absint($menu_loop) ?>"> <?php echo esc_html($total_menu[$menu_loop]); ?> </a></div>
+                                        <?php
+                                        $active_class = '';
+                                    }
+                                }
+                            }
+                            ?>
+
+                        </div>
+                    </div>
                     <div class="filter-toggle"><span class="filter-toggle-text"><?php echo esc_html__('Categories By', 'foodbakery'); ?></span><i class="icon-chevron-down"></i></div>
                     <div class='filter-wrapper'>
                         <div class="categories-menu">
@@ -184,8 +293,8 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                                 <?php
                                 if ($total_items > 0) {
                                     $active_class = 'active';
-                                    for ($menu_loop = 0; $menu_loop < $total_menu_count; $menu_loop ++) {
-                                        for ($menu_items_loop = 0; $menu_items_loop < $total_items; $menu_items_loop ++) {
+                                    for ($menu_loop = 0; $menu_loop < $total_menu_count; $menu_loop++) {
+                                        for ($menu_items_loop = 0; $menu_items_loop < $total_items; $menu_items_loop++) {
                                             if (isset($restaurant_menu_list[$menu_items_loop]['restaurant_menu']) && $total_menu[$menu_loop] == $restaurant_menu_list[$menu_items_loop]['restaurant_menu']) {
                                                 
                                             }
@@ -205,38 +314,258 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
                     <!--Tabs Start-->
+                    <!----Ansu Repeate order Start -------->        
+                    <style type="text/css">
+                        .user_last_order {
+                            height: 280px;
+                        }
+                        .order_box h5 {
+                            margin-top: 10px;
+                        }
+                        .order_box {
+                            float: left;
+                            margin: 10px;
+                            border: 1px solid #efe8e8;
+                            height: 180px;
+                            width: 46%;
+                            padding: 0px 10px;
+                            background: #fff;
+                            border-radius: 10px;
+                            -webkit-box-shadow: 0 10px 6px -6px #777;
+                            -moz-box-shadow: 0 10px 6px -6px #777;
+                            box-shadow: 0 10px 6px -6px #777;
+                        }
+                        .user_last_order span.category-price {
+                            position: absolute;
+                            /* right: 0; */
+                            /* top: 5px; */
+                            margin-top: 20px;
+                            padding: 4px 0px;
+                        }
+
+                        .order-heading-titles {
+                            position: relative;
+                            padding-top: 10px;
+                        }
+
+                        .order-heading-titles p {
+                            margin: 0;
+                        }
+
+                        .order-heading-titles h6 {
+                            margin: 0;
+                        }
+                        a.btn.btn-repeat_order.btn-info {
+                            font-size: 30px;
+                            margin: 0 auto;
+                            text-align: center;
+                            vertical-align: middle;
+                            transform: translate(0px, 0px);
+                            padding: 5px 14px;
+                            box-shadow: blanchedalmond;
+                        }
+
+                        a.btn.btn-repeat_order.btn-info {
+                            background: #000;
+                            border: none;
+                        }
+
+                        .repeat_order_icon {
+                            margin: 0 auto;
+                            text-align: center;
+                            padding: 20px;
+                        }
+                        .box_wrapper {
+                            margin: 0 auto;
+                            transform: translate(0px, 15px);
+                        }
+
+                        h4.recent_order_title {
+                            margin-left: 18px;
+                        }
+                        .user_last_order_empty {
+                            height: 78px;
+                        }
+
+                        .user_last_order_empty  .alert.alert-info {
+                            background-color: #cfe2ff;
+                            border-color: #b6d4fe;
+                            color: #fff crimson;
+                            border-radius: 5px;
+                        }
+
+                        .user_last_order_empty  .alert.alert-info a {
+                            color: #000 !important;
+                            font-weight: 700;
+                        }
+
+                        @media screen and (max-width: 767px){
+                            .order_box {
+                                float: none;
+                                width: 100%;
+                                margin: 10px auto;
+                                padding: 10px;
+                            }
+                            .repeat_order_icon {
+                                position: absolute;
+                                right: 0;
+                            }
+                            .user_last_order {
+                                height: auto;
+                            }
+                        }
+                    </style>
                     <div class="back-to-t"></div>
-                     <div class="user_last_order">
-                                                            <?php
-                                                            global $post;   
-$lastposts = get_posts( array(
-     'post_type'              => array( 'orders_inquiries' ),
-     'post_status'    => 'publish', 
-     'orderby'        => 'post_date',
-     'order'          => 'DESC',
-     'author'         => get_current_user_id(),
-     'posts_per_page' => 2
-) );
- 
+
+                    <?php
+                    /*                     * ****Ansu Repeate Order Start****** */
+                    $publisher_id = foodbakery_company_id_form_user_id(get_current_user_id());
+                    $publisher_type = get_post_meta($publisher_id, 'foodbakery_publisher_profile_type', true);
+                    if (is_user_logged_in() && $publisher_type != 'restaurant') {
+
+                        global $post;
+                        $lastposts = get_posts(array(
+                            'post_type' => array('orders_inquiries'),
+                            'post_status' => 'publish',
+                            'orderby' => 'post_date',
+                            'order' => 'DESC',
+                            'author' => get_current_user_id(),
+                            'posts_per_page' => 2
+                        ));
+
 //Code to check only the latest post from  each user is displayed.
-if ( $lastposts ) {
-    $auther=""; 
-    foreach ( $lastposts as $post ) :
-        setup_postdata( $post ); 
-            if($auther!=get_the_author()) { 
+                        if ($lastposts && !empty($lastposts)) {
+                            ?>
+                            <div class="user_last_order user_last_order_desktop">
 
-                ?>
-                <!--Do your html code here -->
-                <!-- <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2> -->
-                <?php 
+                                <h4 class="recent_order_title"><?php echo __('Πρόσφατες Παραγγελίες', 'foodbakery'); ?></h4>
+                                <?php
+                                $auther = "";
+                                foreach ($lastposts as $post) :
+                                    setup_postdata($post);
+                                    if ($auther != get_the_author()) {
+                                        $order_id = get_the_ID();
+                                        $order_menu_list = get_post_meta($order_id, 'menu_items_list', true);
+                                        $currency_sign = get_post_meta($order_id, 'foodbakery_currency', true);
 
-            }
-     
-    endforeach; 
-    wp_reset_postdata();
-}
-?>
-                                                        </div>
+                                        if (is_array($order_menu_list)) {
+                                            $menu_order_fee = get_post_meta($order_id, 'menu_order_fee', true);
+                                            $menu_order_fee_type = get_post_meta($order_id, 'menu_order_fee_type', true);
+                                            $payment_list = "";
+
+                                            $order_m_total = 0;
+
+                                            foreach ($order_menu_list as $_menu_list) {
+
+
+
+                                                $title_item_cat = isset($_menu_list['category']) ? $_menu_list['category'] : '';
+                                                $title_item = isset($_menu_list['title']) ? $_menu_list['title'] : '';
+                                                $price_item = isset($_menu_list['price']) ? $_menu_list['price'] : '';
+                                                $extras_item = isset($_menu_list['extras']) ? $_menu_list['extras'] : '';
+
+                                                $extras_notes = isset($_menu_list['notes']) ? '<li>' . $_menu_list['notes'] . '</li>' : '';
+
+                                                $order_m_total = 0;
+                                                if (!empty($extras_item)) {
+                                                    foreach ($extras_item as $key => $eitem) {
+                                                        $order_m_total += floatval($eitem['quantity'] * $eitem['price']);
+                                                    }
+                                                } else {
+                                                    $order_m_total = $price_item;
+                                                }
+
+
+                                                $sa_category_price = 0;
+                                                $quantity = 1;
+                                                $heading_extra_item = '';
+                                                $order_m_total = get_post_meta($order_id, 'services_total_price', true);
+                                                $payment_list .= '
+                   
+                    
+                        <p>' . $title_item . '</p>
+                        <p><strong>' . __('Λεπτομέρειες', 'foodbakery') . '</strong></p>
+                        <span class="category-price">' . __('Total', 'foodbakery') . ': ' . foodbakery_get_currency($order_m_total, true, '', '', false) . '</span>
+                    ';
+
+                                                break;
+                                            }
+                                        }
+                                        ?>
+                                        <div class="order_box row">
+                                            <!--Do your html code here -->
+                                            <div class="box_wrapper">
+                                                <div  class="order-heading-titles col-lg-9 col-sm-12 col-md-9">
+                                                    <?php
+                                                    echo $payment_list;
+                                                    ?> 
+                                                </div>
+                                                <div class="repeat_order_icon col-lg-3 col-sm-12 col-sm-3">
+                                                    <a href="javascript:void(0);" data-order_id="<?php echo $order_id; ?>" class="btn btn-info btn-repeat_order">+</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+
+                                endforeach;
+                                wp_reset_postdata();
+                                ?>
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="user_last_order_empty">
+                                <div class="alert alert-info" role="alert">
+                                    <a href="/user-dashboard/?dashboard=account"><?php echo __('Ενημερώστε τα προσωπικά σας στοιχεία πριν κάνετε την πρώτη σας παραγγελία', 'foodbakery'); ?></a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+
+                        <script type="text/javascript">
+                            jQuery(document).on("click", "a.btn.btn-info.btn-repeat_order", function () {
+                                var order_id = jQuery(this).data("order_id");
+                                var payment_mode = jQuery("input[name='order_payment_method']:checked").data("type");
+                                $.confirm({
+                                    title: 'Επιβεβαίωση!',
+                                    content: 'Είστε βέβαιοι ότι θέλετε να επαναλάβετε την παραγγελία;',
+                                    buttons: {
+                                        Ναι: function () {
+
+                                            $.ajax({
+                                                url: foodbakery_globals.ajax_url,
+                                                method: "POST",
+                                                data: 'action=ansu_repeat_order&order_id=' + order_id,
+                                                dataType: "json"
+                                            }).done(function (response) {
+                                                console.log(response);
+                                                var order_confirm = location.origin + "/order-detail/?action=reservation-order&trans_id=" + response.order_id + "&menu_id=" + response.rest_id + "&payment_mode=" + payment_mode;
+                                                window.location.href = order_confirm;
+                                            }).fail(function () {
+                                                console.log("Error, try again");
+                                            });
+                                        },
+                                        Όχι: function () {
+                                            return;
+                                        },
+                                    }
+                                });
+
+
+
+
+                            });
+                        </script>
+                        <?php
+                    }
+                    ?>
+
+                    <div class="clearfix"></div>
+                    <!----Ansu Repeate order end -------->
+
+
                     <div class="tabs-holder horizontal">
 
                         <ul class="stickynav-tabs nav nav-tabs">
@@ -350,25 +679,25 @@ if ( $lastposts ) {
                             ?>
                             <span class="discount-info" style="display: <?php echo ($have_menu_orders === false ? 'block' : 'none') ?>;"><?php _e('If you have a discount code,<br> you will be able to input it<br> at the payments stage.', 'foodbakery') ?></span>
                             <?php
-                           // if ($foodbakery_delivery_fee > 0 && $foodbakery_pickup_fee > 0 && $restaurant_pickup_delivery == 'delivery_and_pickup') {
-                                ?>
-                                <div class="select-option dev-select-fee-option" data-rid="<?php echo esc_html($foodbakery_restaurant_id) ?>">
-                                    <ul>
+                            // if ($foodbakery_delivery_fee > 0 && $foodbakery_pickup_fee > 0 && $restaurant_pickup_delivery == 'delivery_and_pickup') {
+                            ?>
+                            <div class="select-option dev-select-fee-option" data-rid="<?php echo esc_html($foodbakery_restaurant_id) ?>">
+                                <ul>
                                     <li>
-                                            <input id="order-delivery-fee" <?php echo ($selected_fee_type != 'pickup' ? 'checked="checked"' : '') ?> type="radio" name="order_fee_type" data-fee="<?php echo foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', false); ?>" data-label="<?php esc_html_e('Delivery', 'foodbakery') ?>" data-type="delivery" />
-                                            <label for="order-delivery-fee"><?php esc_html_e('Delivery', 'foodbakery') ?></label>
-                                            <span><?php echo foodbakery_get_currency($foodbakery_delivery_fee, true); ?></span>
-                                        </li>
-                                        <li>
-                                            <input id="order-pick-up-fee" type="radio" <?php echo ($selected_fee_type == 'pickup' ? 'checked="checked"' : '') ?> name="order_fee_type" data-fee="<?php echo foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', false); ?>" data-label="<?php esc_html_e('Pick-Up', 'foodbakery') ?>" data-type="pickup" />
-                                            <label for="order-pick-up-fee"><?php esc_html_e('Pick-Up', 'foodbakery') ?></label>
-                                            <span><?php echo foodbakery_get_currency($foodbakery_pickup_fee, true); ?></span>
-                                        </li>
-                                        
-                                    </ul>
-                                </div>
-                                <?php
-                           // }
+                                        <input id="order-delivery-fee" <?php echo ($selected_fee_type != 'pickup' ? 'checked="checked"' : '') ?> type="radio" name="order_fee_type" data-fee="<?php echo foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', false); ?>" data-label="<?php esc_html_e('Delivery', 'foodbakery') ?>" data-type="delivery" />
+                                        <label for="order-delivery-fee"><?php esc_html_e('Delivery', 'foodbakery') ?></label>
+                                        <span><?php echo foodbakery_get_currency($foodbakery_delivery_fee, true); ?></span>
+                                    </li>
+                                    <li>
+                                        <input id="order-pick-up-fee" type="radio" <?php echo ($selected_fee_type == 'pickup' ? 'checked="checked"' : '') ?> name="order_fee_type" data-fee="<?php echo foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', false); ?>" data-label="<?php esc_html_e('Pick-Up', 'foodbakery') ?>" data-type="pickup" />
+                                        <label for="order-pick-up-fee"><?php esc_html_e('Pick-Up', 'foodbakery') ?></label>
+                                        <span><?php echo foodbakery_get_currency($foodbakery_pickup_fee, true); ?></span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <?php
+                            // }
                             ?>
                             <div class="dev-menu-orders-list" style="display: <?php echo ($have_menu_orders === true ? 'block' : 'none') ?>;">
 
@@ -387,11 +716,11 @@ if ( $lastposts ) {
                                                 $this_item_price = $menu_ord_item['price'];
                                                 $this_item_extras = isset($menu_ord_item['extras']) ? $menu_ord_item['extras'] : '';
 
-                                               // $menu_t_price += floatval($this_item_price);
+                                                // $menu_t_price += floatval($this_item_price);
                                                 $this_item_title = isset($restaurant_menu_list[$this_item_id]['menu_item_title']) ? $restaurant_menu_list[$this_item_id]['menu_item_title'] : '';
 
                                                 $menu_extra_li = '';
-                                                $sa_category_price=0;
+                                                $sa_category_price = 0;
                                                 if (is_array($this_item_extras) && sizeof($this_item_extras) > 0) {
                                                     $extra_m_counter = 0;
                                                     $menu_extra_li .= '<ul>';
@@ -399,14 +728,14 @@ if ( $lastposts ) {
                                                         //$this_item_heading = isset($restaurant_menu_list[$this_item_id]['menu_item_extra']['heading'][$extra_m_counter]) ? $restaurant_menu_list[$this_item_id]['menu_item_extra']['heading'][$extra_m_counter] : '';
                                                         $item_extra_at_title = isset($this_item_extra_at['title']) ? $this_item_extra_at['title'] : '';
                                                         $item_extra_at_price = isset($this_item_extra_at['price']) ? $this_item_extra_at['price'] : '';
-                                                        $item_extra_quantitye = isset($this_item_extra_at['quantity']) ? (int)$this_item_extra_at['quantity'] : '';
+                                                        $item_extra_quantitye = isset($this_item_extra_at['quantity']) ? (int) $this_item_extra_at['quantity'] : '';
                                                         if ($item_extra_at_title != '' || $item_extra_at_price > 0) {
-                                                            $menu_extra_li .= '<li>' . $this_item_heading . ' - ' . $item_extra_at_title . ' X '.$item_extra_quantitye.' : <span class="category-price">' . foodbakery_get_currency($item_extra_at_price* $item_extra_quantitye, true) . ' </span></li>';
+                                                            $menu_extra_li .= '<li>' . $this_item_heading . ' - ' . $item_extra_at_title . ' X ' . $item_extra_quantitye . ' : <span class="category-price">' . foodbakery_get_currency($item_extra_at_price * $item_extra_quantitye, true) . ' </span></li>';
                                                         }
                                                         //$menu_extra_li .= '<li>some detsils</li>';
-                                                        $menu_t_price += floatval($item_extra_at_price*$item_extra_quantitye);
-                                                        $extra_m_counter ++;
-                                                        $sa_category_price +=floatval($item_extra_at_price*$item_extra_quantitye);
+                                                        $menu_t_price += floatval($item_extra_at_price * $item_extra_quantitye);
+                                                        $extra_m_counter++;
+                                                        $sa_category_price += floatval($item_extra_at_price * $item_extra_quantitye);
                                                     }
                                                     $menu_extra_li .= '</ul>';
                                                     $popup_id = 'edit_extras-' . $this_menu_cat_id . '-' . $this_item_id;
@@ -418,7 +747,7 @@ if ( $lastposts ) {
                                                     //$menu_extra_li .= '<a href="javascript:void(0);" class="edit-menu-item 123 update_menu_'.$rand_numb_class.'" onClick="foodbakery_edit_extra_menu_item(\'' . $popup_id . '\',\'' . $data_id . '\',\'' . $data_cat_id . '\',\'' . $rand_numb_class . '\',\'' . $ajax_url . '\',\'' . $foodbakery_restaurant_id . '\',\'' . $unique_id . '\',\'' . $extra_child_menu_id . '\');">' . esc_html__('Edit', 'foodbakery') . '</a>';
                                                 }
                                                 ?>
-                                                <li class="menu-added-<?php echo $rand_numb_class; ?>" id="menu-added-<?php echo absint($rand_numb) ?>" class="item_count_<?php echo $item_count;?>" data-pr="<?php echo foodbakery_get_currency($menu_t_price, false, '', '', false); ?>" data-conpr="<?php echo foodbakery_get_currency($menu_t_price, false, '', '', true); ?>">
+                                                <li class="menu-added-<?php echo $rand_numb_class; ?>" id="menu-added-<?php echo absint($rand_numb) ?>" class="item_count_<?php echo $item_count; ?>" data-pr="<?php echo foodbakery_get_currency($menu_t_price, false, '', '', false); ?>" data-conpr="<?php echo foodbakery_get_currency($menu_t_price, false, '', '', true); ?>">
                                                     <a href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
                                                     <a><?php echo esc_html($this_item_title) ?></a>
                                                     <span class=" "><?php echo foodbakery_get_currency($menu_t_price, true, '', '', true); ?></span>
@@ -435,8 +764,8 @@ if ( $lastposts ) {
                                 <div class="price-area dev-menu-price-con" data-vatsw="<?php echo esc_html($foodbakery_vat_switch) ?>" data-vat="<?php echo floatval($foodbakery_payment_vat) ?>">
                                     <ul>
                                         <input type="hidden" id="order_subtotal_price" name="order_subtotal_price" value="<?php echo restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, '', '', '', false) ?>">
-                                        <li><?php esc_html_e('Subtotal', 'foodbakery') ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-subtotal">'.restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, false, false, false, true).'</em>', foodbakery_get_currency_sign()); ?>
-                                                </span></li>
+                                        <li><?php esc_html_e('Subtotal', 'foodbakery') ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-subtotal">' . restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, false, false, false, true) . '</em>', foodbakery_get_currency_sign()); ?>
+                                            </span></li>
 
                                         <?php
                                         $show_fee_type = '';
@@ -454,12 +783,12 @@ if ( $lastposts ) {
 
                                         if ($show_fee_type == 'delivery') {
                                             ?>
-                                            <li class="restaurant-fee-con"><span class="fee-title"><?php esc_html_e('Delivery fee', 'foodbakery') ?></span> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-charges" data-confee="'.foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', true).'" data-fee="'.foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', false).'">'.foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', true).'</em>',  foodbakery_get_currency_sign()); ?>
-                                                    </span></li>
+                                            <li class="restaurant-fee-con"><span class="fee-title"><?php esc_html_e('Delivery fee', 'foodbakery') ?></span> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-charges" data-confee="' . foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', true) . '" data-fee="' . foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', false) . '">' . foodbakery_get_currency($foodbakery_delivery_fee, false, '', '', true) . '</em>', foodbakery_get_currency_sign()); ?>
+                                                </span></li>
                                             <?php
                                         } else if ($show_fee_type == 'pickup') {
                                             ?>
-                                            <li class="restaurant-fee-con"><span class="fee-title"><?php esc_html_e('Pickup fee', 'foodbakery') ?></span> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-charges" data-confee="'.foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', true).'" data-fee="'. foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', false).'">'.foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', true).'</em>',foodbakery_get_currency_sign());  ?></span></li>
+                                            <li class="restaurant-fee-con"><span class="fee-title"><?php esc_html_e('Pickup fee', 'foodbakery') ?></span> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-charges" data-confee="' . foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', true) . '" data-fee="' . foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', false) . '">' . foodbakery_get_currency($foodbakery_pickup_fee, false, '', '', true) . '</em>', foodbakery_get_currency_sign()); ?></span></li>
                                             <?php
                                         }
 
@@ -467,12 +796,18 @@ if ( $lastposts ) {
                                             ?>
                                             <input type="hidden" id="order_vat_percent" name="order_vat_percent" value="<?php echo ($foodbakery_payment_vat); ?>">
                                             <input type="hidden" id="order_vat_cal_price" name="order_vat_cal_price" value="<?php echo restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, true, false, true); ?>">
-                                            <li><?php printf(esc_html__('VAT (%s&#37;)', 'foodbakery'), $foodbakery_payment_vat) ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-vtax">'.restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, true, false, true, true).'</em>', foodbakery_get_currency_sign()); ?></span></li>
+                                            <li><?php printf(esc_html__('VAT (%s&#37;)', 'foodbakery'), $foodbakery_payment_vat) ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-vtax">' . restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, true, false, true, true) . '</em>', foodbakery_get_currency_sign()); ?></span></li>
                                             <?php
                                         }
                                         ?>
+                                            
+                                            <li id="sa_applied_coupon" style="display: none" class=" text-bold">
+                                                Coupon <span class="price text-success"> -2.00 €</span>
+                                            </li>    
+                                            
+                                        
                                     </ul>
-                                    <p class="total-price"><?php esc_html_e('Total', 'foodbakery') ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-grtotal">'.restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, true, true, false, true).'</em>', foodbakery_get_currency_sign());  ?></span></p>
+                                    <p class="total-price"><?php esc_html_e('Total', 'foodbakery') ?> <span class="price"><?php echo currency_symbol_possitions_html('<em class="dev-menu-grtotal">' . restaurant_menu_price_calc($get_added_menus, $foodbakery_restaurant_id, true, true, false, true) . '</em>', foodbakery_get_currency_sign()); ?></span></p>
                                 </div>
                             </div>
                             <div id="dev-no-menu-orders-list" style="display: <?php echo ($have_menu_orders === false ? 'block' : 'none') ?>;">
@@ -484,7 +819,7 @@ if ( $lastposts ) {
                                 <div class="pay-option dev-order-pay-options">
                                     <ul>
                                         <?php
-                                         $cash_checked ="";
+                                        $cash_checked = "";
                                         $foodbakery_restaurant_disable_cash = get_post_meta($foodbakery_restaurant_id, 'foodbakery_restaurant_disable_cash', true);
 
                                         if (empty($foodbakery_restaurant_disable_cash) || $foodbakery_restaurant_disable_cash == '') {
@@ -493,14 +828,14 @@ if ( $lastposts ) {
 
                                         if ($foodbakery_restaurant_disable_cash == 'no') {
 
-                                               $is_card_payment = get_theme_mod('card_payment_status',true);
-                                               if($is_card_payment == 'no'){
-                                                    $cash_checked = "checked";
-                                               }
+                                            $is_card_payment = get_theme_mod('card_payment_status', true);
+                                            if ($is_card_payment == 'no') {
+                                                $cash_checked = "checked";
+                                            }
                                             ?>
 
                                             <li>
-                                                <input id="order-cash-payment"  checked="checked" <?php //echo $cash_checked; ?> type="radio" name="order_payment_method" data-type="cash" />
+                                                <input id="order-cash-payment"  checked="checked" <?php //echo $cash_checked;    ?> type="radio" name="order_payment_method" data-type="cash" />
                                                 <label for="order-cash-payment">
                                                     <i class="icon-coins"></i>
                                                     <?php esc_html_e('Cash', 'foodbakery') ?>
@@ -509,21 +844,19 @@ if ( $lastposts ) {
                                         <?php } ?>
 
                                         <?php
-                                            $is_card_payment = get_theme_mod('card_payment_status',true);
-                                            
-                                            if($is_card_payment == 'yes'){
+                                        $is_card_payment = get_theme_mod('card_payment_status', true);
 
+                                        if ($is_card_payment == 'yes') {
+                                            ?>
+                                            <li>
+                                                <input id="order-card-payment" type="radio"  name="order_payment_method" data-type="card" />
+                                                <label for="order-card-payment">
+                                                    <i class="icon-credit-card4"></i>
+                                                    <?php esc_html_e('Card', 'foodbakery') ?>
+                                                </label>
+                                            </li>
 
-                                        ?>
-                                        <li>
-                                            <input id="order-card-payment" type="radio"  name="order_payment_method" data-type="card" />
-                                            <label for="order-card-payment">
-                                                <i class="icon-credit-card4"></i>
-                                                <?php esc_html_e('Card', 'foodbakery') ?>
-                                            </label>
-                                        </li>
-
-                                    <?php } ?>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                                 <?php
@@ -539,6 +872,18 @@ if ( $lastposts ) {
                                             </span>
                                         </div>
                                     </div>
+                                    <div class="form-group has-feedback"> 
+                                        <div class="input-group">
+                                            <input name="coupon" id="in_coupon" placeholder="Cupon" value="" type="text" class="form-control"> 
+                                            <span style="cursor : pointer" id="sa_cupon_apply" class=" input-group-addon">
+                                                Apply
+                                            </span>
+
+                                        </div>
+                                        <span id="helpBlockSuccess" style="display:none;" class="help-block">Success !</span>
+                                        <span id="helpBlockError" style="display:none;" class="help-block">Wrong Code</span>
+
+                                    </div>
                                 </div>
                                 <script type="text/javascript">
                                     jQuery(function () {
@@ -552,13 +897,13 @@ if ( $lastposts ) {
                                 </script>
                             </div>
                             <div style="display:none;" id="sa_data"
-                                                        distance="<?php echo $foodbakery_max_distance; ?>"
-                                                        user_lat="<?php echo $foodbakery_post_loc_latitude_user[0] ?>"
-                                                        user_lag="<?php echo $foodbakery_post_loc_longitude_user[0];  ?>"
-                                                        resturent_lag="<?php echo $foodbakery_post_loc_longitude_restaurant; ?>"
-                                                        resturent_lat="<?php echo $foodbakery_post_loc_latitude_restaurant; ?>">
-                                                        data
-                                                    </div>
+                                 distance="<?php echo $foodbakery_max_distance; ?>"
+                                 user_lat="<?php echo $foodbakery_post_loc_latitude_user[0] ?>"
+                                 user_lag="<?php echo $foodbakery_post_loc_longitude_user[0]; ?>"
+                                 resturent_lag="<?php echo $foodbakery_post_loc_longitude_restaurant; ?>"
+                                 resturent_lat="<?php echo $foodbakery_post_loc_latitude_restaurant; ?>">
+                                data
+                            </div>
                             <a href="javascript:void(0)" class="menu-order-confirm " id="menu-order-confirm" data-rid="<?php echo absint($foodbakery_restaurant_id) ?>"><?php esc_html_e('Confirm Order', 'foodbakery') ?></a>
                             <span class="menu-loader"></span>
                         </div>
@@ -568,7 +913,7 @@ if ( $lastposts ) {
 
             <!-- Start Edit extra modal -->
             <div id="edit_extra_modal"></div>
-             <script type="text/javascript">
+            <script type="text/javascript">
                 jQuery(document).ready(function () {
 
                     // alert('ddddddddddddddss');
@@ -583,33 +928,32 @@ if ( $lastposts ) {
 
                     });
                 });
-                jQuery(window).scroll(function(){
+                jQuery(window).scroll(function () {
                     if (jQuery(window).scrollTop() >= 600) {
-                       jQuery('.swiper-container.swiper-container-horizontal').addClass('fixed-header');
-                    }
-                    else {
+                        jQuery('.swiper-container.swiper-container-horizontal').addClass('fixed-header');
+                    } else {
                         jQuery('.swiper-container.swiper-container-horizontal').removeClass('fixed-header');
                     }
                 });
-                 jQuery(document).ready(function(){
+                jQuery(document).ready(function () {
                     var swiper = new Swiper('.swiper-container', {
-                      slidesPerView: 1,
-                      spaceBetween: 1,
-                      // init: false,
-                      breakpoints: {
-                        640: {
-                          slidesPerView: 2,
-                          spaceBetween: 1,
-                        },
-                        768: {
-                          slidesPerView: 2,
-                          spaceBetween: 1,
-                        },
-                        1024: {
-                          slidesPerView: 2,
-                          spaceBetween: 1,
-                        },
-                      }
+                        slidesPerView: 1,
+                        spaceBetween: 1,
+                        // init: false,
+                        breakpoints: {
+                            640: {
+                                slidesPerView: 2,
+                                spaceBetween: 1,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 1,
+                            },
+                            1024: {
+                                slidesPerView: 2,
+                                spaceBetween: 1,
+                            },
+                        }
                     });
                 });
             </script>

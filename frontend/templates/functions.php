@@ -7392,7 +7392,7 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
 
                     $js_function = ' onclick="foodbakery_show_extra_menu_item(`extras-' . absint($menu_loop) . '-' . absint($menu_items_loop) . '`, `' . absint($menu_items_loop) . '`, `' . absint($menu_loop) . '`, `' . $ajax_url . '`, `' . $foodbakery_restaurant_id . '`)"';
                     ?>
-                                                                    <!-- <a href="javascript:void(0);" class="dev-adding-menu-btn-<?php echo absint($menu_items_loop) ?>" onclick="foodbakery_show_extra_menu_item('extras-<?php echo absint($menu_loop) ?>-<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_loop) ?>', '<?php echo $ajax_url; ?>', '<?php echo $foodbakery_restaurant_id; ?>');"></a>
+                                                    <!-- <a href="javascript:void(0);" class="dev-adding-menu-btn-<?php echo absint($menu_items_loop) ?>" onclick="foodbakery_show_extra_menu_item('extras-<?php echo absint($menu_loop) ?>-<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_loop) ?>', '<?php echo $ajax_url; ?>', '<?php echo $foodbakery_restaurant_id; ?>');"></a>
                     -->
                     <?php
                 } else {
@@ -7709,9 +7709,9 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
 
                                         <input type="name" class="form-control" value=" <?php echo $this_item_notes; ?>" name="extrasnotes"/>
 
-                                                                                                                                                                                <!-- <textarea   rows="7"  wrap="virtual" style="height:auto;white-space: normal"  name="extras-notes-0" >
+                                                                                                                <!-- <textarea   rows="7"  wrap="virtual" style="height:auto;white-space: normal"  name="extras-notes-0" >
                                         <?php // echo $this_item_notes; ?>
-                                                                                                                                                                                </textarea> -->
+                                                                                                                </textarea> -->
 
 
 
@@ -7782,11 +7782,12 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                 $condition_num_value = isset($menu_item_extra['condition'][$key]) ? $menu_item_extra['condition'][$key] : 0;
                                 $menu_item_extra_titles = isset($menu_item_extra[$key]['title']) ? $menu_item_extra[$key]['title'] : array();
 
+                                $menu_item_extra_subtitles = isset($menu_item_extra[$key]['subtitle']) ? $menu_item_extra[$key]['subtitle'] : array();
+
 
                                 $menu_item_extra_prices = isset($menu_item_extra[$key]['price']) ? $menu_item_extra[$key]['price'] : array();
                                 $menu_item_extra_precheck = isset($menu_item_extra[$key]['precheck']) ? $menu_item_extra[$key]['precheck'] : array();
                                 $menu_item_extra_quantity = isset($menu_item_extra[$key]['quantity']) ? $menu_item_extra[$key]['quantity'] : array();
-                                $menu_item_extra_sub_title = isset($menu_item_extra[$key]['sub_title']) ? $menu_item_extra[$key]['sub_title'] : array();
                                 if (is_array($menu_item_extra_titles) && sizeof($menu_item_extra_titles) > 0) {
                                     $menu_extra_att_counter = 0;
                                     $extra_class = 'normal_div contcheckopts';
@@ -7804,9 +7805,9 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                     ?>
                                     <div class="up extras-detail-main <?php echo $extra_class; ?> <?php echo $extra_class_value; ?>" id="menu_idd_<?php echo $menu_extra_counter; ?>" data-condlink="<?php echo $extra_class_value; ?>">
                                         <input type="hidden" name="required_count" class="<?php echo $required_count; ?>" id="<?php echo $condition_num_value; ?>" data-required="<?php echo $required_num_value; ?>" value="<?php echo $required_num_value_new; ?>">
-                                        <?php do_action('foodbakery_extra_fields_hidden', $menu_item_extra, $key); ?>
+                                <?php do_action('foodbakery_extra_fields_hidden', $menu_item_extra, $key); ?>
                                         <h3 style="height:20px;"><?php echo esc_html($value); ?>
-                                            <?php if ($required_num_value != '') { ?>
+                                        <?php if ($required_num_value != '') { ?>
                                                 <span style="float: right;" class="required_extras"><?php echo esc_html__('Required ', 'foodbakery') . $required_num_value; ?></span>
                                             <?php } ?> </h3>
                                         <div class="extras-detail-options">
@@ -7814,11 +7815,11 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                             foreach ($menu_item_extra_titles as $key => $menu_item_extra_title) {
                                                 $menu_item_extra_price = isset($menu_item_extra_prices[$key]) ? $menu_item_extra_prices[$key] : 0;
                                                 $menu_item_extra_prechecked = isset($menu_item_extra_precheck[$key]) ? $menu_item_extra_precheck[$key] : '';
+
                                                 $menu_item_extra_quantitys = isset($menu_item_extra_quantity[$key]) ? $menu_item_extra_quantity[$key] : '';
-                                                $menu_item_extra_sub_titles = isset($menu_item_extra_sub_title[$key]) ? $menu_item_extra_sub_title[$key] : '';
 
-                                                // $menu_item_extra_sub_titles = = isset($menu_item_extra_sub_title[$key]) ? $menu_item_extra_sub_title[$key] : '';
-
+                                                $menu_item_extra_subtitle = isset($menu_item_extra_subtitles[$key]) ? $menu_item_extra_subtitles[$key] : '';
+                                                
                                                 $field_type = '';
                                                 $checked = '';
                                                 $disabled = '';
@@ -7826,13 +7827,13 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 $disablestyle = '';
                                                 $defult_qty = 1;
 
-                                                if ($menu_item_extra_quantitys == 0 && $menu_item_extra_quantitys != '') { //edit sagar
+                                                if ($menu_item_extra_quantitys == 0 && $menu_item_extra_quantitys !='') { //edit sagar
                                                     $disabled = 'disabled';
                                                     $disablestyle = 'style="text-decoration-line: line-through; "';
                                                     //$sa_total -= $menu_item_extra_price;
                                                 }
-
-                                                $menu_item_extra_quantity2 = (int) $menu_item_extra_quantitys;
+                                                
+                                                $menu_item_extra_quantity2  = (int) $menu_item_extra_quantitys ;
 
                                                 if ($menu_item_extra_prechecked == 'on' && ($menu_item_extra_quantitys == '' || $menu_item_extra_quantity2 > 0)) { //edit sagar
                                                     $checked = 'checked';
@@ -7840,7 +7841,10 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                     $sa_total += $menu_item_extra_price;
                                                     $defult_qty = 1;
                                                 }
-
+                                                
+                                            
+                                                
+                                                
 
                                                 if ($menu_item_extra_price == '') {
                                                     $menu_item_extra_price = 0;
@@ -7851,55 +7855,44 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 } else {
                                                     $field_type = 'checkbox';
                                                 }
+                                                ?>
+                                                <div class="extras-detail-att">
+                                                    <div class="row">
 
-                                                if ($menu_item_extra_price == '') {
-                                                    $menu_item_extra_price = 0;
-                                                }
+                                                        <?php
+                                                            if(!empty($menu_item_extra_subtitle) && $menu_item_extra_subtitle !=''){
+                                                                echo "<h3 class='subtitle text-left'>$menu_item_extra_subtitle</h3>";
+                                                            }
+                                                        ?>
 
-                                                if ($menu_item_extra_sub_titles != '') {
-                                                    ?>
-
-                                                    <div class="extras-detail-att" style="border-top:1px solid #ebedf3;margin: 0;border-bottom: 0;padding-bottom: 5px;">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-xs-12">
-                                                                <h4 class="text-center" style="margin-bottom:0; margin-top: 5px"><?php echo $menu_item_extra_sub_titles; ?></h4>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php } else {
-                                                    ?>
-                                                    <div class="extras-detail-att">
-                                                        <div class="row">
-
-
-                                                            <div class="col-lg-12 col-xs-12">
-                                                                <input <?php echo $disabled ?>   
-                                                                    price="<?php echo $menu_item_extra_price; ?>" 
-                                                                    class="sa_extra_checkbox <?php echo $radio_class; ?>" <?php echo $checked; ?> 
-                                                                    title="<?php echo esc_html($menu_item_extra_title); ?>"
-                                                                    type="<?php echo $field_type; ?>" 
-                                                                    max_qty="<?php echo $menu_item_extra_quantitys; ?>" 
-                                                                    id="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" 
-                                                                    data-ind="<?php echo absint($menu_extra_att_counter) ?>" data-menucat-id="<?php echo isset($menu_loop) ? absint($menu_loop) : '' ?>" 
-                                                                    data-menu-id="<?php echo absint($menu_items_loop) ?>" 
-                                                                    name="extra-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-counter="<?php echo $menu_extra_counter; ?>-<?php echo $menu_item_extra_title; ?>">
-                                                                <label for="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>">
-                                                                    <span class="extra-title" <?php echo $disablestyle; ?>><?php echo esc_html($menu_item_extra_title) ?>  </span>
-                                                                    <span class="extra-price" <?php echo $disablestyle; ?>><?php
-                                                                        echo foodbakery_get_currency($menu_item_extra_price, true);
-                                                                        ?> </span>
-                                                                </label>
-
-                                                            </div>
-
-
+                                                        <div class="col-lg-12 col-xs-12">
+                                                            <input <?php echo $disabled ?>   
+                                                                price="<?php echo $menu_item_extra_price; ?>" 
+                                                                class="sa_extra_checkbox <?php echo $radio_class; ?>" <?php echo $checked; ?> 
+                                                                title="<?php echo esc_html($menu_item_extra_title); ?>"
+                                                                type="<?php echo $field_type; ?>" 
+                                                                max_qty="<?php echo $menu_item_extra_quantitys; ?>" 
+                                                                id="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" 
+                                                                data-ind="<?php echo absint($menu_extra_att_counter) ?>" data-menucat-id="<?php echo isset($menu_loop) ? absint($menu_loop) : '' ?>" 
+                                                                data-menu-id="<?php echo absint($menu_items_loop) ?>" 
+                                                                name="extra-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-counter="<?php echo $menu_extra_counter; ?>-<?php echo $menu_item_extra_title; ?>">
+                                                            <label for="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>">
+                                                                <span class="extra-title" <?php echo $disablestyle; ?>><?php echo esc_html($menu_item_extra_title) ?>  </span>
+                                                                <span class="extra-price" <?php echo $disablestyle; ?>><?php echo foodbakery_get_currency($menu_item_extra_price, true);
+                                                                     /*
+                                                                     $menu_item_extra_prechecked; 
+                                                                    */
+                                                                    ?> </span>
+                                                            </label>
 
                                                         </div>
 
+
+
                                                     </div>
-                                                    <?php
-                                                }
+
+                                                </div>
+                                                <?php
                                                 $menu_extra_att_counter++;
                                             }
                                             ?>
@@ -7938,9 +7931,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
 
                                     <input type="name" class="form-control" placeholder="Notes" value=""  name="extrasnotes"/>
 
-                                                                                                                                    <!-- <textarea rows="5"  cols="7"  style="height:100px" class="foodbakery-dev-req-field" name="extras-notes-0" placeholder="Notes"></textarea> -->
-
-                                                                                                                                                                    <!-- <input id="extra_notes" type="text" placeholder="Notes" class="form control" name="extras-notes-<?php echo $key; ?>" />                   -->
+                                                                                    <!-- <textarea rows="5"  cols="7"  style="height:100px" class="foodbakery-dev-req-field" name="extras-notes-0" placeholder="Notes"></textarea> --><!-- <input id="extra_notes" type="text" placeholder="Notes" class="form control" name="extras-notes-<?php echo $key; ?>" />                   -->
 
                                 </div>
 

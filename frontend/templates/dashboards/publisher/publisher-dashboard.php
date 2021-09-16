@@ -128,7 +128,8 @@ if ($publisher_profile_type == 'restaurant') {
         $foodbakery_restaurant_menu_item_post_status = foodbakery_get_input('menu_item_post_status', '', 'ARRAY');
         $foodbakery_restaurant_menu_item_comment = foodbakery_get_input('menu_item_comment', '', 'ARRAY');
 
-        
+
+       
 
         $menu_items_array = array();
         if (isset($_POST['menu_item_title']) && is_array($foodbakery_restaurant_menu_item_title) && sizeof($foodbakery_restaurant_menu_item_title) > 0) {

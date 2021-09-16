@@ -30,6 +30,46 @@ if (!class_exists('foodbakery_reservation_element')) {
             add_action('wp_ajax_nopriv_convert_date', array($this, 'convert_date_callback'), 11, 1);
             add_action('wp_ajax_calculate_service_price', array($this, 'calculate_service_price_callback'), 11, 1);
             add_action('wp_ajax_nopriv_calculate_service_price', array($this, 'calculate_service_price_callback'), 11, 1);
+
+              add_action('wp_ajax_ansu_repeat_order', array($this, 'ansu_repeat_order'));
+        }
+
+        public function ansu_repeat_order(){
+
+            $post_id = $_POST['order_id'];
+            $title   = get_the_title($post_id);
+            $oldpost = get_post($post_id);
+            $post    = array(
+              'post_title' => $title,
+              'post_status' => 'publish',
+              'post_type' => $oldpost->post_type,
+              'post_author' => get_current_user_id(),
+            );
+            $new_post_id = wp_insert_post($post);
+            // Copy post metadata
+            $data = get_post_custom($post_id);
+            foreach ( $data as $key => $values) {
+              foreach ($values as $value) {
+                if($key == 'menu_items_list'){
+                    $value = unserialize($value);
+                }
+                add_post_meta( $new_post_id, $key, $value );
+              }
+            }
+            $time = time();
+            update_post_meta($new_post_id,'foodbakery_order_date',$time);
+            update_post_meta($new_post_id,'foodbakery_delivery_date',$time);
+            update_post_meta($new_post_id,'foodbakery_order_status','process');
+            update_post_meta($new_post_id,'foodbakery_order_payment_status','pending');
+
+            $rest_id = get_post_meta($new_post_id,'foodbakery_restaurant_id',true);
+
+            $return = array(
+                'order_id'  => $new_post_id,
+                'rest_id'   => $rest_id,
+            );
+            wp_send_json($return);
+            die(0);
         }
 
         /*

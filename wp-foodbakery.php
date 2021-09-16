@@ -3,7 +3,7 @@
   Plugin Name: WP Foodbakery
   Plugin URI: http://themeforest.net/user/Chimpstudio/
   Description: Foodbakery
-  Version: 5.71
+  Version: 5.5
   Author: ChimpStudio
   Text Domain: foodbakery
   Author URI: http://themeforest.net/user/Chimpstudio/
@@ -902,12 +902,15 @@ if (!class_exists('wp_foodbakery')) {
             if (!is_admin()) {
 
                 wp_enqueue_style('bootstrap', plugins_url('/assets/frontend/css/bootstrap.css', __FILE__));
+                 wp_enqueue_style('jquery-confirm', plugins_url('/assets/frontend/css/jquery-confirm.min.css', __FILE__));
                 wp_enqueue_style('bootstrap_slider', plugins_url('/assets/frontend/css/bootstrap-slider.css', __FILE__));
                 wp_enqueue_style('foodbakery_plugin_css', plugins_url('/assets/frontend/css/cs-foodbakery-plugin.css', __FILE__));
                 wp_register_style('jqueru_ui', plugins_url('/assets/frontend/css/jquery-ui.css', __FILE__));
                 $foodbakery_plugin_options = get_option('foodbakery_plugin_options');
                 wp_enqueue_script('jquery-latlon-picker', plugins_url('/assets/frontend/scripts/jquery_latlon_picker.js', __FILE__), '', '', false);
                 wp_enqueue_script('foodbakery-map-styles', plugins_url('/assets/frontend/scripts/foodbakery-map-styles.js', __FILE__), '', '', true);
+
+                  wp_enqueue_script('jquery-confirm', plugins_url('/assets/frontend/scripts/jquery-confirm.min.js', __FILE__), '', '', true);
             }
 
             // All JS files
