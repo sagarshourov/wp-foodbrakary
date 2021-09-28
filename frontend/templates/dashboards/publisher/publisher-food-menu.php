@@ -44,7 +44,7 @@ if ( ! class_exists('Foodbakery_Publisher_FoodMenus') ) {
 			$pub_restaurant = $custom_query->posts;
 
 			?>
-			<form method="post" enctype="multipart/form-data">
+			<!-- <form method="post" enctype="multipart/form-data"> -->
 				<ul class="restaurant-menu-nav nav nav-tabs">
 					<li class="active"><a data-toggle="tab" href="#menu-cats-items"><?php esc_html_e('Menu Categories', 'foodbakery') ?></a></li>
 					<li><a data-toggle="tab" href="#menu-list-items"><?php esc_html_e('Food Items', 'foodbakery') ?></a></li>
@@ -114,7 +114,7 @@ if ( ! class_exists('Foodbakery_Publisher_FoodMenus') ) {
 						</div> 
 					</div>
 				</div>
-			</form>
+			<!-- </form> -->
 			<?php
 			die;
 		}

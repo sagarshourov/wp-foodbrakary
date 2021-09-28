@@ -325,7 +325,7 @@ if (!class_exists('wp_foodbakery')) {
                         $(document).ready(function () {
                             bind_rest_auth_event();
                             jQuery.growl.error({
-                                message: '<?php echo __('Demo users are not allowed to modify information.', 'foodbakery'); ?>'
+                                message: "<?php //echo __('Demo users are not allowed to modify information.', 'foodbakery'); ?>"
                             });
                             $("body").on("DOMNodeInserted DOMNodeRemoved", bind_rest_auth_event);
                         });

@@ -149,9 +149,9 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 						<a id="restaurant-menu-items-btn-' . $restaurant_add_counter . '" class="add-menu-item" href="javascript:void(0);" onClick="javascript:foodbakery_add_menu_item(\'' . $restaurant_add_counter . '\');">' . esc_html__('Add Menu Item', 'foodbakery') . '</a>
 					</div>
 				</div>
-				<div id="add-menu-item-from-' . $restaurant_add_counter . '" style="display:none;">';
+				<form  id="sagar_add_form_'. $restaurant_add_counter .'" method="post" enctype="multipart/form-data"> <div class="sagar1" id="add-menu-item-from-' . $restaurant_add_counter . '" style="display:none;">';
             $html .= $this->foodbakery_restaurant_menu_items_form_ui($restaurant_add_counter, $menu_item_counter, '', 'add');
-            $html .= '</div>
+            $html .= '</div> </form>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="field-holder">
 						<div class="service-list ">
@@ -684,6 +684,7 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
          * @return markup
          */
         public function foodbakery_add_menu_item_to_list_callback($get_menu_items = '', $form_action = 'edit') {
+          // return $this->sa_add_item($get_menu_items, $form_action);
             global $foodbakery_plugin_options, $foodbakery_form_fields, $restaurant_add_counter;
             $currency_sign = foodbakery_get_currency_sign();
             if (is_array($get_menu_items) && sizeof($get_menu_items) > 0) {
@@ -772,10 +773,17 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 						<a href="javascript:void(0);" class="remove-menu-item" onClick="foodbakery_remove_menu_item(\'' . $menu_item_counter . '\');"><i class="icon-close2"></i></a>
 					</div>
 				</div>';
-            $html .= '<div id="add-menu-item-from-' . $menu_item_counter . '" style="display:none;">';
+            $html .= '<form  id="sagar_add_form_'. $restaurant_add_counter .'" method="post" enctype="multipart/form-data"><div class="sagar2" id="add-menu-item-from-' . $menu_item_counter . '" style="display:none;">';
             $html .= $this->foodbakery_restaurant_menu_items_form_ui($restaurant_ad_counter, $menu_item_counter, $menu_item_fields, $form_action);
-            $html .= '</div>';
+            $html .= '</div> </form>';
             $html .= '</li>';
+
+
+
+
+
+
+
             if (is_array($get_menu_items) && sizeof($get_menu_items) > 0) {
                 return apply_filters('foodbakery_front_restaurant_add_single_service', $html, $get_menu_items);
             } else {
@@ -786,6 +794,105 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
                 }
                 echo json_encode(array('html' => $html, 'type' => 'success', 'msg' => $message));
                 die;
+            }
+
+
+
+        }
+
+
+        public function sa_add_item($get_menu_items = '', $form_action = 'edit'){
+            $current_user = wp_get_current_user();
+            $publisher_id = foodbakery_company_id_form_user_id($current_user->ID);
+        
+            $args = array(
+                'posts_per_page' => "1",
+                'post_type' => 'restaurants',
+                'post_status' => 'publish',
+                'fields' => 'ids',
+                'meta_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'key' => 'foodbakery_restaurant_publisher',
+                        'value' => $publisher_id,
+                        'compare' => '=',
+                    ),
+                    array(
+                        'key' => 'foodbakery_restaurant_username',
+                        'value' => $current_user->ID,
+                        'compare' => '=',
+                    ),
+                ),
+            );
+            $custom_query = new WP_Query($args);
+            $pub_restaurant = $custom_query->posts;
+            if (isset($pub_restaurant[0]) && $pub_restaurant[0] != '') {
+               // print_r('_____pass 1____');
+                $restaurant_id = $pub_restaurant[0];
+        
+                // saving restaurant services
+                $foodbakery_restaurant_menu_item_title = foodbakery_get_input('menu_item_title', '', 'ARRAY');
+                $foodbakery_restaurants_menu = foodbakery_get_input('restaurant_menu', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_price = foodbakery_get_input('menu_item_price', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_icon = foodbakery_get_input('menu_item_icon', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_nutri = foodbakery_get_input('menu_item_nutri', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_desc = foodbakery_get_input('menu_item_desc', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_extra = foodbakery_get_input('menu_item_extra', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_action = foodbakery_get_input('menu_item_action', '', 'ARRAY');
+        
+                $foodbakery_restaurant_menu_item_post_status = foodbakery_get_input('menu_item_post_status', '', 'ARRAY');
+                $foodbakery_restaurant_menu_item_comment = foodbakery_get_input('menu_item_comment', '', 'ARRAY');
+        
+        
+               
+        
+                $menu_items_array = array();
+                if (isset($_POST['menu_item_title']) && is_array($foodbakery_restaurant_menu_item_title) && sizeof($foodbakery_restaurant_menu_item_title) > 0) {
+                    $menu_items_array = array();
+                    foreach ($foodbakery_restaurant_menu_item_title as $key => $menu_item) {
+                        $menu_item_action = isset($foodbakery_restaurant_menu_item_action[$key]) ? $foodbakery_restaurant_menu_item_action[$key] : '';
+                        $menu_count = 0;
+                        if (isset($menu_item) && is_array($menu_item) && $menu_item != '') {
+                            $menu_count = count($menu_item);
+                        }
+                        if ($menu_item != '' && $menu_item_action != 'add') {
+                            $menu_items_array[] = array(
+                                'menu_item_title' => $menu_item,
+                                'menu_item_post_status' => isset($foodbakery_restaurant_menu_item_post_status[$key]) ? $foodbakery_restaurant_menu_item_post_status[$key] : '',
+                                'menu_item_comment' => isset($foodbakery_restaurant_menu_item_comment[$key]) ? $foodbakery_restaurant_menu_item_comment[$key] : '',
+                                'restaurant_menu' => isset($foodbakery_restaurants_menu[$key]) ? $foodbakery_restaurants_menu[$key] : '',
+                                'menu_item_description' => isset($foodbakery_restaurant_menu_item_desc[$key]) ? $foodbakery_restaurant_menu_item_desc[$key] : '',
+                                'menu_item_icon' => isset($foodbakery_restaurant_menu_item_icon[$key]) ? $foodbakery_restaurant_menu_item_icon[$key] : '',
+                                'menu_item_nutri' => isset($foodbakery_restaurant_menu_item_nutri[$key]) ? $foodbakery_restaurant_menu_item_nutri[$key] : '',
+                                'menu_item_price' => isset($foodbakery_restaurant_menu_item_price[$key]) ? $foodbakery_restaurant_menu_item_price[$key] : '',
+                                'menu_item_extra' => isset($foodbakery_restaurant_menu_item_extra[$key]) ? $foodbakery_restaurant_menu_item_extra[$key] : '',
+                            );
+                        }
+                    }
+                }
+
+               // print_r($foodbakery_restaurant_menu_item_extra);
+
+
+               $posts = get_post_meta($restaurant_id, 'foodbakery_menu_items');
+
+         
+
+              
+
+               $new_arr[] = $posts[0][0];
+              // $new_arr[] = $posts[0][0];
+               print_r($new_arr);
+                // update_post_meta($restaurant_id, 'foodbakery_menu_items', $new_arr);
+        
+                // // saving restaurant menu categories
+                // //if ( isset($_POST['menu_cat_title']) ) {
+                // $restaurant_menu_cat_titles = isset($_POST['menu_cat_title']) ? $_POST['menu_cat_title'] : '';
+                // update_post_meta($restaurant_id, 'menu_cat_titles', $restaurant_menu_cat_titles);
+        
+                // $restaurant_menu_cat_descs = isset($_POST['menu_cat_desc']) ? $_POST['menu_cat_desc'] : '';
+                // update_post_meta($restaurant_id, 'menu_cat_descs', $restaurant_menu_cat_descs);
+                // //}
             }
         }
 
