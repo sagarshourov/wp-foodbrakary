@@ -2,6 +2,10 @@ var $ = jQuery;
 
 $(document).ready(function () {
 	$('[data-toggle="tooltip"]').tooltip();
+
+
+
+
 });
 
 function foodbakery_add_menu_cat(menu_item_counter) {
@@ -18,21 +22,52 @@ function foodbakery_close_menu_cat(menu_item_counter) {
 	jQuery('#restaurant-cats-btn-' + menu_item_counter).show();
 }
 
-function foodbakery_copy_menu_item(menu_item_counter) {
-	var counter = parseInt(menu_item_counter);
+function foodbakery_copy_menu_item(restaurant_ad_counter, menu_item_counter, position, restaurant_id) {
 
+	console.log(position);
 
+	// var counter = parseInt(menu_item_counter);
+	// counter = Math.floor(100000000 + Math.random() * 900000000);
+	// var these = $(".menu-item-" + menu_item_counter);
+	// var content = these.html();
+	// var newcontant = content.replaceAll(menu_item_counter, counter);
+	// these.after(`<li class="menu-item-` + counter + `">` + newcontant + `</li>`);
+	// console.log(counter);
+	// $(document).find("#sagar_add_form_" + counter).append('<input type="hidden" name="copy" />');
 
-	counter = Math.floor(100000000 + Math.random() * 900000000);
+	var thisObj = jQuery('.menu-item-' + menu_item_counter);
+	foodbakery_show_loader('.menu-item-' + menu_item_counter, '', 'foodbakery_loader', thisObj);
 
-	var these = $(".menu-item-" + menu_item_counter);
+	//foodbakery_show_loader('.menu-item-217142216');
+	jQuery.ajax({
+		type: "POST",
+		url: foodbakery_globals.ajax_url,
+		dataType: 'json',
+		data: 'restaurant_ad_counter=' + restaurant_ad_counter + '&menu_item_counter=' + menu_item_counter + '&restaurant_id=' + restaurant_id + '&position=' + position + '&action=sa_restaurant_copy_menu_cat_item',
+		success: function (response) {
+			console.log(response);
+			//jQuery('.menu-item-' + menu_item_counter).remove();
 
-	var content = these.html();
+			if (response.type === 'success') {
+				//$('#add-menu-item-from-' + menu_item_counter).html(response.html);
 
-	var newcontant = content.replaceAll(menu_item_counter, counter);
+				//$('#add-menu-item-from-' + menu_item_counter).slideToggle();
+				$('.menu-item-' + menu_item_counter).after(response.html);
 
-	these.after(`<li class="menu-item-` + counter + `">` + newcontant + `</li>`);
+				foodbakery_hide_loader();
 
+				var response = {
+					type: 'success',
+					msg: 'Copied Successfully!'
+				};
+
+				foodbakery_show_response(response);
+				window.location.reload();
+				return true;
+			}
+
+		}
+	});
 }
 
 function foodbakery_add_menu_item(menu_item_counter) {
@@ -50,10 +85,67 @@ function foodbakery_close_menu_lists(menu_item_counter) {
 	jQuery('#restaurant-menu-items-btn-' + menu_item_counter).show();
 }
 
-function foodbakery_remove_menu_item(menu_item_counter) {
-	console.log(menu_item_counter);
-	jQuery('.menu-item-' + menu_item_counter).remove();
+function foodbakery_remove_menu_item(menu_item_counter, position, restaurant_id) {
+	var thisObj = jQuery('.menu-item-' + menu_item_counter);
+	foodbakery_show_loader('.menu-item-' + menu_item_counter, '', 'foodbakery_loader', thisObj);
+
+	jQuery.ajax({
+		type: "POST",
+		url: foodbakery_globals.ajax_url,
+		dataType: 'json',
+		data: 'restaurant_id=' + restaurant_id + '&position=' + position + '&action=sa_restaurant_delete_menu_cat_item',
+		success: function (response) {
+			console.log(response);
+			jQuery('.menu-item-' + menu_item_counter).remove();
+
+			foodbakery_hide_loader();
+
+			var response = {
+				type: 'success',
+				msg: 'Deleted Successfully!'
+			};
+
+			foodbakery_show_response(response);
+
+		}
+	});
+
 }
+
+function foodbakery_edit_menu_item(restaurant_ad_counter, menu_item_counter, position, restaurant_id) {
+	var thisObj = jQuery('.menu-item-' + menu_item_counter);
+	foodbakery_show_loader('.menu-item-' + menu_item_counter, '', 'foodbakery_loader', thisObj);
+	jQuery.ajax({
+		type: "POST",
+		url: foodbakery_globals.ajax_url,
+		dataType: 'json',
+		data: 'restaurant_ad_counter=' + restaurant_ad_counter + '&menu_item_counter=' + menu_item_counter + '&restaurant_id=' + restaurant_id + '&position=' + position + '&action=sa_restaurant_edit_menu_cat_item',
+		success: function (response) {
+			//console.log(response);
+			//jQuery('.menu-item-' + menu_item_counter).remove();
+			$('.foodbakery_loader').hide();
+			if (response.type === 'success') {
+				$('#add-menu-item-from-' + menu_item_counter).html(response.html);
+
+				$('#add-menu-item-from-' + menu_item_counter).slideToggle();
+
+
+
+				return true;
+			}
+			foodbakery_hide_loader();
+
+		}
+	});
+
+
+}
+
+
+
+
+
+
 
 function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 	var menu_cat_title = $('#menu_item_title_' + menu_item_counter);
@@ -97,10 +189,14 @@ function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 
 function foodbakery_add_menu_item_to_list(restaurant_counter, menu_item_counter, action) {
 
-	  var serializedValues = jQuery('form').serialize();
+
+	console.log('restaurant_counter ' + restaurant_counter);
+	console.log('menu_item_counter ' + menu_item_counter);
+
+	// var serializedValues = jQuery('form').serialize();
 	//  var serializedValues = jQuery('#foodbakery-dev-restaurant-form-' + restaurant_counter + '').serialize();
 
-	//var serializedValues = jQuery('#sagar_add_form_' + restaurant_counter).serialize();
+	var serializedValues = jQuery('#sagar_add_form_' + menu_item_counter).serialize();
 
 
 	var restaurant_menu = jQuery('#restaurant_menu_' + menu_item_counter).val();
@@ -133,65 +229,64 @@ function foodbakery_add_menu_item_to_list(restaurant_counter, menu_item_counter,
 		foodbakery_show_response(response);
 		return false;
 	} else {
-		if (action == 'edit' && restaurant_menu == current_restaurant_menu) {
-			jQuery('#add-menu-item-from-' + menu_item_counter).slideUp();
-		} else {
-			var thisObj = jQuery('.add-menu-item.add-menu-item-list-' + menu_item_counter);
-			foodbakery_show_loader('.add-menu-item.add-menu-item-list-' + menu_item_counter, '', 'button_loader', thisObj);
+		//if (action == 'edit' && restaurant_menu == current_restaurant_menu) {
+		//	jQuery('#add-menu-item-from-' + menu_item_counter).slideUp();
+		//} else {
+		var thisObj = jQuery('.add-menu-item.add-menu-item-list-' + menu_item_counter);
+		foodbakery_show_loader('.add-menu-item.add-menu-item-list-' + menu_item_counter, '', 'button_loader', thisObj);
 
-			//jQuery('#menu-item-loader-' + restaurant_counter).html('<div class="loader-holder"><img src="' + foodbakery_globals.plugin_dir_url + 'assets/frontend/images/ajax-loader.gif" alt=""></div>');
+		//jQuery('#menu-item-loader-' + restaurant_counter).html('<div class="loader-holder"><img src="' + foodbakery_globals.plugin_dir_url + 'assets/frontend/images/ajax-loader.gif" alt=""></div>');
 
 
-			var adding_time_items = serializedValues + '&action=foodbakery_add_menu_item_to_list' +
-				'&restaurant_ad_counter=' + restaurant_counter +
-				'&menu_item_counter=' + menu_item_counter +
-				'&restaurant_id=' + jQuery('input[name="restaurant_id"]').val() +
-				'&menu_item_add_action=' + action;
+		var adding_time_items = serializedValues + '&action=foodbakery_add_menu_item_to_list' +
+			'&restaurant_ad_counter=' + restaurant_counter +
+			'&menu_item_counter=' + menu_item_counter +
+			'&menu_item_add_action=' + action;
 
-			if (action == 'add') {
-				adding_time_items += '&restaurant_menu=' + encodeURIComponent(restaurant_menu) +
-					'&menu_item_title=' + menu_item_title +
-					'&menu_item_price=' + menu_item_price +
-					'&menu_item_icon=' + menu_item_icon +
-					'&menu_item_nutri=' + menu_item_nutri +
-					'&menu_item_desc=' + menu_item_desc;
-			}
+		//	if (action == 'add') {
+		adding_time_items += '&restaurant_menu=' + encodeURIComponent(restaurant_menu) +
+			'&menu_item_title=' + menu_item_title +
+			'&menu_item_price=' + menu_item_price +
+			'&menu_item_icon=' + menu_item_icon +
+			'&menu_item_nutri=' + menu_item_nutri +
+			'&menu_item_desc=' + menu_item_desc;
+		//	}
 
-			jQuery.ajax({
-				type: "POST",
-				url: foodbakery_globals.ajax_url,
-				dataType: 'json',
-				data: adding_time_items,
-				success: function (response) {
-					var parent_list_id = '#restaurant_menu_items-list-' + restaurant_counter;
+		jQuery.ajax({
+			type: "POST",
+			url: foodbakery_globals.ajax_url,
+			dataType: 'json',
+			data: adding_time_items,
+			success: function (response) {
+				var parent_list_id = '#restaurant_menu_items-list-' + restaurant_counter;
 
-					jQuery('#restaurant-menu-items-btn-' + restaurant_counter).show();
+				jQuery('#restaurant-menu-items-btn-' + restaurant_counter).show();
 
-					//
-					if (action == 'edit') {
-						var current_restaurant_menu_slug = current_restaurant_menu.replace(' ', '-').toLowerCase();
-						var current_restaurant_menu_slug = current_restaurant_menu_slug.replace('&', '');
-						current_restaurant_menu_slug = current_restaurant_menu_slug.replace(/\//g, "-");
-						var find_current_menu_li = jQuery(parent_list_id + ' li#menu-' + current_restaurant_menu_slug + ' ul.menu-items-list > li').length;
-						if (find_current_menu_li > 1) {
-							jQuery('li.menu-item-' + menu_item_counter).remove();
-						} else {
-							jQuery('li#menu-' + current_restaurant_menu_slug).remove();
-						}
-					}
-					//
-					jQuery('input[name^="menu_item_nutri_info"]').prop('checked', false);
-					jQuery('#add-menu-item-from-' + restaurant_counter).find('.nutri-info-icons').find('li').removeAttr('class');
-					//
-					var restaurants_menu_slug = restaurant_menu.replace(' ', '-').toLowerCase();
-					var restaurants_menu_slug = restaurants_menu_slug.replace('&', '');
-					restaurants_menu_slug = restaurants_menu_slug.replace(/\//g, "-");
-					var find_menu_li = jQuery(parent_list_id + ' li#menu-' + restaurants_menu_slug + '').length;
-					jQuery('#no-menu-items-' + restaurant_counter).remove();
-					if (find_menu_li > 0) {
-						jQuery(parent_list_id + ' li#menu-' + restaurants_menu_slug + ' ul.menu-items-list').append(response.html);
+				//
+				if (action == 'edit') {
+					var current_restaurant_menu_slug = current_restaurant_menu.replace(' ', '-').toLowerCase();
+					var current_restaurant_menu_slug = current_restaurant_menu_slug.replace('&', '');
+					current_restaurant_menu_slug = current_restaurant_menu_slug.replace(/\//g, "-");
+					var find_current_menu_li = jQuery(parent_list_id + ' li#menu-' + current_restaurant_menu_slug + ' ul.menu-items-list > li').length;
+					if (find_current_menu_li > 1) {
+						jQuery('li.menu-item-' + menu_item_counter).remove();
 					} else {
-						jQuery(parent_list_id).append('<li id="menu-' + restaurants_menu_slug + '">\n\
+						jQuery('li#menu-' + current_restaurant_menu_slug).remove();
+					}
+				}
+				//
+				jQuery('input[name^="menu_item_nutri_info"]').prop('checked', false);
+				jQuery('#add-menu-item-from-' + restaurant_counter).find('.nutri-info-icons').find('li').removeAttr('class');
+				//
+				var restaurants_menu_slug = restaurant_menu.replace(' ', '-').toLowerCase();
+				var restaurants_menu_slug = restaurants_menu_slug.replace('&', '');
+				restaurants_menu_slug = restaurants_menu_slug.replace(/\//g, "-");
+				var find_menu_li = jQuery(parent_list_id + ' li#menu-' + restaurants_menu_slug + '').length;
+				jQuery('#no-menu-items-' + restaurant_counter).remove();
+				if (find_menu_li > 0) {
+					jQuery(parent_list_id + ' li#menu-' + restaurants_menu_slug + ' ul.menu-items-list').append(response.html);
+				} else {
+					jQuery(parent_list_id).append('<li id="menu-' + restaurants_menu_slug + '">\n\
                                 <ul class="menu-items-list">\n\
                                     <div class="element-title">\n\
                                         <h5 class="text-color">' + restaurant_menu + '</h5>\n\
@@ -199,13 +294,13 @@ function foodbakery_add_menu_item_to_list(restaurant_counter, menu_item_counter,
                                     ' + response.html + '\n\
                                 </ul>\n\
                           </li>');
-					}
-					//jQuery('#menu-item-loader-' + restaurant_counter).html('');
-					foodbakery_empty_fields_afet_add(restaurant_counter, menu_item_counter, action);
-					foodbakery_show_response(response, '', thisObj);
 				}
-			});
-		}
+				//jQuery('#menu-item-loader-' + restaurant_counter).html('');
+				foodbakery_empty_fields_afet_add(restaurant_counter, menu_item_counter, action);
+				foodbakery_show_response(response, '', thisObj);
+			}
+		});
+		//}
 	}
 }
 
@@ -313,7 +408,7 @@ function add_more_extra_option(restaurant_counter, menu_item_counter, title, pri
                             <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">\n\
                                 <div class="field-holder">\n\
                                     <label>Quantity</label>\n\
-                                    <input class="menu-item-extra-price" name="menu_item_extra['+menu_item_counter+']['+count_extra_li+'][quantity][]" type="text" value="" placeholder="Unlimited">\n\
+                                    <input class="menu-item-extra-price" name="menu_item_extra['+ menu_item_counter + '][' + count_extra_li + '][quantity][]" type="text" value="" placeholder="Unlimited">\n\
                                 </div>\n\
                             </div>\n\
                             <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">\n\
@@ -326,7 +421,7 @@ function add_more_extra_option(restaurant_counter, menu_item_counter, title, pri
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">\n\
                                 <div class="menu-item-extra-options">\n\
                                     <label>&nbsp;</label>\n\
-                                    <input type="checkbox" name="menu_item_extra['+menu_item_counter+']['+count_extra_li+'][precheck][]">\n\
+                                    <input type="checkbox" name="menu_item_extra['+ menu_item_counter + '][' + count_extra_li + '][precheck][' + count_extra_inner_li_next + ']">\n\
                                 </div>\n\
                             </div>\n\
                     </div>\n\
