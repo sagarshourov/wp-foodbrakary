@@ -147,13 +147,57 @@ if (!class_exists('Foodbakery_Publisher_FoodMenus')) {
 						$('.restaurant_menu_items_cat_list').sortable({
 							handle: '.drag-option',
 							cursor: 'move'
+							
 						});
 					}
-					if ($(".restaurant-menu-cats-list").length != '') {
+					if ($(".restaurant-menu-cats-list").length != '') { //cat move
 
 						$('.restaurant-menu-cats-list').sortable({
 							handle: '.drag-option',
-							cursor: 'move'
+							cursor: 'move',
+							start: function(event, ui) {
+								ui.item.startPos = ui.item.index();
+							},
+							change: function(event, ui) {
+								ui.item.movement = ui.position.top - ui.originalPosition.top > 0 ? false : true;
+							},
+							stop: function(event, ui) { 
+								var replacePosition = 0;
+								if (ui.item.movement) {
+									replacePosition = ui.item.index() + 1;
+									console.log('Dragged Up');
+								} else {
+									replacePosition = ui.item.index() - 1;
+									console.log('Dragged Down');
+								}
+
+								var replaceItem = $(ui.item).parent().children().eq(replacePosition);
+
+								 var menu_item_counter = ui.item.attr('menu_item_counter');
+								 var restaurant_id = ui.item.attr('restaurant_id');
+								// var restaurant_ad_counter = ui.item.attr('restaurant_ad_counter');
+								jQuery.ajax({
+									type: "POST",
+									url: foodbakery_globals.ajax_url,
+									dataType: 'json',
+									data: 'menu_item_counter=' + menu_item_counter + '&restaurant_id=' + restaurant_id + '&replace_key=' + replaceItem.attr('sa_key') + '&old_key=' + ui.item.attr('sa_key') + '&action=sa_restaurant_move_cat_item',
+									success: function(response) {
+										if (response === 'Success') {
+											$('.menu-item-' + menu_item_counter).after(response.html);
+											foodbakery_hide_loader();
+											var response = {
+												type: 'success',
+												msg: 'Moved Successfully!'
+											};
+											foodbakery_show_response(response);
+
+											return true;
+										}
+
+									}
+								});
+
+							}
 						});
 					}
 					if ($('[data-toggle="tooltip"]').length != '') {
@@ -167,7 +211,7 @@ if (!class_exists('Foodbakery_Publisher_FoodMenus')) {
 						</div>
 					</div>
 				</div>
-				<div id="menu-list-items" class="tab-pane fade dfgdg">
+				<div id="menu-list-items" class="tab-pane fade">
 					<?php
 					$restaurants_type_post = get_posts('post_type=restaurant-type&posts_per_page=1&post_status=publish');
 					$selected_type = isset($restaurants_type_post[0]->post_name) ? $restaurants_type_post[0]->post_name : '';

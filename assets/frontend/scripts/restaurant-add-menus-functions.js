@@ -52,7 +52,7 @@ function foodbakery_copy_menu_item(restaurant_ad_counter, menu_item_counter, pos
 				//$('#add-menu-item-from-' + menu_item_counter).html(response.html);
 
 				//$('#add-menu-item-from-' + menu_item_counter).slideToggle();
-				$('.menu-item-' + menu_item_counter).after(response.html);
+			//	$('.menu-item-' + menu_item_counter).after(response.html);
 
 				foodbakery_hide_loader();
 
@@ -146,8 +146,29 @@ function foodbakery_edit_menu_item(restaurant_ad_counter, menu_item_counter, pos
 
 
 
+function foodbakery_remove_cat(restaurant_id, menu_item_counter, position) { 
+	var thisObj = jQuery(".add-menu-item.add-menu-item-list");
+	foodbakery_show_loader('.menu-item-' + menu_item_counter, '', 'foodbakery_loader', thisObj);
+	$.ajax({
+		url: foodbakery_globals.ajax_url,
+		method: "POST",
+		data: 'restaurant_id= '+restaurant_id+ '&position=' + position +'&action=restaurant_remove_menu_cat_item',
+		dataType: "json"
+	}).done(function (response) {
+		foodbakery_show_response(response, '', thisObj);
+		jQuery('.menu-item-' + menu_item_counter).remove();
+		foodbakery_hide_loader();
+		window.location.reload();
+	}).fail(function () {
+		foodbakery_show_response('', '', thisObj);
+		foodbakery_hide_loader();
+	});
 
-function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
+}
+
+
+function sa_restaurant_edit_save_cat_item(restaurant_id, menu_item_counter) { 
+
 	var menu_cat_title = $('#menu_item_title_' + menu_item_counter);
 	var menu_cat_desc = $('#menu_item_desc_' + menu_item_counter);
 	var this_loader = $('#menu-cats-loader-' + menu_item_counter);
@@ -155,6 +176,7 @@ function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 	var title = menu_cat_title.val();
 	var pattern = /^[a-zA-Z0-9]+$/;
 	if (title == '') {
+		console.log('____sagar sss____');
 		var response = {
 			type: 'error',
 			msg: 'Please fill the required * fields.'
@@ -162,17 +184,77 @@ function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 		foodbakery_show_response(response);
 
 	} else {
-		var thisObj = jQuery('.add-menu-item.add-menu-item-list');
-		foodbakery_show_loader('.add-menu-item.add-menu-item-list', '', 'button_loader', thisObj);
+		console.log('____submit data____');
+		var thisObj = jQuery(".add-menu-item.add-menu-item-list");
+		foodbakery_show_loader(".add-menu-item.add-menu-item-list", '', 'button_loader', thisObj);
+
+		var position= $('.menu-item-'+menu_item_counter).attr('sa_key');
+
+
 		$.ajax({
 			url: foodbakery_globals.ajax_url,
 			method: "POST",
-			data: '_menu_cat_title=' + menu_cat_title.val() + '&_menu_cat_desc=' + menu_cat_desc.val() + '&action=restaurant_add_menu_cat_item',
+			data: 'restaurant_id= '+restaurant_id+ '&position=' + position +  '&_menu_cat_title=' + menu_cat_title.val() + '&_menu_cat_desc=' + menu_cat_desc.val() + '&action=restaurant_add_menu_cat_item',
 			dataType: "json"
 		}).done(function (response) {
 			this_append.append(response.html);
 			menu_cat_title.val('');
 			menu_cat_desc.val('');
+			//console.log(response.html);
+			foodbakery_show_response(response, '', thisObj);
+			jQuery('#restaurant-cats-btn-' + menu_item_counter).show();
+			jQuery('#restaurant-cats-list-' + menu_item_counter).show();
+			jQuery('.menu-items-list-holder .not-found').hide();
+			window.location.reload();
+		}).fail(function () {
+			foodbakery_show_response('', '', thisObj);
+		});
+		setTimeout(function () {
+			jQuery("#add-menu-cat-from-" + menu_item_counter).slideUp();
+			jQuery("#no-menu-cats-" + menu_item_counter).remove();
+		}, 500);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+function foodbakery_admin_add_menu_cat_to_list(restaurant_id, menu_item_counter) {
+	
+	var menu_cat_title = $('#menu_item_title_' + menu_item_counter);
+	var menu_cat_desc = $('#menu_item_desc_' + menu_item_counter);
+	var this_loader = $('#menu-cats-loader-' + menu_item_counter);
+	var this_append = $('#restaurant-cats-list-' + menu_item_counter);
+	var title = menu_cat_title.val();
+	var pattern = /^[a-zA-Z0-9]+$/;
+	if (title == '') {
+		console.log('____sagar sss____');
+		var response = {
+			type: 'error',
+			msg: 'Please fill the required * fields.'
+		};
+		foodbakery_show_response(response);
+
+	} else {
+		console.log('____submit data____');
+		var thisObj = jQuery(".add-menu-item.add-menu-item-list");
+		foodbakery_show_loader(".add-menu-item.add-menu-item-list", '', 'button_loader', thisObj);
+		$.ajax({
+			url: foodbakery_globals.ajax_url,
+			method: "POST",
+			data: 'restaurant_id= '+restaurant_id+ '&_menu_cat_title=' + menu_cat_title.val() + '&_menu_cat_desc=' + menu_cat_desc.val() + '&action=restaurant_add_menu_cat_item',
+			dataType: "json"
+		}).done(function (response) {
+			this_append.append(response.html);
+			menu_cat_title.val('');
+			menu_cat_desc.val('');
+			//console.log(response.html);
 			foodbakery_show_response(response, '', thisObj);
 			jQuery('#restaurant-cats-btn-' + menu_item_counter).show();
 			jQuery('#restaurant-cats-list-' + menu_item_counter).show();
@@ -181,8 +263,8 @@ function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 			foodbakery_show_response('', '', thisObj);
 		});
 		setTimeout(function () {
-			jQuery('#add-menu-cat-from-' + menu_item_counter).slideUp();
-			jQuery('#no-menu-cats-' + menu_item_counter).remove();
+			jQuery("#add-menu-cat-from-" + menu_item_counter).slideUp();
+			jQuery("#no-menu-cats-" + menu_item_counter).remove();
 		}, 500);
 	}
 }

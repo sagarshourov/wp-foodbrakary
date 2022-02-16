@@ -33,7 +33,53 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 
             add_action('wp_ajax_sa_restaurant_move_menu_cat_item', array($this, 'sa_restaurant_move_menu_cat_item'));
             add_action('wp_ajax_nopriv_sa_restaurant_move_menu_cat_item', array($this, 'sa_restaurant_move_menu_cat_item'));
+
+            add_action('wp_ajax_sa_restaurant_move_cat_item', array($this, 'sa_restaurant_move_cat_item'));
+            add_action('wp_ajax_nopriv_sa_restaurant_move_cat_item', array($this, 'sa_restaurant_move_cat_item'));
+
+            add_action('wp_ajax_sa_restaurant_edit_save_cat_item', array($this, 'sa_restaurant_edit_save_cat_item'));
+            add_action('wp_ajax_nopriv_sa_restaurant_edit_save_cat_item', array($this, 'sa_restaurant_edit_save_cat_item'));
+
+            
+
+            
+            
         }
+
+
+
+
+        
+
+        function sa_restaurant_edit_save_cat_item(){
+
+            if (isset($_POST['_menu_cat_title'])) {
+				$menu_cat_title = $_POST['_menu_cat_title'];
+				$menu_cat_desc = isset($_POST['_menu_cat_desc']) ? $_POST['_menu_cat_desc'] : '';
+				$restaurant_id = isset($_POST['restaurant_id']) ? (int) $_POST['restaurant_id'] : 0;
+				if ($restaurant_id > 0) {
+					$restaurant_menu_cat_titles = get_post_meta($restaurant_id, 'menu_cat_titles', true);
+					$restaurant_menu_cat_descs = get_post_meta($restaurant_id, 'menu_cat_descs', true);
+
+					if (is_array($restaurant_menu_cat_titles)) {
+						$restaurant_menu_cat_titles[] = $menu_cat_title;
+                        $restaurant_menu_cat_descs[] = $menu_cat_desc;
+					
+				
+					update_post_meta($restaurant_id, 'menu_cat_titles', $restaurant_menu_cat_titles);
+					update_post_meta($restaurant_id, 'menu_cat_descs', $restaurant_menu_cat_descs);
+                    }
+				}
+			}
+         
+            $message = 'Sucess';
+
+            echo json_encode($message);
+
+        }
+
+
+
 
         function moveElement(&$array, $a, $b)
         {
@@ -41,6 +87,34 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
             array_splice($array, $b, 0, $out);
 
             return $array;
+        }
+
+        public function sa_restaurant_move_cat_item()
+        {
+            $restaurant_id = (int)$_POST['restaurant_id'];
+            $old_key = (int)$_POST['old_key'];
+            $replace_key = (int)$_POST['replace_key'];
+
+            $posts_titles = get_post_meta($restaurant_id, 'menu_cat_titles');
+            $title_arr =  $posts_titles[0];
+
+            $menu_cat_descs = get_post_meta($restaurant_id, 'menu_cat_descs');
+            $decs_arr =  $menu_cat_descs[0];
+           
+               update_post_meta($restaurant_id, 'menu_cat_titles', $this->moveElement($title_arr, $old_key, $replace_key));
+               update_post_meta($restaurant_id, 'menu_cat_descs', $this->moveElement($decs_arr, $old_key, $replace_key));
+                $message = 'Success';
+         
+
+
+            echo json_encode($message);
+          // $arr = $this->moveElement($title_arr, $old_key, $replace_key);
+
+         //  print_r($arr);
+
+         // echo  $old_key;
+         // echo  $replace_key;
+            die;
         }
 
         public function sa_restaurant_move_menu_cat_item()
@@ -67,6 +141,7 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
             echo json_encode($message);
             die;
         }
+
 
 
         public function sa_restaurant_copy_menu_cat_item()

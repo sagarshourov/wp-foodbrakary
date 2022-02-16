@@ -49,6 +49,8 @@ function foodbakery_remove_menu_item(menu_item_counter) {
 
 function foodbakery_admin_add_menu_cat_to_list(menu_item_counter) {
 
+console.log('backend');
+
     var menu_cat_title = $('#menu_item_title_' + menu_item_counter);
     var menu_cat_desc = $('#menu_item_desc_' + menu_item_counter);
     var this_loader = $('#menu-cats-loader-' + menu_item_counter);
