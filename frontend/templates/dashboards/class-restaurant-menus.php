@@ -42,8 +42,50 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 
             
 
+            add_action('wp_ajax_sa_restaurant_move_parent_menu_cat_item', array($this, 'sa_restaurant_move_parent_menu_cat_item'));
+            add_action('wp_ajax_nopriv_sa_restaurant_move_parent_menu_cat_item', array($this, 'sa_restaurant_move_parent_menu_cat_item'));
+            
+
             
             
+        }
+        function moveElement(&$array, $a, $b)
+        {
+            $out = array_splice($array, $a, 1);
+            array_splice($array, $b, 0, $out);
+
+            return $array;
+        }
+
+        function sa_restaurant_move_parent_menu_cat_item(){
+            $restaurant_id = (int)$_POST['restaurant_id'];
+            $old_key = (int)$_POST['old_key'];
+            $replace_key = (int)$_POST['replace_key'];
+
+            $posts = get_post_meta($restaurant_id, 'foodbakery_menu_items');
+            $new_arr =  $posts[0];
+
+
+            
+
+
+            if (isset($new_arr[$old_key])) {
+
+
+
+
+                // print_r($this->moveElement($new_arr, $position, $new_pos));
+             //   update_post_meta($restaurant_id, 'foodbakery_menu_items', $this->moveElement($new_arr, $old_key, $replace_key));
+            }
+
+            $message = 'Success';
+
+            //print_r($this->moveElement($new_arr, $old_key, $replace_key));
+            //echo json_encode($this->moveElement($new_arr, $old_key, $replace_key));
+           // echo json_encode($message);
+
+            print_r($this->moveElement($new_arr, $old_key, $replace_key));
+            die;
         }
 
 
@@ -81,13 +123,7 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
 
 
 
-        function moveElement(&$array, $a, $b)
-        {
-            $out = array_splice($array, $a, 1);
-            array_splice($array, $b, 0, $out);
-
-            return $array;
-        }
+        
 
         public function sa_restaurant_move_cat_item()
         {
@@ -1160,12 +1196,29 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
                 $total_items = count($restaurant_menu_list);
                 $total_menu = array();
                 $menu_items_list = '';
+
+
+                $menu_cats_arr = get_post_meta($this->restaurant_id,'menu_cat_titles');
+                  //menu_cat_titles
+
+
                 for ($menu_count = 0; $menu_count < $total_items; $menu_count++) {
                     $menu_exists = in_array($restaurant_menu_list[$menu_count]['restaurant_menu'], $total_menu);
                     if (!$menu_exists) {
-                        $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                        $key = array_search($restaurant_menu_list[$menu_count]['restaurant_menu'], $menu_cats_arr[0]);
+                        if($key !== false){
+                            $total_menu[$key] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                        }else{
+                            $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                        }
+                    
+                       // $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
                     }
                 }
+
+
+                
+               // print_r($total_menu);
 
                 $total_menu_count = count($total_menu);
                 $menu_items_list .= '';
@@ -1180,7 +1233,7 @@ if (!class_exists('Foodbakery_Restaurant_Menus')) {
                         $colapse_head_class = '';
                     }
 
-                    $menu_items_list .= '<li id="menu-' . $restaurant_menu_slug . '" class="panel panel-default">';
+                    $menu_items_list .= '<li restaurant_ad_counter="'.$restaurant_add_counter.'" restaurant_id="'.$this->restaurant_id.'"  sa_key="'.$menu_loop.'"  id="menu-' . $restaurant_menu_slug . '"     class="panel panel-default" >';
                     $menu_items_list .= '<div class="element-title panel-heading">';
                     $menu_items_list .= '<span class="drag-option ui-sortable-handle"><i class="icon-bars"></i></span> <a data-toggle="collapse"' . $colapse_head_class . ' data-parent="#restaurant_menu_items-list-' . $restaurant_add_counter . '" href="#collapse-' . $menu_loop . '">' . $restaurant_menu . '</a>';
                     $menu_items_list .= '</div>';

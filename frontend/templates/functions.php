@@ -1,11 +1,13 @@
 <?php
+
 /**
  * Start Function how to
  * Add User Image for Avatar
  */
 if (!function_exists('foodbakery_get_user_avatar')) {
 
-    function foodbakery_get_user_avatar($size = 0, $foodbakery_user_id = '') {
+    function foodbakery_get_user_avatar($size = 0, $foodbakery_user_id = '')
+    {
 
         if ($foodbakery_user_id != '') {
 
@@ -17,31 +19,31 @@ if (!function_exists('foodbakery_get_user_avatar')) {
             }
         }
     }
-
 }
 if (!function_exists('cs_widget_register')) {
 
-    function cs_widget_register($name) {
+    function cs_widget_register($name)
+    {
 
         add_action('widgets_init', function () use ($name) {
             return register_widget($name);
         });
     }
-
 }
 if (!function_exists('cs_get_server_data')) {
 
-    function cs_get_server_data($server_data) {
+    function cs_get_server_data($server_data)
+    {
         if (isset($server_data)) {
 
             return $_SERVER[$server_data];
         }
     }
-
 }
 if (!function_exists('foodbakery_open_close_status')) {
 
-    function foodbakery_open_close_status($id = '') {
+    function foodbakery_open_close_status($id = '')
+    {
         $current_time = strtotime('2016-01-01 ' . current_time('h:i a'));
         $restaurant_open = false;
         $restaurants_type_post = get_posts('post_type=restaurant-type&posts_per_page=1&post_status=publish');
@@ -71,12 +73,12 @@ if (!function_exists('foodbakery_open_close_status')) {
         }
         return array($restaurant_status, $restaurant_class);
     }
-
 }
 
 if (!function_exists('foodbakery_related_restaurants')) {
 
-    function foodbakery_related_restaurants($number_post = '-1') {
+    function foodbakery_related_restaurants($number_post = '-1')
+    {
 
         global $post, $foodbakery_var_static_text, $foodbakery_post_restaurant_types;
         // check related posts on/off.
@@ -113,7 +115,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
         $rel_qry = new WP_Query($args);
         if ($rel_qry->have_posts()) {
             $flag = 1;
-            ?>
+?>
             <div class="swiper-container restaurant-slider foodbakery-restaurant foodbakery-restaurant-detail">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="element-title">
@@ -167,7 +169,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                 }
                             }
                         }
-                        ?>
+                    ?>
                         <div class="swiper-slide col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="restaurant-grid">
                                 <div class="img-holder">
@@ -191,7 +193,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                         $user_company_id = get_user_meta($cur_user_details->ID, 'foodbakery_company', true);
                                         $publisher_profile_type = get_post_meta($user_company_id, 'foodbakery_publisher_profile_type', true);
                                         if ($publisher_profile_type != 'restaurant') {
-                                            ?>
+                                        ?>
                                             <figcaption>
                                                 <?php
                                                 $shortlist_label = '';
@@ -206,7 +208,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                                 do_action('foodbakery_shortlists_frontend_button', $restaurant_id, $book_mark_args);
                                                 ?>
                                             </figcaption>
-                                            <?php
+                                        <?php
                                         }
                                         ?>
                                     </figure>
@@ -224,10 +226,10 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                                 ?>
                                             </span>
                                         </span>
-                                        <?php
+                                    <?php
                                     }
                                     if ($foodbakery_cate_str != '') {
-                                        ?>
+                                    ?>
                                         <div class="post-category-options">
                                             <ul>
                                                 <?php if ($foodbakery_restaurant_is_featured == 'on') { ?>
@@ -260,20 +262,20 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                                 <span class="ratings"><span class="rating-text">(<?php echo esc_html($ratings_data['count']); ?>) <?php echo esc_html__('Reviews', 'foodbakery'); ?></span></span>
                                             </div>
                                         </div>
-                                        <?php
+                                    <?php
                                     }
                                     if ($restaurant_location != '') {
-                                        ?>
+                                    ?>
                                         <ul class="restaurant-location">
                                             <li><i class="icon-location-pin2"></i><span><?php echo esc_html($restaurant_location); ?></span></li>
                                         </ul>
-                                        <?php
+                                    <?php
                                     }
                                     // first 4 custom fields with value
                                     $foodbakery_restaurant_type_cus_fields = $foodbakery_post_restaurant_types->foodbakery_types_custom_fields_array($foodbakery_restaurant_type);
                                     $foodbakery_fields_output = '';
                                     if (is_array($foodbakery_restaurant_type_cus_fields) && sizeof($foodbakery_restaurant_type_cus_fields) > 0) {
-                                        ?>
+                                    ?>
                                         <div class="post-category-list">
                                             <ul>
                                                 <?php
@@ -290,7 +292,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                                             }
 
                                                             if (!empty($value)) {
-                                                                ?>
+                                                ?>
                                                                 <li><?php
                                                                     echo force_balance_tags($icon_str) . '';
 
@@ -302,7 +304,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                                                         }
                                                                     }
                                                                     ?></li>
-                                                                <?php
+                                                <?php
                                                             }
                                                         }
                                                     }
@@ -319,7 +321,7 @@ if (!function_exists('foodbakery_related_restaurants')) {
                                 </div>
                             </div>
                         </div>
-                        <?php
+                    <?php
                         $list_count++;
                     endwhile;
                     wp_reset_postdata();
@@ -331,7 +333,6 @@ if (!function_exists('foodbakery_related_restaurants')) {
             <?php
         }
     }
-
 }
 /**
  * Start Function how to get Custom Loaction for search element
@@ -341,7 +342,8 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
 
 
     // field_type value = filter or header
-    function foodbakery_get_custom_locations_listing_filter($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $listing_short_counter = '', $field_type = 'filter', $dropdown_type = '', $onchange_function = '', $restaurant_search_view = '') {
+    function foodbakery_get_custom_locations_listing_filter($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $listing_short_counter = '', $field_type = 'filter', $dropdown_type = '', $onchange_function = '', $restaurant_search_view = '')
+    {
         global $foodbakery_plugin_options, $foodbakery_form_fields_frontend;
         // getting from plugin options
         $gmap_api_key = isset($foodbakery_plugin_options['foodbakery_google_api_key']) ? $foodbakery_plugin_options['foodbakery_google_api_key'] : '';
@@ -404,7 +406,7 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
             $output .= $selected_item;
             $output .= '';
         } else {
-            $location_value = ( isset($_REQUEST['location']) ) ? $_REQUEST['location'] : '';
+            $location_value = (isset($_REQUEST['location'])) ? $_REQUEST['location'] : '';
             if (isset($_REQUEST['loc_polygon']) && $_REQUEST['loc_polygon'] != '') {
                 $location_value .= esc_html__("Drawn Area", "foodbakery");
             }
@@ -413,14 +415,13 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
 
             $output .= '<li class="select-location">';
             if ($field_type == 'header') {
-                
             } else {
                 $focus_class = 'foodbakery-focus-out';
                 $location_field_text = 'location-field-text';
             }
             $output .= '<div class="foodbakery-locations-fields-group ' . $focus_class . '">';
 
-            $location_cross_display = ( isset($_REQUEST['location']) ) ? 'block' : 'none';
+            $location_cross_display = (isset($_REQUEST['location'])) ? 'block' : 'none';
             if (is_home() || is_front_page()) {
                 if (isset($restaurant_search_view) && $restaurant_search_view == 'classic') {
                     $output .= '<span class="foodbakery-search-location-icon" data-id="' . $listing_short_counter . '"></span>';
@@ -446,15 +447,15 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
                 $radius_display = 'none';
                 $output .= '<div class="select-location foodbakery-radius-range' . $listing_short_counter . '" style="display:' . $radius_display . '"><div class="select-popup popup-open" id="popup' . $listing_short_counter . '"> <a href="javascript:;" id="close' . $listing_short_counter . '" class="location-close-popup location-close-popup' . $listing_short_counter . '"><i class="icon-times"></i></a>';
                 $output .= $foodbakery_form_fields_frontend->foodbakery_form_hidden_render(
-                        array(
-                            'simple' => true,
-                            'cust_id' => "range-hidden-foodbakery-radius" . $listing_short_counter,
-                            'cust_name' => "foodbakery_radius",
-                            'std' => $radius,
-                            'classes' => "foodbakery-radius",
-                            'return' => true,
-                            'extra_atr' => 'data-id="' . $listing_short_counter . '"',
-                        )
+                    array(
+                        'simple' => true,
+                        'cust_id' => "range-hidden-foodbakery-radius" . $listing_short_counter,
+                        'cust_name' => "foodbakery_radius",
+                        'std' => $radius,
+                        'classes' => "foodbakery-radius",
+                        'return' => true,
+                        'extra_atr' => 'data-id="' . $listing_short_counter . '"',
+                    )
                 );
                 $output .= '<p>' . esc_html__('Show with in', 'foodbakery') . '</p>
                                 <input id="ex16b' . $listing_short_counter . '" type="text" />
@@ -463,7 +464,7 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
                     </div></div>';
 
                 $foodbakery_restaurant_content_call = '';
-                if (!( is_home() || is_front_page() )) {
+                if (!(is_home() || is_front_page())) {
                     $foodbakery_restaurant_content_call = 'foodbakery_restaurant_content("' . esc_html($listing_short_counter) . '");';
                 }
 
@@ -498,7 +499,7 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
             //}
         }
         if ($dropdown_type != 'list') {
-            if (false === ( $foodbakery_location_data = get_transient('foodbakery_location_data') )) {
+            if (false === ($foodbakery_location_data = get_transient('foodbakery_location_data'))) {
                 $output .= '<script>
 				jQuery(document).ready(function () {
 					jQuery(".chosen-select-location").chosen();
@@ -658,7 +659,7 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
                     
                 </script>';
         //}
-        if ($auto_country_detection == 'on' && ( is_home() || is_front_page())) {
+        if ($auto_country_detection == 'on' && (is_home() || is_front_page())) {
             $output .= '<script>
 				window.isCountryAlreadyDetected = false;
                 $( window ).load(function() {
@@ -731,12 +732,10 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
                 </script>';
         }
         if ($field_type == 'header') {
-            
         }
         $output .= '</li>';
         echo force_balance_tags($dropdown_start_html . $output . $dropdown_end_html);
     }
-
 }
 
 /**
@@ -746,7 +745,8 @@ if (!function_exists('foodbakery_get_custom_locations_listing_filter')) {
  */
 if (!function_exists('foodbakery_frontend_icomoon_selector')) {
 
-    function foodbakery_frontend_icomoon_selector($icon_value = '', $id = '', $name = '', $classes = '') {
+    function foodbakery_frontend_icomoon_selector($icon_value = '', $id = '', $name = '', $classes = '')
+    {
 
         global $foodbakery_form_fields;
         $foodbakery_var_icomoon = '
@@ -796,12 +796,12 @@ if (!function_exists('foodbakery_frontend_icomoon_selector')) {
 
         return $foodbakery_var_icomoon;
     }
-
 }
 
 if (!function_exists('foodbakery_front_change_password')) {
 
-    function foodbakery_front_change_password() {
+    function foodbakery_front_change_password()
+    {
         global $current_user;
         $user = get_user_by('login', $current_user->user_login);
         $old_pass = isset($_POST['old_pass']) ? $_POST['old_pass'] : '';
@@ -841,23 +841,24 @@ if (!function_exists('foodbakery_front_change_password')) {
 
 if (!function_exists('foodbakery_header_cover_style')) {
 
-    function foodbakery_header_cover_style($foodbakery_user_page = '', $meta_cover_image = '', $default_size = '') {
+    function foodbakery_header_cover_style($foodbakery_user_page = '', $meta_cover_image = '', $default_size = '')
+    {
 
         $foodbakery__theme_options = get_option('foodbakery_theme_options');
-        $foodbakery_sh_paddingtop = ( isset($foodbakery__theme_options['foodbakery_sh_paddingtop']) ) ? ' padding-top:' . $foodbakery__theme_options['foodbakery_sh_paddingtop'] . 'px;' : '';
-        $foodbakery_sh_paddingbottom = ( isset($foodbakery__theme_options['foodbakery_sh_paddingbottom']) ) ? ' padding-bottom:' . $foodbakery__theme_options['foodbakery_sh_paddingbottom'] . 'px;' : '';
-        $page_subheader_color = ( isset($foodbakery__theme_options['foodbakery_sub_header_bg_color'])) ? $foodbakery__theme_options['foodbakery_sub_header_bg_color'] : '';
-        $page_subheader_text_color = ( isset($foodbakery__theme_options['foodbakery_sub_header_text_color']) ) ? ' color:' . $foodbakery__theme_options['foodbakery_sub_header_text_color'] . ' !important;' : '';
+        $foodbakery_sh_paddingtop = (isset($foodbakery__theme_options['foodbakery_sh_paddingtop'])) ? ' padding-top:' . $foodbakery__theme_options['foodbakery_sh_paddingtop'] . 'px;' : '';
+        $foodbakery_sh_paddingbottom = (isset($foodbakery__theme_options['foodbakery_sh_paddingbottom'])) ? ' padding-bottom:' . $foodbakery__theme_options['foodbakery_sh_paddingbottom'] . 'px;' : '';
+        $page_subheader_color = (isset($foodbakery__theme_options['foodbakery_sub_header_bg_color'])) ? $foodbakery__theme_options['foodbakery_sub_header_bg_color'] : '';
+        $page_subheader_text_color = (isset($foodbakery__theme_options['foodbakery_sub_header_text_color'])) ? ' color:' . $foodbakery__theme_options['foodbakery_sub_header_text_color'] . ' !important;' : '';
 
         $foodbakery_sub_header_default_h = isset($foodbakery__theme_options['foodbakery_sub_header_default_h']) ? $foodbakery__theme_options['foodbakery_sub_header_default_h'] : '';
 
         if ($foodbakery_user_page == 'candidate') {
-            $header_banner_image = ( isset($foodbakery__theme_options['foodbakery_candidate_default_cover']) ) ? $foodbakery__theme_options['foodbakery_candidate_default_cover'] : '';
+            $header_banner_image = (isset($foodbakery__theme_options['foodbakery_candidate_default_cover'])) ? $foodbakery__theme_options['foodbakery_candidate_default_cover'] : '';
         } else {
-            $header_banner_image = ( isset($foodbakery__theme_options['foodbakery_publisher_default_cover']) ) ? $foodbakery__theme_options['foodbakery_publisher_default_cover'] : '';
+            $header_banner_image = (isset($foodbakery__theme_options['foodbakery_publisher_default_cover'])) ? $foodbakery__theme_options['foodbakery_publisher_default_cover'] : '';
         }
 
-        $page_subheader_parallax = ( isset($foodbakery__theme_options['foodbakery_parallax_bg_switch']) ) ? $foodbakery__theme_options['foodbakery_parallax_bg_switch'] : '';
+        $page_subheader_parallax = (isset($foodbakery__theme_options['foodbakery_parallax_bg_switch'])) ? $foodbakery__theme_options['foodbakery_parallax_bg_switch'] : '';
 
         if ($page_subheader_color) {
             $subheader_style_elements = 'background: ' . $page_subheader_color . ';';
@@ -939,12 +940,12 @@ if (!function_exists('foodbakery_header_cover_style')) {
 
         return array($subheader_style_elements, $parallax_class);
     }
-
 }
 
 if (!function_exists('foodbakery_author_role_template')) {
 
-    function foodbakery_author_role_template($author_template = '') {
+    function foodbakery_author_role_template($author_template = '')
+    {
 
         $author = get_queried_object();
 
@@ -963,7 +964,8 @@ if (!function_exists('foodbakery_author_role_template')) {
 
 if (!function_exists('foodbakery_user_pagination')) {
 
-    function foodbakery_user_pagination($total_pages = 1, $page = 1) {
+    function foodbakery_user_pagination($total_pages = 1, $page = 1)
+    {
 
         $query_string = $_SERVER['QUERY_STRING'];
 
@@ -1003,12 +1005,12 @@ if (!function_exists('foodbakery_user_pagination')) {
 
         echo force_balance_tags($foodbakery_pages);
     }
-
 }
 
 if (!function_exists('foodbakery_dashboard_pagination')) {
 
-    function foodbakery_dashboard_pagination($total_pages = 1, $page = 1, $url = '', $to_action = '') {
+    function foodbakery_dashboard_pagination($total_pages = 1, $page = 1, $url = '', $to_action = '')
+    {
 
         $query_string = $_SERVER['QUERY_STRING'];
 
@@ -1071,12 +1073,12 @@ if (!function_exists('foodbakery_dashboard_pagination')) {
 
         echo force_balance_tags($foodbakery_pages);
     }
-
 }
 
 if (!function_exists('foodbakery_show_all_cats')) {
 
-    function foodbakery_show_all_cats($parent = '', $separator = '', $selected = "", $taxonomy = '', $optional = '') {
+    function foodbakery_show_all_cats($parent = '', $separator = '', $selected = "", $taxonomy = '', $optional = '')
+    {
 
         if ($parent == "") {
 
@@ -1104,178 +1106,177 @@ if (!function_exists('foodbakery_show_all_cats')) {
         } else {
 
             foreach ($categories as $category) {
-                ?>
+            ?>
                 <option <?php
-                if ($selected == $category->slug) {
-                    echo "selected";
-                }
-                ?> value="<?php echo esc_attr($category->slug); ?>"><?php echo esc_attr($separator . $category->cat_name); ?></option>
-                    <?php
-                    foodbakery_show_all_cats($category->term_id, $separator, $selected, $taxonomy);
-                }
+                        if ($selected == $category->slug) {
+                            echo "selected";
+                        }
+                        ?> value="<?php echo esc_attr($category->slug); ?>"><?php echo esc_attr($separator . $category->cat_name); ?></option>
+                <?php
+                foodbakery_show_all_cats($category->term_id, $separator, $selected, $taxonomy);
+            }
+        }
+    }
+}
+/**
+ * End Function how to Add User Image for Avatar
+ */
+/**
+ * Start Function how to Set Post Views
+ */
+if (!function_exists('foodbakery_set_post_views')) {
+
+    function foodbakery_set_post_views($postID)
+    {
+        if (!isset($_COOKIE["foodbakery_count_views" . $postID])) {
+            setcookie("foodbakery_count_views" . $postID, 'post_view_count', time() + 86400);
+            $count_key = 'foodbakery_count_views';
+            $count = get_post_meta($postID, $count_key, true);
+            if ($count == '') {
+                $count = 0;
+                delete_post_meta($postID, $count_key);
+                add_post_meta($postID, $count_key, '0');
+            } else {
+                $count++;
+                update_post_meta($postID, $count_key, $count);
+            }
+        }
+    }
+}
+
+/**
+
+ * End Function how to Set Post Views
+
+ */
+/**
+
+ * Start Function how to Share Posts
+
+ */
+if (!function_exists('foodbakery_addthis_script_init_method')) {
+
+    function foodbakery_addthis_script_init_method()
+    {
+
+        wp_enqueue_script('foodbakery_addthis', foodbakery_server_protocol() . 's7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e4412d954dccc64', '', '', true);
+    }
+}
+
+/**
+ * End Function how to Share Posts
+ */
+/**
+ * check whether file exsit or not
+ */
+if (!function_exists('foodbakery_check_coverletter_exist')) {
+
+
+
+    function foodbakery_check_coverletter_exist($file)
+    {
+
+        $is_exist = false;
+
+        if (isset($file) && $file <> "") {
+
+            $file_headers = @get_headers($file);
+
+            if ($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+
+                $is_exist = false;
+            } else {
+
+                $is_exist = true;
             }
         }
 
+        return $is_exist;
     }
-    /**
-     * End Function how to Add User Image for Avatar
-     */
-    /**
-     * Start Function how to Set Post Views
-     */
-    if (!function_exists('foodbakery_set_post_views')) {
+}
 
-        function foodbakery_set_post_views($postID) {
-            if (!isset($_COOKIE["foodbakery_count_views" . $postID])) {
-                setcookie("foodbakery_count_views" . $postID, 'post_view_count', time() + 86400);
-                $count_key = 'foodbakery_count_views';
-                $count = get_post_meta($postID, $count_key, true);
-                if ($count == '') {
-                    $count = 0;
-                    delete_post_meta($postID, $count_key);
-                    add_post_meta($postID, $count_key, '0');
-                } else {
-                    $count++;
-                    update_post_meta($postID, $count_key, $count);
-                }
-            }
-        }
+/**
 
+ * End check whether file exsit or not
+
+ */
+/**
+
+ * Start Function how to Get Current User ID
+
+ */
+if (!function_exists('foodbakery_get_user_id')) {
+
+    function foodbakery_get_user_id()
+    {
+
+        global $current_user;
+
+        wp_get_current_user();
+
+        return $current_user->ID;
     }
+}
+/**
 
-    /**
+ * End Function how to Get Current User ID
 
-     * End Function how to Set Post Views
+ */
+/**
 
-     */
-    /**
+ * Start Function how to Add your Favourite Dirpost
 
-     * Start Function how to Share Posts
+ */
+if (!function_exists('foodbakery_add_dirpost_favourite')) {
 
-     */
-    if (!function_exists('foodbakery_addthis_script_init_method')) {
+    function foodbakery_add_dirpost_favourite($foodbakery_post_id = '')
+    {
+        global $post;
+        $foodbakery_emp_funs = new foodbakery_publisher_functions();
+        $foodbakery_post_id = isset($foodbakery_post_id) ? $foodbakery_post_id : '';
+        if (!is_user_logged_in() || !$foodbakery_emp_funs->is_employer()) {
 
-        function foodbakery_addthis_script_init_method() {
+            if (is_user_logged_in()) {
 
-            wp_enqueue_script('foodbakery_addthis', foodbakery_server_protocol() . 's7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e4412d954dccc64', '', '', true);
-        }
+                $user = foodbakery_get_user_id();
 
-    }
+                $finded_result_list = foodbakery_find_index_user_meta_list($foodbakery_post_id, 'cs-user-jobs-wishlist', 'post_id', foodbakery_get_user_id());
 
-    /**
-     * End Function how to Share Posts
-     */
-    /**
-     * check whether file exsit or not
-     */
-    if (!function_exists('foodbakery_check_coverletter_exist')) {
+                if (isset($user) and $user <> '' and is_user_logged_in()) {
 
+                    if (is_array($finded_result_list) && !empty($finded_result_list)) {
+                ?>
 
-
-        function foodbakery_check_coverletter_exist($file) {
-
-            $is_exist = false;
-
-            if (isset($file) && $file <> "") {
-
-                $file_headers = @get_headers($file);
-
-                if ($file_headers[0] == 'HTTP/1.1 404 Not Found') {
-
-                    $is_exist = false;
-                } else {
-
-                    $is_exist = true;
-                }
-            }
-
-            return $is_exist;
-        }
-
-    }
-
-    /**
-
-     * End check whether file exsit or not
-
-     */
-    /**
-
-     * Start Function how to Get Current User ID
-
-     */
-    if (!function_exists('foodbakery_get_user_id')) {
-
-        function foodbakery_get_user_id() {
-
-            global $current_user;
-
-            wp_get_current_user();
-
-            return $current_user->ID;
-        }
-
-    }
-    /**
-
-     * End Function how to Get Current User ID
-
-     */
-    /**
-
-     * Start Function how to Add your Favourite Dirpost
-
-     */
-    if (!function_exists('foodbakery_add_dirpost_favourite')) {
-
-        function foodbakery_add_dirpost_favourite($foodbakery_post_id = '') {
-            global $post;
-            $foodbakery_emp_funs = new foodbakery_publisher_functions();
-            $foodbakery_post_id = isset($foodbakery_post_id) ? $foodbakery_post_id : '';
-            if (!is_user_logged_in() || !$foodbakery_emp_funs->is_employer()) {
-
-                if (is_user_logged_in()) {
-
-                    $user = foodbakery_get_user_id();
-
-                    $finded_result_list = foodbakery_find_index_user_meta_list($foodbakery_post_id, 'cs-user-jobs-wishlist', 'post_id', foodbakery_get_user_id());
-
-                    if (isset($user) and $user <> '' and is_user_logged_in()) {
-
-                        if (is_array($finded_result_list) && !empty($finded_result_list)) {
-                            ?>
-
-                        <a class="cs-add-wishlist tolbtn" data-toggle="tooltip" data-placement="top" data-original-title="<?php esc_html_e('Shortlist', 'foodbakery') ?>" onclick="foodbakery_delete_from_favourite('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', 'post')" >
+                        <a class="cs-add-wishlist tolbtn" data-toggle="tooltip" data-placement="top" data-original-title="<?php esc_html_e('Shortlist', 'foodbakery') ?>" onclick="foodbakery_delete_from_favourite('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', 'post')">
 
                             <i class="icon-heart6"></i>
 
                         </a>
 
-                        <?php
+                    <?php
                     } else {
-                        ?>
+                    ?>
 
                         <a class="cs-add-wishlist tolbtn" onclick="foodbakery_addto_wishlist('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', 'post')" data-placement="top" data-toggle="tooltip" data-original-title="<?php esc_html_e('Shortlisted', 'foodbakery') ?>">
                             <i class="icon-heart-o"></i>
                         </a>
-                        <?php
+                    <?php
                     }
                 } else {
                     ?>
                     <a class="cs-add-wishlist tolbtn" onclick="foodbakery_addto_wishlist('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', 'post')" data-placement="top" data-toggle="tooltip" data-original-title="<?php esc_html_e('Shortlisted', 'foodbakery') ?>">
                         <i class="icon-heart-o"></i>
                     </a>
-                    <?php
+                <?php
                 }
             } else {
                 ?>
                 <a href="javascript:void(0);" class="cs-add-wishlist" onclick="trigger_func('#btn-header-main-login');"><i class="icon-heart-o"></i> </a>
 
-                <?php
+            <?php
             }
         }
     }
-
 }
 
 /**
@@ -1290,7 +1291,8 @@ if (!function_exists('foodbakery_show_all_cats')) {
  */
 if (!function_exists('foodbakery_addto_usermeta')) {
 
-    function foodbakery_addto_usermeta() {
+    function foodbakery_addto_usermeta()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -1299,11 +1301,11 @@ if (!function_exists('foodbakery_addto_usermeta')) {
             if (isset($_POST['post_id']) && $_POST['post_id'] <> '') {
 
                 foodbakery_create_user_meta_list($_POST['post_id'], 'cs-user-jobs-wishlist', $user);
-                ?>
+            ?>
 
                 <i class="icon-heart6"></i>
 
-                <?php
+            <?php
             }
         } else {
 
@@ -1332,7 +1334,8 @@ if (!function_exists('foodbakery_get_user_jobapply_meta')) {
 
 
 
-    function foodbakery_get_user_jobapply_meta($user = "") {
+    function foodbakery_get_user_jobapply_meta($user = "")
+    {
 
         if (!empty($user)) {
 
@@ -1346,7 +1349,6 @@ if (!function_exists('foodbakery_get_user_jobapply_meta')) {
             return get_user_meta(foodbakery_get_user_id(), 'cs-jobs-applied', true);
         }
     }
-
 }
 
 /**
@@ -1361,11 +1363,11 @@ if (!function_exists('foodbakery_get_user_jobapply_meta')) {
  */
 if (!function_exists('foodbakery_update_user_jobapply_meta')) {
 
-    function foodbakery_update_user_jobapply_meta($arr) {
+    function foodbakery_update_user_jobapply_meta($arr)
+    {
 
         return update_user_meta(foodbakery_get_user_id(), 'cs-jobs-applied', $arr);
     }
-
 }
 
 /**
@@ -1382,7 +1384,8 @@ if (!function_exists('foodbakery_delete_from_favourite')) {
 
 
 
-    function foodbakery_delete_from_favourite() {
+    function foodbakery_delete_from_favourite()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -1419,7 +1422,8 @@ if (!function_exists('foodbakery_delete_from_favourite')) {
  */
 if (!function_exists('foodbakery_delete_wishlist')) {
 
-    function foodbakery_delete_wishlist() {
+    function foodbakery_delete_wishlist()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -1461,7 +1465,8 @@ if (!function_exists('foodbakery_delete_wishlist')) {
 
 if (!function_exists('ajaxcontact_send_mail_cand')) {
 
-    function ajaxcontact_send_mail_cand() {
+    function ajaxcontact_send_mail_cand()
+    {
 
         $results = '';
 
@@ -1655,7 +1660,8 @@ if (!function_exists('ajaxcontact_send_mail_cand')) {
  */
 if (!function_exists('ajaxcontact_send_mail')) {
 
-    function ajaxcontact_send_mail() {
+    function ajaxcontact_send_mail()
+    {
 
         $results = '';
         $error = 0;
@@ -1867,7 +1873,8 @@ if (!function_exists('ajaxcontact_send_mail')) {
  */
 if (!function_exists('ajaxcontact_employer_send_mail')) {
 
-    function ajaxcontact_employer_send_mail() {
+    function ajaxcontact_employer_send_mail()
+    {
 
         global $foodbakery_plugin_options;
 
@@ -1910,14 +1917,17 @@ if (!function_exists('ajaxcontact_employer_send_mail')) {
         if (isset($_POST['ajaxcontactemail'])) {
 
             $email = $_POST['ajaxcontactemail'];
-        }if (isset($_POST['ajaxcontactphone'])) {
+        }
+        if (isset($_POST['ajaxcontactphone'])) {
 
             $phone = $_POST['ajaxcontactphone'];
-        }if (isset($_POST['ajaxcontactcontents'])) {
+        }
+        if (isset($_POST['ajaxcontactcontents'])) {
 
             $contents = $_POST['ajaxcontactcontents'];
             $messgae = $_POST['ajaxcontactcontents'];
-        }if (isset($_POST['employerid'])) {
+        }
+        if (isset($_POST['employerid'])) {
 
             $employerid = $_POST['employerid'];
         }
@@ -2074,11 +2084,11 @@ if (!function_exists('foodbakery_time_elapsed_string')) {
 
 
 
-    function foodbakery_time_elapsed_string($ptime) {
+    function foodbakery_time_elapsed_string($ptime)
+    {
 
         return human_time_diff($ptime, current_time('timestamp')) . " " . esc_html__('ago', 'foodbakery');
     }
-
 }
 
 
@@ -2091,7 +2101,8 @@ if (!function_exists('foodbakery_ajax_pagination')) {
 
 
 
-    function foodbakery_ajax_pagination($total_records, $per_page, $tab, $type, $uid, $pack_array) {
+    function foodbakery_ajax_pagination($total_records, $per_page, $tab, $type, $uid, $pack_array)
+    {
 
         $admin_url = esc_url(admin_url('admin-ajax.php'));
 
@@ -2186,7 +2197,6 @@ if (!function_exists('foodbakery_ajax_pagination')) {
             return $html;
         }
     }
-
 }
 
 /**
@@ -2203,7 +2213,8 @@ if (!function_exists('foodbakery_addjob_to_usermeta')) {
 
 
 
-    function foodbakery_addjob_to_usermeta() {
+    function foodbakery_addjob_to_usermeta()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -2212,11 +2223,11 @@ if (!function_exists('foodbakery_addjob_to_usermeta')) {
             if (isset($_POST['post_id']) && $_POST['post_id'] <> '') {
 
                 foodbakery_create_user_meta_list($_POST['post_id'], 'cs-user-jobs-wishlist', $user);
-                ?>
+            ?>
 
                 <i class="icon-heart6"></i>
 
-                <?php
+            <?php
             }
         } else {
 
@@ -2239,7 +2250,8 @@ if (!function_exists('foodbakery_addjob_to_user')) {
 
 
 
-    function foodbakery_addjob_to_user() {
+    function foodbakery_addjob_to_user()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -2248,7 +2260,7 @@ if (!function_exists('foodbakery_addjob_to_user')) {
             if (isset($_POST['post_id']) && $_POST['post_id'] <> '') {
 
                 foodbakery_create_user_meta_list($_POST['post_id'], 'cs-user-jobs-wishlist', $user);
-                ?>
+            ?>
 
                 <i class="icon-heart6"></i>
 
@@ -2281,7 +2293,8 @@ if (!function_exists('foodbakery_removejob_to_usermeta')) {
 
 
 
-    function foodbakery_removejob_to_usermeta() {
+    function foodbakery_removejob_to_usermeta()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -2317,7 +2330,8 @@ if (!function_exists('foodbakery_removejob_to_user')) {
 
 
 
-    function foodbakery_removejob_to_user() {
+    function foodbakery_removejob_to_user()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -2363,7 +2377,8 @@ if (!function_exists('foodbakery_add_jobs_applied')) {
 
 
 
-    function foodbakery_add_jobs_applied($foodbakery_post_id = '') {
+    function foodbakery_add_jobs_applied($foodbakery_post_id = '')
+    {
 
         global $post;
 
@@ -2382,7 +2397,7 @@ if (!function_exists('foodbakery_add_jobs_applied')) {
                     $finded_result_list = foodbakery_find_index_user_meta_list($foodbakery_post_id, 'cs-user-jobs-applied-list', 'post_id', foodbakery_get_user_id());
 
                     if (is_array($finded_result_list) && !empty($finded_result_list)) {
-                        ?>
+                ?>
 
                         <a class="applied_icon" data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Applied", "foodbakery"); ?>">
 
@@ -2390,28 +2405,28 @@ if (!function_exists('foodbakery_add_jobs_applied')) {
 
                         </a>
 
-                        <?php
+                    <?php
                     } else {
-                        ?>
+                    ?>
 
-                        <a data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Apply Now", "foodbakery"); ?>" class="applied_icon" onclick="foodbakery_addjobs_to_applied('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', this)" >
+                        <a data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Apply Now", "foodbakery"); ?>" class="applied_icon" onclick="foodbakery_addjobs_to_applied('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', this)">
 
                             <i class="icon-thumbsup"></i><?php esc_html_e('Apply Now', 'foodbakery') ?>
 
                         </a>
 
-                        <?php
+                    <?php
                     }
                 } else {
                     ?>
 
-                    <a data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Apply Now", "foodbakery"); ?>" class="applied_icon" onclick="foodbakery_addjobs_to_applied('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', this)" >
+                    <a data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Apply Now", "foodbakery"); ?>" class="applied_icon" onclick="foodbakery_addjobs_to_applied('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', '<?php echo intval($foodbakery_post_id); ?>', this)">
 
                         <i class="icon-thumbsup"></i><?php echo esc_html__('Apply Now', 'foodbakery') ?>
 
                     </a>
 
-                    <?php
+            <?php
                 }
             }
         } else {
@@ -2419,10 +2434,9 @@ if (!function_exists('foodbakery_add_jobs_applied')) {
 
             <button type="button" data-toggle="tooltip" data-placement="top" title="<?php echo esc_html__("Apply Now", "foodbakery"); ?>" class="apply-btn" onclick="trigger_func('#btn-header-main-login');"><?php echo esc_html__("Apply Now", "foodbakery"); ?></button>
 
-            <?php
+        <?php
         }
     }
-
 }
 
 /**
@@ -2437,7 +2451,8 @@ if (!function_exists('foodbakery_remove_qrystr_extra_var')) {
 
 
 
-    function foodbakery_remove_qrystr_extra_var($qStr, $key, $withqury_start = 'yes') {
+    function foodbakery_remove_qrystr_extra_var($qStr, $key, $withqury_start = 'yes')
+    {
 
         $qr_str = preg_replace('/[?&]' . $key . '=[^&]+$|([?&])' . $key . '=[^&]+&/', '$1', $qStr);
 
@@ -2460,7 +2475,6 @@ if (!function_exists('foodbakery_remove_qrystr_extra_var')) {
 
         die();
     }
-
 }
 
 /**
@@ -2477,7 +2491,8 @@ if (!function_exists('_string_first_part_match')) {
 
 
 
-    function foodbakery_string_first_part_match($str, $find) {
+    function foodbakery_string_first_part_match($str, $find)
+    {
 
         $str_len = strlen($find); // 6
 
@@ -2490,7 +2505,6 @@ if (!function_exists('_string_first_part_match')) {
 
         return false;
     }
-
 }
 
 /**
@@ -2507,7 +2521,8 @@ if (!function_exists('foodbakery_get_all_countries_cities')) {
 
 
 
-    function foodbakery_get_all_countries_cities() {
+    function foodbakery_get_all_countries_cities()
+    {
 
         global $foodbakery_plugin_options;
 
@@ -2709,7 +2724,8 @@ if (!function_exists('foodbakery_get_custom_locationswith_google_auto')) {
 
 
 
-    function foodbakery_get_custom_locationswith_google_auto($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $foodbakery_top_search = false) {
+    function foodbakery_get_custom_locationswith_google_auto($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $foodbakery_top_search = false)
+    {
 
         global $foodbakery_plugin_options, $foodbakery_form_fields, $foodbakery_form_fields;
 
@@ -2745,15 +2761,15 @@ if (!function_exists('foodbakery_get_custom_locationswith_google_auto')) {
         echo force_balance_tags($output);
         ?>
         <script type="text/javascript">
-            (function ($) {
-                jQuery(function () {
+            (function($) {
+                jQuery(function() {
                     jQuery('input.foodbakery_search_location_field').cityAutocomplete();
 
-                    jQuery(document).on('click', '.foodbakery_searchbox_div', function () {
+                    jQuery(document).on('click', '.foodbakery_searchbox_div', function() {
                         jQuery('.foodbakery_search_location_field').prop('disabled', false);
                     });
 
-                    jQuery(document).on('click', 'form', function () {
+                    jQuery(document).on('click', 'form', function() {
                         var src_loc_val = jQuery(this).find('.foodbakery_search_location_field');
                         src_loc_val.next('.search_keyword').val(src_loc_val.val());
                     });
@@ -2762,7 +2778,6 @@ if (!function_exists('foodbakery_get_custom_locationswith_google_auto')) {
         </script>
         <?php
     }
-
 }
 
 /**
@@ -2779,12 +2794,12 @@ if (!function_exists('foodbakery_get_custom_locations')) {
 
 
 
-    function foodbakery_get_custom_locations($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false) {
+    function foodbakery_get_custom_locations($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false)
+    {
         $output = '';
         $output = '<select class="chosen-select">' . apply_filters('dropdown_options_for_search_location', $output) . '</select>';
         echo force_balance_tags($dropdown_start_html . $output . $dropdown_end_html);
     }
-
 }
 
 /**
@@ -2796,7 +2811,8 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
 
 
     // field_type value = filter or header
-    function foodbakery_get_custom_locations_restaurant_filter($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $restaurant_short_counter = '', $field_type = 'filter', $dropdown_type = '') {
+    function foodbakery_get_custom_locations_restaurant_filter($dropdown_start_html = '', $dropdown_end_html = '', $foodbakery_text_ret = false, $restaurant_short_counter = '', $field_type = 'filter', $dropdown_type = '')
+    {
         global $foodbakery_plugin_options, $foodbakery_form_fields_frontend;
 
         // getting from plugin options
@@ -2864,7 +2880,7 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
             $output .= $selected_item;
             $output .= '';
         } else {
-            $location_value = ( isset($_REQUEST['location']) ) ? $_REQUEST['location'] : '';
+            $location_value = (isset($_REQUEST['location'])) ? $_REQUEST['location'] : '';
             $focus_class = '';
             $location_field_text = '';
             if ($field_type == 'header') {
@@ -2877,7 +2893,7 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
             $output .= '<div class="foodbakery-locations-fields-group ' . $focus_class . '">';
             $output .= '<form name="foodbakery-restaurant-top-header-form' . $restaurant_short_counter . '" id="foodbakery-restaurant-top-header-form' . $restaurant_short_counter . '" action="' . esc_html($foodbakery_search_result_page) . '" >';
             $output .= '<span id="foodbakery-radius-location' . $restaurant_short_counter . '" class="foodbakery-radius-location foodbakery-radius-location' . $restaurant_short_counter . '" data-id="' . $restaurant_short_counter . '"><i class="icon-target5"></i></span>';
-            $location_cross_display = ( isset($_REQUEST['location']) ) ? 'block' : 'none';
+            $location_cross_display = (isset($_REQUEST['location'])) ? 'block' : 'none';
             $output .= '<span class="foodbakery-input-cross foodbakery-input-cross' . $restaurant_short_counter . ' foodbakery-input-cross-header" data-id="' . $restaurant_short_counter . '" style="display:' . $location_cross_display . ';"><i class="icon-cross"></i></span>';
             if ($auto_complete == 'on' && $field_type != 'header') {
                 $output .= '<input type="text" class="' . $location_field_text . ' foodbakery-locations-field-geo' . $restaurant_short_counter . '" data-id="' . $restaurant_short_counter . '" value="' . $location_value . '" id="foodbakery-locations-field' . $restaurant_short_counter . '" name="location" placeholder="' . esc_html__('All Locations', 'foodbakery') . '" autocomplete="off">';
@@ -2893,15 +2909,15 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
                 $radius_display = 'none';
                 $output .= '<div class="select-location foodbakery-radius-range' . $restaurant_short_counter . '" style="display:' . $radius_display . '"><div class="select-popup popup-open" id="popup' . $restaurant_short_counter . '"> <a href="javascript:;" id="close' . $restaurant_short_counter . '" class="location-close-popup location-close-popup' . $restaurant_short_counter . '"><i class="icon-times"></i></a>';
                 $output .= $foodbakery_form_fields_frontend->foodbakery_form_hidden_render(
-                        array(
-                            'simple' => true,
-                            'cust_id' => "range-hidden-foodbakery-radius" . $restaurant_short_counter,
-                            'cust_name' => "foodbakery_radius",
-                            'std' => $radius,
-                            'classes' => "foodbakery-radius",
-                            'return' => true,
-                            'extra_atr' => 'data-id="' . $restaurant_short_counter . '"',
-                        )
+                    array(
+                        'simple' => true,
+                        'cust_id' => "range-hidden-foodbakery-radius" . $restaurant_short_counter,
+                        'cust_name' => "foodbakery_radius",
+                        'std' => $radius,
+                        'classes' => "foodbakery-radius",
+                        'return' => true,
+                        'extra_atr' => 'data-id="' . $restaurant_short_counter . '"',
+                    )
                 );
                 $output .= '<p>' . esc_html__('Show with in', 'foodbakery') . '</p>
                                 <input id="ex16b' . $restaurant_short_counter . '" type="text" />
@@ -2947,7 +2963,7 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
             $output .= '</ul></li>';
         }
         if ($dropdown_type != 'list') {
-            if (false === ( $foodbakery_location_data = get_transient('foodbakery_location_data') )) {
+            if (false === ($foodbakery_location_data = get_transient('foodbakery_location_data'))) {
                 $output .= '<script>
 				jQuery(document).ready(function () {
 					jQuery(".chosen-select-location").chosen();
@@ -3206,7 +3222,6 @@ if (!function_exists('foodbakery_get_custom_locations_restaurant_filter')) {
         $output = force_balance_tags($dropdown_start_html . $output . $dropdown_end_html);
         echo str_replace('</script></script>', '</script>', $output);
     }
-
 }
 
 /**
@@ -3223,7 +3238,8 @@ if (!function_exists('foodbakery_location_convert')) {
 
 
 
-    function foodbakery_location_convert() {
+    function foodbakery_location_convert()
+    {
 
         global $foodbakery_plugin_options;
 
@@ -3357,7 +3373,6 @@ if (!function_exists('foodbakery_location_convert')) {
 
         return '';
     }
-
 }
 
 /**
@@ -3374,7 +3389,8 @@ if (!function_exists('count_usermeta')) {
 
 
 
-    function count_usermeta($key, $value, $opr, $return = false) {
+    function count_usermeta($key, $value, $opr, $return = false)
+    {
 
         $arg = array(
             'meta_key' => $key,
@@ -3391,7 +3407,6 @@ if (!function_exists('count_usermeta')) {
 
         return count($users);
     }
-
 }
 
 /**
@@ -3408,11 +3423,13 @@ if (!function_exists('foodbakery_get_postmeta_data')) {
 
 
 
-    function foodbakery_get_postmeta_data($key, $value, $opr, $post_type, $return = false) {
+    function foodbakery_get_postmeta_data($key, $value, $opr, $post_type, $return = false)
+    {
 
 
 
-        $user_post_arr = array('posts_per_page' => "-1", 'post_type' => $post_type, 'order' => "DESC", 'orderby' => 'post_date',
+        $user_post_arr = array(
+            'posts_per_page' => "-1", 'post_type' => $post_type, 'order' => "DESC", 'orderby' => 'post_date',
             'post_status' => 'publish', 'ignore_sticky_posts' => 1,
             'meta_query' => array(
                 array(
@@ -3430,7 +3447,6 @@ if (!function_exists('foodbakery_get_postmeta_data')) {
             return $user_data;
         }
     }
-
 }
 
 /**
@@ -3447,9 +3463,11 @@ if (!function_exists('count_postmeta')) {
 
 
 
-    function count_postmeta($key, $value, $opr, $return = false) {
+    function count_postmeta($key, $value, $opr, $return = false)
+    {
 
-        $mypost = array('posts_per_page' => "-1", 'post_type' => 'employer', 'order' => "DESC", 'orderby' => 'post_date',
+        $mypost = array(
+            'posts_per_page' => "-1", 'post_type' => 'employer', 'order' => "DESC", 'orderby' => 'post_date',
             'post_status' => 'publish', 'ignore_sticky_posts' => 1,
             'meta_query' => array(
                 array(
@@ -3466,7 +3484,6 @@ if (!function_exists('count_postmeta')) {
 
         return $count_post;
     }
-
 }
 
 /**
@@ -3483,9 +3500,11 @@ if (!function_exists('candidate_count_postmeta')) {
 
 
 
-    function candidate_count_postmeta($key, $value, $opr, $return = false) {
+    function candidate_count_postmeta($key, $value, $opr, $return = false)
+    {
 
-        $mypost = array('posts_per_page' => "-1", 'post_type' => 'candidate', 'order' => "DESC", 'orderby' => 'post_date',
+        $mypost = array(
+            'posts_per_page' => "-1", 'post_type' => 'candidate', 'order' => "DESC", 'orderby' => 'post_date',
             'post_status' => 'publish', 'ignore_sticky_posts' => 1,
             'meta_query' => array(
                 array(
@@ -3502,7 +3521,7 @@ if (!function_exists('candidate_count_postmeta')) {
 
         $users = '';
 
-        while ($loop_count->have_posts()): $loop_count->the_post();
+        while ($loop_count->have_posts()) : $loop_count->the_post();
 
             global $post;
 
@@ -3519,7 +3538,6 @@ if (!function_exists('candidate_count_postmeta')) {
 
         return $count_post;
     }
-
 }
 
 /**
@@ -3540,7 +3558,8 @@ if (!function_exists('is_array_empty')) {
 
 
 
-    function is_array_empty($a) {
+    function is_array_empty($a)
+    {
 
         foreach ($a as $elm)
             if (!empty($elm))
@@ -3548,7 +3567,6 @@ if (!function_exists('is_array_empty')) {
 
         return true;
     }
-
 }
 
 /**
@@ -3564,7 +3582,8 @@ if (!function_exists('find_heighest_date_index')) {
 
 
 
-    function find_heighest_date_index($foodbakery_dates, $date_format = 'd-m-Y') {
+    function find_heighest_date_index($foodbakery_dates, $date_format = 'd-m-Y')
+    {
 
         $max = max(array_map('strtotime', $foodbakery_dates));
 
@@ -3577,7 +3596,6 @@ if (!function_exists('find_heighest_date_index')) {
             return $maxs[0];
         }
     }
-
 }
 
 /**
@@ -3589,7 +3607,8 @@ if (!function_exists('user_last_login')) {
 
     add_action('wp_login', 'user_last_login', 0, 2);
 
-    function user_last_login($login, $user) {
+    function user_last_login($login, $user)
+    {
 
         $user = get_user_by('login', $login);
 
@@ -3597,7 +3616,6 @@ if (!function_exists('user_last_login')) {
 
         update_user_meta($user->ID, 'user_last_login', $now);
     }
-
 }
 
 /**
@@ -3614,7 +3632,8 @@ if (!function_exists('get_user_last_login')) {
 
 
 
-    function get_user_last_login($user_ID = '') {
+    function get_user_last_login($user_ID = '')
+    {
 
         if ($user_ID == '') {
 
@@ -3629,7 +3648,6 @@ if (!function_exists('get_user_last_login')) {
 
         return $user_last_login;
     }
-
 }
 
 /**
@@ -3650,7 +3668,8 @@ if (!function_exists('get_user_registered_timestamp')) {
 
 
 
-    function get_user_registered_timestamp($user_ID = '') {
+    function get_user_registered_timestamp($user_ID = '')
+    {
 
         if ($user_ID == '') {
 
@@ -3667,7 +3686,6 @@ if (!function_exists('get_user_registered_timestamp')) {
             return '';
         }
     }
-
 }
 
 /**
@@ -3679,7 +3697,8 @@ if (!function_exists('foodbakery_get_user_cv_selected_list_meta')) {
 
 
 
-    function foodbakery_get_user_cv_selected_list_meta($user = "") {
+    function foodbakery_get_user_cv_selected_list_meta($user = "")
+    {
 
         if (!empty($user)) {
 
@@ -3693,7 +3712,6 @@ if (!function_exists('foodbakery_get_user_cv_selected_list_meta')) {
             return get_user_meta(foodbakery_get_user_id(), 'cs-candidate-selected-list', true);
         }
     }
-
 }
 
 /**
@@ -3710,11 +3728,11 @@ if (!function_exists('foodbakery_update_user_cv_selected_list_meta')) {
 
 
 
-    function foodbakery_update_user_cv_selected_list_meta($arr) {
+    function foodbakery_update_user_cv_selected_list_meta($arr)
+    {
 
         return update_user_meta(foodbakery_get_user_id(), 'cs-candidate-selected-list', $arr);
     }
-
 }
 
 /**
@@ -3731,7 +3749,8 @@ if (!function_exists('foodbakery_add_cv_selected_list_usermeta')) {
 
 
 
-    function foodbakery_add_cv_selected_list_usermeta() {
+    function foodbakery_add_cv_selected_list_usermeta()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -3771,7 +3790,7 @@ if (!function_exists('foodbakery_add_cv_selected_list_usermeta')) {
                 $user_watchlist = get_user_meta(foodbakery_get_user_id(), 'cs-candidate-selected-list', true);
 
                 esc_html_e('Added to List', 'foodbakery');
-                ?>
+        ?>
 
                 <div class="outerwrapp-layer<?php echo esc_html($_POST['post_id']); ?> cs-added-msg">
 
@@ -3779,7 +3798,7 @@ if (!function_exists('foodbakery_add_cv_selected_list_usermeta')) {
 
                 </div>
 
-                <?php
+        <?php
             }
         } else {
 
@@ -3808,7 +3827,8 @@ if (!function_exists('foodbakery_remove_cv_selected_list_usermeta')) {
 
 
 
-    function foodbakery_remove_cv_selected_list_usermeta() {
+    function foodbakery_remove_cv_selected_list_usermeta()
+    {
 
         $user = foodbakery_get_user_id();
 
@@ -3866,11 +3886,11 @@ if (!function_exists('my_enqueue_scripts')) {
 
     add_action('wp_print_scripts', 'my_enqueue_scripts');
 
-    function my_enqueue_scripts() {
+    function my_enqueue_scripts()
+    {
 
         wp_enqueue_script('tiny_mce');
     }
-
 }
 
 /**
@@ -3887,7 +3907,8 @@ if (!function_exists('get_job_type_dropdown')) {
 
 
 
-    function get_job_type_dropdown($name, $id, $selected_post_id = '', $class = '', $required_status = 'false') {
+    function get_job_type_dropdown($name, $id, $selected_post_id = '', $class = '', $required_status = 'false')
+    {
 
         global $foodbakery_form_fields;
 
@@ -3960,7 +3981,6 @@ if (!function_exists('get_job_type_dropdown')) {
 
         $foodbakery_form_fields->foodbakery_form_select_render($foodbakery_opt_array);
     }
-
 }
 
 /**
@@ -3977,7 +3997,8 @@ if (!function_exists('get_job_specialisms_dropdown')) {
 
 
 
-    function get_job_specialisms_dropdown($name, $id, $selected_post_id = '', $class = '', $required_status = 'false') {
+    function get_job_specialisms_dropdown($name, $id, $selected_post_id = '', $class = '', $required_status = 'false')
+    {
 
         global $foodbakery_form_fields;
 
@@ -4052,7 +4073,6 @@ if (!function_exists('get_job_specialisms_dropdown')) {
 
         $foodbakery_form_fields->foodbakery_form_multiselect_render($foodbakery_opt_array);
     }
-
 }
 
 /**
@@ -4069,7 +4089,8 @@ if (!function_exists('get_specialisms_dropdown')) {
 
 
 
-    function get_specialisms_dropdown($name, $id, $user_id = '', $class = '', $required_status = 'false') {
+    function get_specialisms_dropdown($name, $id, $user_id = '', $class = '', $required_status = 'false')
+    {
 
         global $foodbakery_form_fields, $post;
 
@@ -4131,7 +4152,6 @@ if (!function_exists('get_specialisms_dropdown')) {
 
         return $output;
     }
-
 }
 
 /**
@@ -4148,7 +4168,8 @@ if (!function_exists('foodbakery_get_img_url')) {
 
 
 
-    function foodbakery_get_img_url($img_name = '', $size = 'foodbakery_media_2', $return_sizes = false, $dir_filter = true) {
+    function foodbakery_get_img_url($img_name = '', $size = 'foodbakery_media_2', $return_sizes = false, $dir_filter = true)
+    {
 
         $ret_name = '';
 
@@ -4181,32 +4202,32 @@ if (!function_exists('foodbakery_get_img_url')) {
 
             if (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']));
             }
@@ -4246,7 +4267,6 @@ if (!function_exists('foodbakery_get_img_url')) {
 
         return $ret_name;
     }
-
 }
 
 /**
@@ -4263,7 +4283,8 @@ if (!function_exists('foodbakery_get_orignal_image_nam')) {
 
 
 
-    function foodbakery_get_orignal_image_nam($img_name = '', $size = 'foodbakery_media_2') {
+    function foodbakery_get_orignal_image_nam($img_name = '', $size = 'foodbakery_media_2')
+    {
 
         $ret_name = '';
 
@@ -4280,32 +4301,32 @@ if (!function_exists('foodbakery_get_orignal_image_nam')) {
 
             if (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']));
             }
@@ -4336,7 +4357,6 @@ if (!function_exists('foodbakery_get_orignal_image_nam')) {
 
         return $ret_name;
     }
-
 }
 
 /**
@@ -4348,7 +4368,8 @@ if (!function_exists('foodbakery_get_image_url')) {
 
 
 
-    function foodbakery_get_image_url($img_name = '', $size = 'foodbakery_media_2', $return_sizes = false) {
+    function foodbakery_get_image_url($img_name = '', $size = 'foodbakery_media_2', $return_sizes = false)
+    {
 
         $ret_name = '';
 
@@ -4376,32 +4397,32 @@ if (!function_exists('foodbakery_get_image_url')) {
 
             if (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']) + strlen($foodbakery_img_sizes['foodbakery_media_1'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_1']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_2']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']) + strlen($foodbakery_img_sizes['foodbakery_media_3'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_3']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']) + strlen($foodbakery_img_sizes['foodbakery_media_4'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_4']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']));
             } elseif (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) !== false) {
 
-                $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
+                $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']) + strlen($foodbakery_img_sizes['foodbakery_media_6'])), strlen($img_name));
 
                 $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_6']));
             }
@@ -4436,7 +4457,6 @@ if (!function_exists('foodbakery_get_image_url')) {
 
         return $ret_name;
     }
-
 }
 
 /**
@@ -4453,7 +4473,8 @@ if (!function_exists('foodbakery_get_portfolio_img_url')) {
 
 
 
-    function foodbakery_get_portfolio_img_url($img_name = '', $size = 'foodbakery_media_5', $return_sizes = false) {
+    function foodbakery_get_portfolio_img_url($img_name = '', $size = 'foodbakery_media_5', $return_sizes = false)
+    {
 
         $foodbakery_img_sizes = array(
             'foodbakery_media_5' => '-180x135',
@@ -4470,7 +4491,7 @@ if (!function_exists('foodbakery_get_portfolio_img_url')) {
 
         if (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) !== false) {
 
-            $img_ext = substr($img_name, ( strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
+            $img_ext = substr($img_name, (strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']) + strlen($foodbakery_img_sizes['foodbakery_media_5'])), strlen($img_name));
 
             $ret_name = substr($img_name, 0, strpos($img_name, $foodbakery_img_sizes['foodbakery_media_5']));
 
@@ -4488,7 +4509,6 @@ if (!function_exists('foodbakery_get_portfolio_img_url')) {
 
         return $ret_name;
     }
-
 }
 
 /**
@@ -4503,7 +4523,8 @@ if (!function_exists('foodbakery_get_portfolio_img_url')) {
  */
 if (!function_exists('foodbakery_save_img_url')) {
 
-    function foodbakery_save_img_url($img_url = '') {
+    function foodbakery_save_img_url($img_url = '')
+    {
 
         if ($img_url != '') {
 
@@ -4517,14 +4538,13 @@ if (!function_exists('foodbakery_save_img_url')) {
 
                 if (strpos($img_url, 'uploads/') !== false) {
 
-                    $img_url = substr($img_url, ( strpos($img_url, 'uploads/') + strlen('uploads/')), strlen($img_url));
+                    $img_url = substr($img_url, (strpos($img_url, 'uploads/') + strlen('uploads/')), strlen($img_url));
                 }
             }
         }
 
         return $img_url;
     }
-
 }
 
 /**
@@ -4541,7 +4561,8 @@ if (!function_exists('foodbakery_get_attachment_id_from_url')) {
 
 
 
-    function foodbakery_get_attachment_id_from_url($attachment_url = '') {
+    function foodbakery_get_attachment_id_from_url($attachment_url = '')
+    {
 
         global $wpdb;
 
@@ -4571,7 +4592,6 @@ if (!function_exists('foodbakery_get_attachment_id_from_url')) {
 
         return $attachment_id;
     }
-
 }
 
 
@@ -4585,7 +4605,8 @@ if (!function_exists('foodbakery_get_attachment_id_from_filename')) {
 
 
 
-    function foodbakery_get_attachment_id_from_filename($attachment_name = '') {
+    function foodbakery_get_attachment_id_from_filename($attachment_name = '')
+    {
 
         global $wpdb;
 
@@ -4604,7 +4625,6 @@ if (!function_exists('foodbakery_get_attachment_id_from_filename')) {
 
         return $attachment_id;
     }
-
 }
 
 /**
@@ -4616,7 +4636,8 @@ if (!function_exists('foodbakery_remove_img_url')) {
 
 
 
-    function foodbakery_remove_img_url($img_url = '') {
+    function foodbakery_remove_img_url($img_url = '')
+    {
 
         $foodbakery_upload_dir = wp_upload_dir();
 
@@ -4628,7 +4649,7 @@ if (!function_exists('foodbakery_remove_img_url')) {
 
             if (isset($foodbakery_img_sizes['foodbakery_media_2']) && strpos($img_url, $foodbakery_img_sizes['foodbakery_media_2']) !== false) {
 
-                $img_ext = substr($img_url, ( strpos($img_url, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_url));
+                $img_ext = substr($img_url, (strpos($img_url, $foodbakery_img_sizes['foodbakery_media_2']) + strlen($foodbakery_img_sizes['foodbakery_media_2'])), strlen($img_url));
 
                 $img_name = substr($img_url, 0, strpos($img_url, $foodbakery_img_sizes['foodbakery_media_2']));
 
@@ -4662,7 +4683,6 @@ if (!function_exists('foodbakery_remove_img_url')) {
             }
         }
     }
-
 }
 
 /**
@@ -4679,7 +4699,8 @@ if (!function_exists('candidate_header_wishlist')) {
 
 
 
-    function candidate_header_wishlist($return = 'no') {
+    function candidate_header_wishlist($return = 'no')
+    {
 
         global $post, $foodbakery_plugin_options;
 
@@ -4707,7 +4728,7 @@ if (!function_exists('candidate_header_wishlist')) {
 
             $wishlist_count = $custom_query->post_count;
 
-            if ($custom_query->have_posts()):
+            if ($custom_query->have_posts()) :
 
 
 
@@ -4721,7 +4742,7 @@ if (!function_exists('candidate_header_wishlist')) {
 
                 $wishlist_count = 1;
 
-                while ($custom_query->have_posts()): $custom_query->the_post();
+                while ($custom_query->have_posts()) : $custom_query->the_post();
 
                     $foodbakery_jobs_thumb_url = '';
 
@@ -4803,7 +4824,6 @@ if (!function_exists('candidate_header_wishlist')) {
         else
             return $top_wishlist_menu_html;
     }
-
 }
 
 /**
@@ -4820,7 +4840,8 @@ if (!function_exists('foodbakery_find_other_field_user_meta_list')) {
 
 
 
-    function foodbakery_find_other_field_user_meta_list($post_id, $post_column, $list_name, $need_find, $user_id) {
+    function foodbakery_find_other_field_user_meta_list($post_id, $post_column, $list_name, $need_find, $user_id)
+    {
 
         $finded = foodbakery_find_index_user_meta_list($post_id, $list_name, $post_column, $user_id);
 
@@ -4837,7 +4858,6 @@ if (!function_exists('foodbakery_find_other_field_user_meta_list')) {
         }
         return $need_find_value;
     }
-
 }
 
 /**
@@ -4854,7 +4874,8 @@ if (!function_exists('find_in_multiarray')) {
 
 
 
-    function find_in_multiarray($elem, $array, $field) {
+    function find_in_multiarray($elem, $array, $field)
+    {
 
 
         $top = sizeof($array);
@@ -4891,7 +4912,6 @@ if (!function_exists('find_in_multiarray')) {
 
         return $finded_index;
     }
-
 }
 
 /**
@@ -4903,7 +4923,8 @@ if (!function_exists('foodbakery_find_index_user_meta_list')) {
 
 
 
-    function foodbakery_find_index_user_meta_list($post_id, $list_name, $need_find, $user_id) {
+    function foodbakery_find_index_user_meta_list($post_id, $list_name, $need_find, $user_id)
+    {
 
         $existing_list_data = get_user_meta($user_id, $list_name, true);
 
@@ -4911,7 +4932,6 @@ if (!function_exists('foodbakery_find_index_user_meta_list')) {
 
         return $finded;
     }
-
 }
 
 /**
@@ -4928,7 +4948,8 @@ if (!function_exists('foodbakery_remove_from_user_meta_list')) {
 
 
 
-    function foodbakery_remove_from_user_meta_list($post_id, $list_name, $user_id) {
+    function foodbakery_remove_from_user_meta_list($post_id, $list_name, $user_id)
+    {
 
         $existing_list_data = '';
 
@@ -4940,7 +4961,6 @@ if (!function_exists('foodbakery_remove_from_user_meta_list')) {
 
         update_user_meta($user_id, $list_name, $existing_list_data);
     }
-
 }
 
 /**
@@ -4957,7 +4977,8 @@ if (!function_exists('foodbakery_create_user_meta_list')) {
 
 
 
-    function foodbakery_create_user_meta_list($post_id, $list_name, $user_id) {
+    function foodbakery_create_user_meta_list($post_id, $list_name, $user_id)
+    {
         $current_timestamp = strtotime(date('d-m-Y H:i:s'));
         $existing_list_data = '';
 
@@ -4975,7 +4996,6 @@ if (!function_exists('foodbakery_create_user_meta_list')) {
 
         update_user_meta($user_id, $list_name, $existing_list_data);
     }
-
 }
 
 /**
@@ -4992,7 +5012,8 @@ if (!function_exists('in_multiarray')) {
 
 
 
-    function in_multiarray($elem, $array, $field) {
+    function in_multiarray($elem, $array, $field)
+    {
 
         $top = sizeof($array) - 1;
         $bottom = 0;
@@ -5018,7 +5039,6 @@ if (!function_exists('in_multiarray')) {
 
         return $finded_index;
     }
-
 }
 
 /**
@@ -5035,7 +5055,8 @@ if (!function_exists('remove_index_from_array')) {
 
 
 
-    function remove_index_from_array($array, $index_array) {
+    function remove_index_from_array($array, $index_array)
+    {
 
         $top = sizeof($index_array) - 1;
 
@@ -5056,7 +5077,6 @@ if (!function_exists('remove_index_from_array')) {
         else
             return $array;
     }
-
 }
 
 /**
@@ -5073,7 +5093,8 @@ if (!function_exists("array_column_by_two_dimensional")) {
 
 
 
-    function array_column_by_two_dimensional($array, $column_name) {
+    function array_column_by_two_dimensional($array, $column_name)
+    {
 
         if (isset($array) && is_array($array)) {
 
@@ -5083,7 +5104,6 @@ if (!function_exists("array_column_by_two_dimensional")) {
             }, $array);
         }
     }
-
 }
 
 /**
@@ -5100,18 +5120,18 @@ if (!function_exists('redirect_user')) {
 
     add_action('admin_init', 'redirect_user');
 
-    function redirect_user() {
+    function redirect_user()
+    {
 
         $user = wp_get_current_user();
 
-        if ((!defined('DOING_AJAX') || !DOING_AJAX ) && ( empty($user) || in_array("foodbakery_publisher", (array) $user->roles) || in_array("foodbakery_candidate", (array) $user->roles))) {
+        if ((!defined('DOING_AJAX') || !DOING_AJAX) && (empty($user) || in_array("foodbakery_publisher", (array) $user->roles) || in_array("foodbakery_candidate", (array) $user->roles))) {
 
             wp_safe_redirect(home_url());
 
             exit;
         }
     }
-
 }
 
 /**
@@ -5128,7 +5148,8 @@ if (!function_exists('getlogin_user_info')) {
 
 
 
-    function getlogin_user_info() {
+    function getlogin_user_info()
+    {
 
         global $current_user;
 
@@ -5155,7 +5176,7 @@ if (!function_exists('getlogin_user_info')) {
 
                 $user_info = '';
 
-                if ($login_user_query->have_posts()):
+                if ($login_user_query->have_posts()) :
 
                     while ($login_user_query->have_posts()) : $login_user_query->the_post();
 
@@ -5198,7 +5219,7 @@ if (!function_exists('getlogin_user_info')) {
 
                 $user_info = '';
 
-                if ($login_user_query->have_posts()):
+                if ($login_user_query->have_posts()) :
 
                     while ($login_user_query->have_posts()) : $login_user_query->the_post();
 
@@ -5226,7 +5247,6 @@ if (!function_exists('getlogin_user_info')) {
 
         return $user_info;
     }
-
 }
 
 /**
@@ -5243,13 +5263,13 @@ if (!function_exists('get_job_detail')) {
 
 
 
-    function get_job_detail($job_id) {
+    function get_job_detail($job_id)
+    {
 
         $post = get_post($job_id);
 
         return $post;
     }
-
 }
 
 /**
@@ -5266,7 +5286,8 @@ if (!function_exists('check_candidate_applications')) {
 
 
 
-    function check_candidate_applications($candidate_meta_id) {
+    function check_candidate_applications($candidate_meta_id)
+    {
 
         global $current_user;
 
@@ -5289,7 +5310,8 @@ if (!function_exists('check_candidate_applications')) {
 
             if (is_array($foodbakery_jobapplied) && sizeof($foodbakery_jobapplied) > 0) {
 
-                $args = array('posts_per_page' => "-1", 'post__in' => $foodbakery_jobapplied, 'post_type' => 'restaurants', 'order' => "ASC", 'post_status' => 'publish',
+                $args = array(
+                    'posts_per_page' => "-1", 'post__in' => $foodbakery_jobapplied, 'post_type' => 'restaurants', 'order' => "ASC", 'post_status' => 'publish',
                     'meta_query' => array(
                         array(
                             'key' => 'foodbakery_job_expired',
@@ -5318,7 +5340,6 @@ if (!function_exists('check_candidate_applications')) {
 
         return $result_count;
     }
-
 }
 
 /**
@@ -5339,7 +5360,8 @@ if (!function_exists('get_specialism_headings')) {
 
 
 
-    function get_specialism_headings($specialisms) {
+    function get_specialism_headings($specialisms)
+    {
 
         $return_str = '';
 
@@ -5375,7 +5397,6 @@ if (!function_exists('get_specialism_headings')) {
 
         return $return_str;
     }
-
 }
 
 /**
@@ -5385,7 +5406,8 @@ if (!function_exists('get_specialism_headings')) {
  */
 if (!function_exists('foodbakery_server_protocol')) {
 
-    function foodbakery_server_protocol() {
+    function foodbakery_server_protocol()
+    {
 
         if (is_ssl()) {
             return 'https://';
@@ -5393,7 +5415,6 @@ if (!function_exists('foodbakery_server_protocol')) {
 
         return 'http://';
     }
-
 }
 
 /**
@@ -5401,7 +5422,8 @@ if (!function_exists('foodbakery_server_protocol')) {
  */
 if (!function_exists('getMultipleParameters')) {
 
-    function getMultipleParameters($query_string = '') {
+    function getMultipleParameters($query_string = '')
+    {
 
         if ($query_string == '')
             $query_string = $_SERVER['QUERY_STRING'];
@@ -5438,7 +5460,6 @@ if (!function_exists('getMultipleParameters')) {
 
         return $query;
     }
-
 }
 
 /**
@@ -5455,7 +5476,8 @@ if (!function_exists('foodbakery_job_shortlist_load')) {
 
 
 
-    function foodbakery_job_shortlist_load() {
+    function foodbakery_job_shortlist_load()
+    {
 
         candidate_header_wishlist();
 
@@ -5481,7 +5503,8 @@ if (!function_exists('foodbakery_set_geo_loc')) {
 
 
 
-    function foodbakery_set_geo_loc() {
+    function foodbakery_set_geo_loc()
+    {
 
         $foodbakery_geo_loc = isset($_POST['geo_loc']) ? $_POST['geo_loc'] : '';
 
@@ -5523,7 +5546,8 @@ if (!function_exists('foodbakery_unset_geo_loc')) {
 
 
 
-    function foodbakery_unset_geo_loc() {
+    function foodbakery_unset_geo_loc()
+    {
 
         if (isset($_COOKIE['foodbakery_geo_loc'])) {
 
@@ -5562,7 +5586,8 @@ if (!function_exists('foodbakery_unset_geo_loc')) {
  */
 if (!function_exists('foodbakery_set_sort_filter')) {
 
-    function foodbakery_set_sort_filter() {
+    function foodbakery_set_sort_filter()
+    {
         $json = array();
         if (session_id() == '') {
             session_start();
@@ -5589,7 +5614,8 @@ if (!function_exists('foodbakery_image_exist')) {
 
 
 
-    function foodbakery_image_exist($sFilePath) {
+    function foodbakery_image_exist($sFilePath)
+    {
 
 
 
@@ -5612,7 +5638,6 @@ if (!function_exists('foodbakery_image_exist')) {
 
         return false;
     }
-
 }
 
 /**
@@ -5628,7 +5653,8 @@ if (!function_exists('foodbakery_get_query_whereclase_by_array')) {
 
 
 
-    function foodbakery_get_query_whereclase_by_array($array, $user_meta = false) {
+    function foodbakery_get_query_whereclase_by_array($array, $user_meta = false)
+    {
 
         $id = '';
 
@@ -5722,7 +5748,6 @@ if (!function_exists('foodbakery_get_query_whereclase_by_array')) {
 
         return $id;
     }
-
 }
 
 /**
@@ -5734,7 +5759,8 @@ if (!function_exists('get_meta_condition')) {
 
 
 
-    function get_meta_condition($val) {
+    function get_meta_condition($val)
+    {
 
         $string = '';
 
@@ -5784,7 +5810,6 @@ if (!function_exists('get_meta_condition')) {
 
         return $string;
     }
-
 }
 
 /**
@@ -5801,7 +5826,8 @@ if (!function_exists('foodbakery_get_post_id_by_whereclase')) {
 
 
 
-    function foodbakery_get_post_id_by_whereclase($whereclase) {
+    function foodbakery_get_post_id_by_whereclase($whereclase)
+    {
 
         global $wpdb;
 
@@ -5809,7 +5835,6 @@ if (!function_exists('foodbakery_get_post_id_by_whereclase')) {
         $posts = $wpdb->get_col($qry);
         return $posts;
     }
-
 }
 
 
@@ -5818,14 +5843,14 @@ if (!function_exists('foodbakery_get_user_id_by_whereclase')) {
 
 
 
-    function foodbakery_get_user_id_by_whereclase($whereclase) {
+    function foodbakery_get_user_id_by_whereclase($whereclase)
+    {
 
         global $wpdb;
         $qry = "SELECT user_id FROM $wpdb->usermeta WHERE 1=1 " . $whereclase;
 
         return $posts = $wpdb->get_col($qry);
     }
-
 }
 
 
@@ -5844,7 +5869,8 @@ if (!function_exists('foodbakery_get_post_id_whereclause_post')) {
 
 
 
-    function foodbakery_get_post_id_whereclause_post($whereclase) {
+    function foodbakery_get_post_id_whereclause_post($whereclase)
+    {
 
         global $wpdb;
 
@@ -5852,7 +5878,6 @@ if (!function_exists('foodbakery_get_post_id_whereclause_post')) {
 
         return $posts = $wpdb->get_col($qry);
     }
-
 }
 
 /**
@@ -5873,7 +5898,8 @@ if (!function_exists('array_flatten')) {
 
 
 
-    function array_flatten($array) {
+    function array_flatten($array)
+    {
 
         $return = array();
 
@@ -5890,7 +5916,6 @@ if (!function_exists('array_flatten')) {
 
         return $return;
     }
-
 }
 
 /**
@@ -5902,7 +5927,8 @@ if (!function_exists('remove_dupplicate_var_val')) {
 
 
 
-    function remove_dupplicate_var_val($qry_str) {
+    function remove_dupplicate_var_val($qry_str)
+    {
 
         $old_string = $qry_str;
 
@@ -5946,7 +5972,6 @@ if (!function_exists('remove_dupplicate_var_val')) {
 
         return $old_string;
     }
-
 }
 
 /**
@@ -5962,7 +5987,8 @@ if (!function_exists('foodbakery_str_replace_limit')) {
 
 
 
-    function foodbakery_str_replace_limit($search, $replace, $string, $limit = 1) {
+    function foodbakery_str_replace_limit($search, $replace, $string, $limit = 1)
+    {
 
         if (is_bool($pos = (strpos($string, $search))))
             return $string;
@@ -5979,7 +6005,6 @@ if (!function_exists('foodbakery_str_replace_limit')) {
 
         return $string;
     }
-
 }
 
 /**
@@ -5991,13 +6016,13 @@ if (!function_exists('foodbakery_allow_special_char')) {
 
 
 
-    function foodbakery_allow_special_char($input = '') {
+    function foodbakery_allow_special_char($input = '')
+    {
 
         $output = $input;
 
         return $output;
     }
-
 }
 
 /**
@@ -6007,7 +6032,8 @@ if (!function_exists('foodbakery_allow_special_char')) {
  */
 if (!function_exists('foodbakery_plugin_image_sizes')) {
 
-    function foodbakery_plugin_image_sizes() {
+    function foodbakery_plugin_image_sizes()
+    {
 
 
 
@@ -6018,7 +6044,6 @@ if (!function_exists('foodbakery_plugin_image_sizes')) {
         add_image_size('foodbakery_media_7', 120, 90, true);
         add_image_size('foodbakery_media_8', 359, 212, true);
     }
-
 }
 
 /**
@@ -6033,7 +6058,8 @@ if (!function_exists('foodbakery_plugin_image_sizes')) {
 if (!function_exists('foodbakery_site_header_login_plugin')) {
 
 
-    function foodbakery_site_header_login_plugin($items, $args) {
+    function foodbakery_site_header_login_plugin($items, $args)
+    {
 
         global $foodbakery_plugin_options;
 
@@ -6049,7 +6075,6 @@ if (!function_exists('foodbakery_site_header_login_plugin')) {
 
         return $items;
     }
-
 }
 
 /**
@@ -6061,7 +6086,8 @@ if (!function_exists('foodbakery_social_share')) {
 
 
 
-    function foodbakery_social_share($echo = true) {
+    function foodbakery_social_share($echo = true)
+    {
 
         global $foodbakery_plugin_options;
 
@@ -6201,7 +6227,6 @@ if (!function_exists('foodbakery_social_share')) {
             return balanceTags($html, true);
         }
     }
-
 }
 
 
@@ -6219,7 +6244,8 @@ if (!function_exists('foodbakery_social_more')) {
 
 
 
-    function foodbakery_social_more() {
+    function foodbakery_social_more()
+    {
 
         global $foodbakery_plugin_options;
 
@@ -6310,7 +6336,6 @@ if (!function_exists('foodbakery_social_more')) {
 
         echo balanceTags($html, true);
     }
-
 }
 
 /**
@@ -6327,7 +6352,8 @@ if (!function_exists('foodbakery_tooltip_helptext')) {
 
 
 
-    function foodbakery_tooltip_helptext($popover_text = '', $return_html = true) {
+    function foodbakery_tooltip_helptext($popover_text = '', $return_html = true)
+    {
 
         $popover_link = '';
 
@@ -6344,7 +6370,6 @@ if (!function_exists('foodbakery_tooltip_helptext')) {
             echo force_balance_tags($popover_link);
         }
     }
-
 }
 
 /*
@@ -6364,7 +6389,8 @@ if (!function_exists('foodbakery_tooltip_helptext_string')) {
 
 
 
-    function foodbakery_tooltip_helptext_string($popover_text = '', $return_html = true, $class = '') {
+    function foodbakery_tooltip_helptext_string($popover_text = '', $return_html = true, $class = '')
+    {
 
         $popover_link = '';
 
@@ -6381,7 +6407,6 @@ if (!function_exists('foodbakery_tooltip_helptext_string')) {
             echo force_balance_tags($popover_link);
         }
     }
-
 }
 
 /*
@@ -6400,7 +6425,8 @@ if (!function_exists('foodbakery_iconlist_plugin_options')) {
 
 
 
-    function foodbakery_iconlist_plugin_options($icon_value = '', $id = '', $name = '', $class = '') {
+    function foodbakery_iconlist_plugin_options($icon_value = '', $id = '', $name = '', $class = '')
+    {
 
         global $foodbakery_form_fields;
 
@@ -6408,39 +6434,36 @@ if (!function_exists('foodbakery_iconlist_plugin_options')) {
         ?>
 
         <script>
-
-
-
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
 
                 var this_icons;
                 var rand_num = '<?php echo foodbakery_allow_special_char($id); ?>';
                 var e9_element = $('#e9_element_' + rand_num).fontIconPicker({
                     theme: 'fip-bootstrap'
                 });
-                icons_load_call.always(function () {
-                    this_icons = loaded_icons;
-                    // Get the class prefix
-                    var classPrefix = this_icons.preferences.fontPref.prefix,
+                icons_load_call.always(function() {
+                        this_icons = loaded_icons;
+                        // Get the class prefix
+                        var classPrefix = this_icons.preferences.fontPref.prefix,
                             icomoon_json_icons = [],
                             icomoon_json_search = [];
-                    $.each(this_icons.icons, function (i, v) {
-                        icomoon_json_icons.push(classPrefix + v.properties.name);
-                        if (v.icon && v.icon.tags && v.icon.tags.length) {
-                            icomoon_json_search.push(v.properties.name + ' ' + v.icon.tags.join(' '));
-                        } else {
-                            icomoon_json_search.push(v.properties.name);
-                        }
-                    });
-                    // Set new fonts on fontIconPicker
-                    e9_element.setIcons(icomoon_json_icons, icomoon_json_search);
-                    // Show success message and disable
-                    $('#e9_buttons_' + rand_num + ' button').removeClass('btn-primary').addClass('btn-success').text('Successfully loaded icons').prop('disabled', true);
-                })
-                        .fail(function () {
-                            // Show error message and enable
-                            $('#e9_buttons_' + rand_num + ' button').removeClass('btn-primary').addClass('btn-danger').text('Error: Try Again?').prop('disabled', false);
+                        $.each(this_icons.icons, function(i, v) {
+                            icomoon_json_icons.push(classPrefix + v.properties.name);
+                            if (v.icon && v.icon.tags && v.icon.tags.length) {
+                                icomoon_json_search.push(v.properties.name + ' ' + v.icon.tags.join(' '));
+                            } else {
+                                icomoon_json_search.push(v.properties.name);
+                            }
                         });
+                        // Set new fonts on fontIconPicker
+                        e9_element.setIcons(icomoon_json_icons, icomoon_json_search);
+                        // Show success message and disable
+                        $('#e9_buttons_' + rand_num + ' button').removeClass('btn-primary').addClass('btn-success').text('Successfully loaded icons').prop('disabled', true);
+                    })
+                    .fail(function() {
+                        // Show error message and enable
+                        $('#e9_buttons_' + rand_num + ' button').removeClass('btn-primary').addClass('btn-danger').text('Error: Try Again?').prop('disabled', false);
+                    });
 
             });
         </script>
@@ -6451,7 +6474,7 @@ if (!function_exists('foodbakery_iconlist_plugin_options')) {
             'std' => foodbakery_allow_special_char($icon_value),
             'cust_id' => "e9_element_" . foodbakery_allow_special_char($id),
             'cust_name' => foodbakery_allow_special_char($name) . "[]",
-            'classes' => ( isset($class) ) ? $class : '',
+            'classes' => (isset($class)) ? $class : '',
             'extra_atr' => '',
         );
 
@@ -6469,7 +6492,6 @@ if (!function_exists('foodbakery_iconlist_plugin_options')) {
 
         return $fontawesome;
     }
-
 }
 
 /*
@@ -6482,7 +6504,8 @@ if (!function_exists('foodbakery_info_messages_restaurant')) {
 
 
 
-    function foodbakery_info_messages_restaurant($message = 'There is no record in list', $return = true, $classes = '', $before = '', $after = '') {
+    function foodbakery_info_messages_restaurant($message = 'There is no record in list', $return = true, $classes = '', $before = '', $after = '')
+    {
 
         global $post;
 
@@ -6527,7 +6550,6 @@ if (!function_exists('foodbakery_info_messages_restaurant')) {
             echo force_balance_tags($output);
         }
     }
-
 }
 
 /*
@@ -6554,7 +6576,8 @@ $umlaut_chars['perma'] = array('Ae', 'ae', 'Oe', 'oe', 'Ue', 'ue', 'ss');
 
 /* sanitizes the titles to get qualified german permalinks with  correct transliteration */
 
-function de_DE_umlaut_permalinks($title) {
+function de_DE_umlaut_permalinks($title)
+{
 
     global $umlaut_chars;
 
@@ -6587,7 +6610,8 @@ add_filter('sanitize_title', 'de_DE_umlaut_permalinks');
 
 if (!function_exists('wp_new_user_notification')) :
 
-    function wp_new_user_notification($user_id, $plaintext_pass = ' ') {
+    function wp_new_user_notification($user_id, $plaintext_pass = ' ')
+    {
 
         $user = new WP_User($user_id);
 
@@ -6610,7 +6634,8 @@ endif;
 
 if (!function_exists('foodbakery_get_loginuser_role')) :
 
-    function foodbakery_get_loginuser_role() {
+    function foodbakery_get_loginuser_role()
+    {
 
         global $current_user;
 
@@ -6640,7 +6665,8 @@ endif;
 
 //change author/username base to users/userID
 
-function change_author_permalinks() {
+function change_author_permalinks()
+{
 
     global $wp_rewrite, $foodbakery_plugin_options;
 
@@ -6656,7 +6682,8 @@ add_action('init', 'change_author_permalinks');
 
 add_filter('query_vars', 'users_query_vars');
 
-function users_query_vars($vars) {
+function users_query_vars($vars)
+{
 
     global $foodbakery_plugin_options;
 
@@ -6670,7 +6697,8 @@ function users_query_vars($vars) {
     return $vars;
 }
 
-function user_rewrite_rules($wp_rewrite) {
+function user_rewrite_rules($wp_rewrite)
+{
 
     global $foodbakery_plugin_options;
     $author_slug = isset($foodbakery_plugin_options['foodbakery_author_page_slug']) ? $foodbakery_plugin_options['foodbakery_author_page_slug'] : 'user';
@@ -6682,7 +6710,8 @@ function user_rewrite_rules($wp_rewrite) {
 
 add_filter('generate_rewrite_rules', 'user_rewrite_rules');
 
-function location_query_vars($query_vars) {
+function location_query_vars($query_vars)
+{
     $query_vars['location'] = 'location';
 
     return $query_vars;
@@ -6690,7 +6719,8 @@ function location_query_vars($query_vars) {
 
 add_filter('query_vars', 'location_query_vars');
 
-function custom_rewrite_rule() {
+function custom_rewrite_rule()
+{
 
     add_rewrite_rule('(employer-simple)/(.+)$', 'index.php?pagename=employer-simple&location=$matches[2]', 'top');
 }
@@ -6707,7 +6737,8 @@ if (!function_exists('foodbakery_custom_column_class')) {
 
 
 
-    function foodbakery_custom_column_class($column_size) {
+    function foodbakery_custom_column_class($column_size)
+    {
 
         $coloumn_class = '';
 
@@ -6747,7 +6778,6 @@ if (!function_exists('foodbakery_custom_column_class')) {
 
         return sanitize_html_class($coloumn_class);
     }
-
 }
 
 /*
@@ -6755,7 +6785,8 @@ if (!function_exists('foodbakery_custom_column_class')) {
  * */
 if (!function_exists('foodbakery_biographical_info_tinymce')) {
 
-    function foodbakery_biographical_info_tinymce() {
+    function foodbakery_biographical_info_tinymce()
+    {
         if (basename($_SERVER['PHP_SELF']) == 'profile.php' || basename($_SERVER['PHP_SELF']) == 'user-edit.php' && function_exists('wp_tiny_mce')) {
             wp_admin_css();
             wp_enqueue_script('utils');
@@ -6765,20 +6796,22 @@ if (!function_exists('foodbakery_biographical_info_tinymce')) {
             do_action('admin_print_styles');
             remove_all_filters('mce_external_plugins');
 
-            add_filter('teeny_mce_before_init', function ($a) {
+            add_filter(
+                'teeny_mce_before_init',
+                function ($a) {
 
-                $a["skin"] = "wp_theme";
-                $a["height"] = "200";
-                $a["width"] = "240";
-                $a["onpageload"] = "";
-                $a["mode"] = "exact";
-                $a["elements"] = "description";
-                $a["theme_advanced_buttons1"] = "formatselect, forecolor, bold, italic, pastetext, pasteword, bullist, numlist, link, unlink, outdent, indent, charmap, removeformat, spellchecker, fullscreen, wp_adv";
-                $a["theme_advanced_buttons2"] = "underline, justifyleft, justifycenter, justifyright, justifyfull, forecolor, pastetext, undo, redo, charmap, wp_help";
-                $a["theme_advanced_blockformats"] = "p,h2,h3,h4,h5,h6";
-                $a["theme_advanced_disable"] = "strikethrough";
-                return $a;
-            }
+                    $a["skin"] = "wp_theme";
+                    $a["height"] = "200";
+                    $a["width"] = "240";
+                    $a["onpageload"] = "";
+                    $a["mode"] = "exact";
+                    $a["elements"] = "description";
+                    $a["theme_advanced_buttons1"] = "formatselect, forecolor, bold, italic, pastetext, pasteword, bullist, numlist, link, unlink, outdent, indent, charmap, removeformat, spellchecker, fullscreen, wp_adv";
+                    $a["theme_advanced_buttons2"] = "underline, justifyleft, justifycenter, justifyright, justifyfull, forecolor, pastetext, undo, redo, charmap, wp_help";
+                    $a["theme_advanced_blockformats"] = "p,h2,h3,h4,h5,h6";
+                    $a["theme_advanced_disable"] = "strikethrough";
+                    return $a;
+                }
             );
 
             //wp_editor(true);
@@ -6788,7 +6821,8 @@ if (!function_exists('foodbakery_biographical_info_tinymce')) {
     add_action('admin_head', 'foodbakery_biographical_info_tinymce');
 }
 
-function foodbakery_cred_limit_check($restaurant_id = '', $index = '', $print_all = false) {
+function foodbakery_cred_limit_check($restaurant_id = '', $index = '', $print_all = false)
+{
 
     $restaurant_limits = get_post_meta($restaurant_id, 'foodbakery_trans_all_meta', true);
     if (is_array($restaurant_limits) && sizeof($restaurant_limits) > 0) {
@@ -6810,33 +6844,38 @@ function foodbakery_cred_limit_check($restaurant_id = '', $index = '', $print_al
     }
 }
 
-function foodbakery__encrypt($data) {
+function foodbakery__encrypt($data)
+{
 
     $encrypt_data = base64_encode(htmlentities($data, ENT_COMPAT, 'ISO-8859-15'));
 
     return $encrypt_data;
 }
 
-function foodbakery__decrypt($data) {
+function foodbakery__decrypt($data)
+{
 
     $decrypt_data = html_entity_decode(base64_decode($data), ENT_COMPAT, 'ISO-8859-15');
 
     return $decrypt_data;
 }
 
-function foodbakery_encode_url_string($stringArray) {
+function foodbakery_encode_url_string($stringArray)
+{
     $s = strtr(base64_encode(addslashes(gzcompress(serialize($stringArray), 9))), '+/=', '-_,');
     return $s;
 }
 
-function foodbakery_decode_url_string($stringArray) {
+function foodbakery_decode_url_string($stringArray)
+{
     $s = unserialize(gzuncompress(stripslashes(base64_decode(strtr($stringArray, '-_,', '+/=')))));
     return $s;
 }
 
 if (!function_exists('foodbakery_restaurants_map_cords_to_url')) {
 
-    function foodbakery_restaurants_map_cords_to_url() {
+    function foodbakery_restaurants_map_cords_to_url()
+    {
         $cords = isset($_POST['pathstr']) ? $_POST['pathstr'] : '';
         $restaurant_ins = isset($_POST['poly_in_restaurants']) ? $_POST['poly_in_restaurants'] : '';
 
@@ -6859,7 +6898,8 @@ if (!function_exists('foodbakery_restaurants_map_cords_to_url')) {
 
 if (!function_exists('array_column')) {
 
-    function array_column($input = null, $columnKey = null, $indexKey = null) {
+    function array_column($input = null, $columnKey = null, $indexKey = null)
+    {
         // Using func_get_args() in order to check for proper number of
         // parameters and trigger errors exactly as the built-in array_column()
         // does in PHP 5.5.
@@ -6871,16 +6911,19 @@ if (!function_exists('array_column')) {
         }
         if (!is_array($params[0])) {
             trigger_error(
-                    'array_column() expects parameter 1 to be array, ' . gettype($params[0]) . ' given', E_USER_WARNING
+                'array_column() expects parameter 1 to be array, ' . gettype($params[0]) . ' given',
+                E_USER_WARNING
             );
             return null;
         }
-        if (!is_int($params[1]) && !is_float($params[1]) && !is_string($params[1]) && $params[1] !== null && !(is_object($params[1]) && method_exists($params[1], '__toString'))
+        if (
+            !is_int($params[1]) && !is_float($params[1]) && !is_string($params[1]) && $params[1] !== null && !(is_object($params[1]) && method_exists($params[1], '__toString'))
         ) {
             trigger_error('array_column(): The column key should be either a string or an integer', E_USER_WARNING);
             return false;
         }
-        if (isset($params[2]) && !is_int($params[2]) && !is_float($params[2]) && !is_string($params[2]) && !(is_object($params[2]) && method_exists($params[2], '__toString'))
+        if (
+            isset($params[2]) && !is_int($params[2]) && !is_float($params[2]) && !is_string($params[2]) && !(is_object($params[2]) && method_exists($params[2], '__toString'))
         ) {
             trigger_error('array_column(): The index key should be either a string or an integer', E_USER_WARNING);
             return false;
@@ -6920,12 +6963,12 @@ if (!function_exists('array_column')) {
         }
         return $resultArray;
     }
-
 }
 
 if (!function_exists("foodbakery_linkedin_attachment_metas")) {
 
-    function foodbakery_linkedin_attachment_metas($contentln, $url) {
+    function foodbakery_linkedin_attachment_metas($contentln, $url)
+    {
         $content_title = '';
         $content_desc = '';
         $utf = "UTF-8";
@@ -6964,12 +7007,12 @@ if (!function_exists("foodbakery_linkedin_attachment_metas")) {
 
         return $contentln;
     }
-
 }
 
 if (!function_exists('foodbakery_restaurant_string_limit')) {
 
-    function foodbakery_restaurant_string_limit($string, $limit) {
+    function foodbakery_restaurant_string_limit($string, $limit)
+    {
 
         $space = " ";
         $appendstr = " ...";
@@ -6984,12 +7027,12 @@ if (!function_exists('foodbakery_restaurant_string_limit')) {
         else
             return mb_substr($string, 0, $rpos) . $appendstr;
     }
-
 }
 
 if (!function_exists("foodbakery_fbapp_attachment_metas")) {
 
-    function foodbakery_fbapp_attachment_metas($attachment, $url) {
+    function foodbakery_fbapp_attachment_metas($attachment, $url)
+    {
         $name = '';
         $description_li = '';
         $content_img = '';
@@ -7045,7 +7088,6 @@ if (!function_exists("foodbakery_fbapp_attachment_metas")) {
 
         return $attachment;
     }
-
 }
 
 /**
@@ -7054,7 +7096,8 @@ if (!function_exists("foodbakery_fbapp_attachment_metas")) {
  */
 if (!function_exists('foodbakery_banner_click_count_plus')) {
 
-    function foodbakery_banner_click_count_plus() {
+    function foodbakery_banner_click_count_plus()
+    {
         $code_id = isset($_POST['code_id']) ? $_POST['code_id'] : '';
         $banner_click_count = get_option("banner_clicks_" . $code_id);
         $banner_click_count = $banner_click_count <> '' ? $banner_click_count : 0;
@@ -7071,7 +7114,8 @@ if (!function_exists('foodbakery_banner_click_count_plus')) {
 
 if (!function_exists('cs_wpml_lang_url')) {
 
-    function cs_wpml_lang_url() {
+    function cs_wpml_lang_url()
+    {
 
         if (function_exists('icl_object_id')) {
 
@@ -7093,16 +7137,15 @@ if (!function_exists('cs_wpml_lang_url')) {
         }
         return false;
     }
-
 }
 
 if (!function_exists('cs_wpml_parse_url')) {
 
-    function cs_wpml_parse_url($lang = 'en', $url = '') {
+    function cs_wpml_parse_url($lang = 'en', $url = '')
+    {
 
         $cs_fir_url = home_url('/');
         if (strpos($cs_fir_url, '/' . $lang . '/') !== false) {
-            
         }
         $cs_tail_url = substr($url, strlen($cs_fir_url), strlen($url));
 
@@ -7110,12 +7153,12 @@ if (!function_exists('cs_wpml_parse_url')) {
 
         return $cs_trans_url;
     }
-
 }
 
 add_filter('icl_ls_languages', 'wpml_ls_filter');
 
-function custom_search_location_front() {
+function custom_search_location_front()
+{
     global $foodbakery_plugin_options;
     $foodbakery_location_data = array();
     $foodbakery_location_data = json_decode(get_transient('foodbakery_location_data'));
@@ -7134,7 +7177,8 @@ function custom_search_location_front() {
 
 if (!function_exists('wpml_ls_filter')) {
 
-    function wpml_ls_filter($languages) {
+    function wpml_ls_filter($languages)
+    {
         global $sitepress;
         if (strpos(basename($_SERVER['REQUEST_URI']), 'dashboard') !== false || strpos(basename($_SERVER['REQUEST_URI']), 'tab') !== false) {
 
@@ -7172,12 +7216,12 @@ if (!function_exists('wpml_ls_filter')) {
         }
         return $languages;
     }
-
 }
 
 if (!function_exists('restaurant_menu_price_calc')) {
 
-    function restaurant_menu_price_calc($get_added_menus = '', $foodbakery_restaurant_id = '', $fee = false, $vat = false, $only_vat = false, $converter = false, $order_id = '', $currency_symbol = false) {
+    function restaurant_menu_price_calc($get_added_menus = '', $foodbakery_restaurant_id = '', $fee = false, $vat = false, $only_vat = false, $converter = false, $order_id = '', $currency_symbol = false)
+    {
         global $foodbakery_plugin_options;
 
         $foodbakery_vat_switch = isset($foodbakery_plugin_options['foodbakery_vat_switch']) ? $foodbakery_plugin_options['foodbakery_vat_switch'] : '';
@@ -7292,10 +7336,10 @@ if (!function_exists('restaurant_menu_price_calc')) {
         update_post_meta($foodbakery_restaurant_id, 'woocommerce_fee_data', $woocommerce_fee_data);
         return foodbakery_get_currency($menu_t_price, $currency_symbol, '', '', $converter);
     }
-
 }
 
-function array_search_partial($arr, $keyword) {
+function array_search_partial($arr, $keyword)
+{
     $response = array();
     foreach ($arr as $index => $string) {
         if (stripos($string, $keyword) !== FALSE)
@@ -7309,7 +7353,8 @@ function array_search_partial($arr, $keyword) {
 add_action('wp_ajax_restaurant_detail_menu_search', 'restaurant_detail_menu_list');
 add_action('wp_ajax_nopriv_restaurant_detail_menu_search', 'restaurant_detail_menu_list');
 
-function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
+function restaurant_detail_menu_list($foodbakery_restaurant_id = '')
+{
 
     $html = '';
 
@@ -7322,12 +7367,27 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
     $restaurant_menu_cat_title = get_post_meta($foodbakery_restaurant_id, 'menu_cat_titles', true);
     $total_items = (is_array($restaurant_menu_list) || is_object($restaurant_menu_list)) ? count($restaurant_menu_list) : 0;
     $total_menu = array();
+
+
+    $menu_cats_arr = get_post_meta($foodbakery_restaurant_id, 'menu_cat_titles');
+    //menu_cat_titles
+
+
+
+
+
+
     if (isset($restaurant_menu_list) && $restaurant_menu_list != '') {
         for ($menu_count = 0; $menu_count < $total_items; $menu_count++) {
             if (isset($restaurant_menu_list[$menu_count]['restaurant_menu'])) {
                 $menu_exists = in_array($restaurant_menu_list[$menu_count]['restaurant_menu'], $total_menu);
                 if (!$menu_exists) {
-                    $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                    $key = array_search($restaurant_menu_list[$menu_count]['restaurant_menu'], $menu_cats_arr[0]);
+                    if ($key !== false) {
+                        $total_menu[$key] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                    } else {
+                        $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                    }
                 }
             }
         }
@@ -7376,9 +7436,10 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
                   } */
 
                 // print_r($restaurant_menu_list[$menu_items_loop]['menu_item_extra']);
-                ?>
+        ?>
 
-                <script> jQuery(document).ready(function ($) {
+                <script>
+                    jQuery(document).ready(function($) {
 
                         //$("a[rel^='prettyPhoto']").prettyPhoto();
 
@@ -7391,16 +7452,16 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
                     $ajax_url = admin_url('admin-ajax.php');
 
                     $js_function = ' onclick="foodbakery_show_extra_menu_item(`extras-' . absint($menu_loop) . '-' . absint($menu_items_loop) . '`, `' . absint($menu_items_loop) . '`, `' . absint($menu_loop) . '`, `' . $ajax_url . '`, `' . $foodbakery_restaurant_id . '`)"';
-                    ?>
-                                                    <!-- <a href="javascript:void(0);" class="dev-adding-menu-btn-<?php echo absint($menu_items_loop) ?>" onclick="foodbakery_show_extra_menu_item('extras-<?php echo absint($menu_loop) ?>-<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_loop) ?>', '<?php echo $ajax_url; ?>', '<?php echo $foodbakery_restaurant_id; ?>');"></a>
+                ?>
+                    <!-- <a href="javascript:void(0);" class="dev-adding-menu-btn-<?php echo absint($menu_items_loop) ?>" onclick="foodbakery_show_extra_menu_item('extras-<?php echo absint($menu_loop) ?>-<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_items_loop) ?>', '<?php echo absint($menu_loop) ?>', '<?php echo $ajax_url; ?>', '<?php echo $foodbakery_restaurant_id; ?>');"></a>
                     -->
-                    <?php
+                <?php
                 } else {
                     $js_function = 'class="restaurant-add-menu-btn restaurant-add-menu-btn-' . absint($menu_items_loop) . '" data-rid="' . absint($foodbakery_restaurant_id) . '" data-id="' . absint($menu_items_loop) . '" data-cid="' . absint($menu_loop) . '"';
-                    ?>
+                ?>
                     <!-- <a href="javascript:void(0)" class="restaurant-add-menu-btn restaurant-add-menu-btn-<?php echo absint($menu_items_loop) ?>" data-rid="<?php echo absint($foodbakery_restaurant_id) ?>" data-id="<?php echo absint($menu_items_loop) ?>" data-cid="<?php echo absint($menu_loop) ?>"><i class="icon-plus4 text-color"></i></a>
                     -->
-                    <?php
+                <?php
                 }
                 ?>
 
@@ -7411,13 +7472,13 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
 
 
 
-                    <div class="text-holder"  style="float:left;">
+                    <div class="text-holder" style="float:left;">
 
                         <h6><?php echo esc_html($menu_item_title); ?></h6>
                         <span><?php echo esc_html($menu_item_description); ?></span>
                         <?php
                         if (is_array($menu_item_nutri) && sizeof($menu_item_nutri) > 0) {
-                            ?>
+                        ?>
                             <ul class="nutri-icons">
                                 <?php
                                 $nutri_count = 0;
@@ -7426,14 +7487,14 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
                                     $menu_nutri_title = isset($get_foodbakeri_nutri_titles[$menu_nutri_index]) ? $get_foodbakeri_nutri_titles[$menu_nutri_index] : '';
                                     $men_nutri_icon_img_arr = wp_get_attachment_image_src($men_nutri, 'thumbnail');
                                     $men_nutri_icon_img_src = isset($men_nutri_icon_img_arr[0]) ? $men_nutri_icon_img_arr[0] : '';
-                                    ?>
+                                ?>
                                     <li><a data-toggle="tooltip" title="<?php echo esc_html($menu_nutri_title) ?>"><img src="<?php echo esc_url($men_nutri_icon_img_src); ?>" alt=""></a></li>
-                                    <?php
+                                <?php
                                     $nutri_count++;
                                 }
                                 ?>
                             </ul>
-                            <?php
+                        <?php
                         }
                         ?>
                         <span class="price">
@@ -7446,15 +7507,15 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
                     </div> -->
                     <?php
                     if ($menu_item_icon_img_src != '') {
-                        ?>
+                    ?>
 
                         <div class="image-holder" style="float: right;"> <img style="border-radius: 10px;" src="<?php echo esc_url($menu_item_icon_img_src); ?>" alt=""></div>
-                        <?php
+                    <?php
                     }
                     ?>
                 </li>
                 <div id="show_extra_modal"></div>
-                <?php
+            <?php
                 //ob_start();
                 //$extras_modal_boxes .= ob_get_clean();
                 // extras
@@ -7488,7 +7549,8 @@ function restaurant_detail_menu_list($foodbakery_restaurant_id = '') {
     }
 }
 
-function restaurant_get_image_height($img_url = '') {
+function restaurant_get_image_height($img_url = '')
+{
     if ($img_url != '') {
         $foodbakery_upload_dir = wp_upload_dir();
         $foodbakery_upload_baseurl = isset($foodbakery_upload_dir['baseurl']) ? $foodbakery_upload_dir['baseurl'] . '/' : '';
@@ -7526,7 +7588,8 @@ function restaurant_get_image_height($img_url = '') {
 // Profile Deletion!
 if (!function_exists('cs_remove_profile_callback')) {
 
-    function cs_remove_profile_callback() {
+    function cs_remove_profile_callback()
+    {
         if (!wp_foodbakery::is_demo_user_modification_allowed($_POST['template_name'])) {
             $reponse['status'] = 'error';
             $reponse['message'] = esc_html__('Demo users are not allowed to modify information.', 'foodbakery');
@@ -7555,7 +7618,8 @@ if (!function_exists('cs_remove_profile_callback')) {
 //edit extra menu
 if (!function_exists('foodbakery_edit_extra_menu_item')) {
 
-    function foodbakery_edit_extra_menu_item() {
+    function foodbakery_edit_extra_menu_item()
+    {
         global $current_user;
         ob_start();
 
@@ -7629,13 +7693,13 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
             }
         }
 
-        $total_menu_count = ( is_object($this_item_ids) || is_array($this_item_ids) ) ? count($this_item_ids) : 1;
+        $total_menu_count = (is_object($this_item_ids) || is_array($this_item_ids)) ? count($this_item_ids) : 1;
 
         for ($menu_loop = 0; $menu_loop < $total_menu_count; $menu_loop++) {
             $menu_item_extra = isset($restaurant_menu_list[$data_id]['menu_item_extra']) ? $restaurant_menu_list[$data_id]['menu_item_extra'] : 0;
 
             if (isset($menu_item_extra[0]['title']) && is_array($menu_item_extra[0]['title']) && sizeof($menu_item_extra[0]['title']) > 0) {
-                ?>
+            ?>
                 <div class="modal fade menu-extras-modal" id="<?php echo $pop_up_id; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -7659,7 +7723,7 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
                                         $menu_item_extra_notes = isset($menu_item_extra[$key]['notes']) ? $menu_item_extra[$key]['notes'] : '';
                                         if (is_array($menu_item_extra_titles) && sizeof($menu_item_extra_titles) > 0) {
                                             $menu_extra_att_counter = 0;
-                                            ?>
+                                    ?>
                                             <div class="dw extras-detail-main" id="menu_idd_<?php echo $menu_extra_counter; ?>">
                                                 <input type="hidden" name="required_count" value="<?php echo $required_num_value; ?>">
                                                 <h3 style="height:20px;"><?php echo esc_html($value); ?>
@@ -7684,7 +7748,7 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
                                                             $field_type = 'checkbox';
                                                         }
                                                         $menu_items_loop = isset($menu_items_loop) ? $menu_items_loop : '';
-                                                        ?>
+                                                    ?>
                                                         <div class="extras-detail-att <?php echo $all_id; ?>">
                                                             <input price="<?php echo $menu_item_extra_price; ?>" class="sa_extra_checkbox" type="<?php echo $field_type; ?>" <?php echo $checked; ?> id="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-ind="<?php echo absint($menu_extra_att_counter) ?>" data-menucat-id="<?php echo absint($menu_loop) ?>" data-menu-id="<?php echo absint($this_item_id) ?>" name="extra-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($this_item_id) ?>">
                                                             <label for="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>">
@@ -7692,14 +7756,14 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
                                                                 <span class="extra-price"><?php echo foodbakery_get_currency($menu_item_extra_price, true); ?></span>
                                                             </label>
                                                         </div>
-                                                        <?php
+                                                    <?php
                                                         $menu_extra_att_counter++;
                                                     }
                                                     ?>
                                                 </div>
                                                 <div class="extras-detail-selected"></div>
                                             </div>
-                                            <?php
+                                    <?php
                                             $menu_extra_counter++;
                                         }
                                     }
@@ -7707,17 +7771,18 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
                                     <div class="extras-detail-att">
 
 
-                                        <input type="name" class="form-control" value=" <?php echo $this_item_notes; ?>" name="extrasnotes"/>
+                                        <input type="name" class="form-control" value=" <?php echo $this_item_notes; ?>" name="extrasnotes" />
 
-                                                                                                                <!-- <textarea   rows="7"  wrap="virtual" style="height:auto;white-space: normal"  name="extras-notes-0" >
-                                        <?php // echo $this_item_notes; ?>
+                                        <!-- <textarea   rows="7"  wrap="virtual" style="height:auto;white-space: normal"  name="extras-notes-0" >
+                                        <?php // echo $this_item_notes; 
+                                        ?>
                                                                                                                 </textarea> -->
 
 
 
                                     </div>
                                     <div class="extras-btns-holder" style="margin-top:10px">
-                                        <button data-menucat-id-new="<?php echo absint($data_cat_id) ?>"  data-menucat-id="<?php echo absint($menu_loop) ?>" data-menu-id="<?php echo absint($data_id) ?>" data-rid="<?php echo absint($foodbakery_restaurant_id) ?>" data-rand="<?php echo $data_rand; ?>" unique_id="<?php echo $unique_id; ?>" class="add-extra-menu-btn input-button-loader editing-menu"><?php esc_html_e('Update', 'foodbakery') ?></button>
+                                        <button data-menucat-id-new="<?php echo absint($data_cat_id) ?>" data-menucat-id="<?php echo absint($menu_loop) ?>" data-menu-id="<?php echo absint($data_id) ?>" data-rid="<?php echo absint($foodbakery_restaurant_id) ?>" data-rand="<?php echo $data_rand; ?>" unique_id="<?php echo $unique_id; ?>" class="add-extra-menu-btn input-button-loader editing-menu"><?php esc_html_e('Update', 'foodbakery') ?></button>
                                         <a href="javascript:void(0)" class="reset-menu-fields btn"><?php esc_html_e('Reset Fields', 'foodbakery') ?></a>
                                         <span class="extra-loader"></span>
                                     </div>
@@ -7726,7 +7791,7 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
                         </div>
                     </div>
                 </div>
-                <?php
+            <?php
             }
         }
         $contents = ob_get_clean();
@@ -7741,7 +7806,8 @@ if (!function_exists('foodbakery_edit_extra_menu_item')) {
 //Show extra menu popup
 if (!function_exists('foodbakery_show_extra_menu_item')) {
 
-    function foodbakery_show_extra_menu_item() {
+    function foodbakery_show_extra_menu_item()
+    {
         global $current_user;
         $pop_up_id = $_REQUEST['popup_id'];
         $data_id = $_REQUEST['data_id'];
@@ -7802,14 +7868,15 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                         $required_count = 'required_count';
                                         $radio_class = 'radio_class';
                                     }
-                                    ?>
+                            ?>
                                     <div class="up extras-detail-main <?php echo $extra_class; ?> <?php echo $extra_class_value; ?>" id="menu_idd_<?php echo $menu_extra_counter; ?>" data-condlink="<?php echo $extra_class_value; ?>">
                                         <input type="hidden" name="required_count" class="<?php echo $required_count; ?>" id="<?php echo $condition_num_value; ?>" data-required="<?php echo $required_num_value; ?>" value="<?php echo $required_num_value_new; ?>">
-                                <?php do_action('foodbakery_extra_fields_hidden', $menu_item_extra, $key); ?>
+                                        <?php do_action('foodbakery_extra_fields_hidden', $menu_item_extra, $key); ?>
                                         <h3 style="height:20px;"><?php echo esc_html($value); ?>
-                                        <?php if ($required_num_value != '') { ?>
+                                            <?php if ($required_num_value != '') { ?>
                                                 <span style="float: right;" class="required_extras"><?php echo esc_html__('Required ', 'foodbakery') . $required_num_value; ?></span>
-                                            <?php } ?> </h3>
+                                            <?php } ?>
+                                        </h3>
                                         <div class="extras-detail-options">
                                             <?php
                                             foreach ($menu_item_extra_titles as $key => $menu_item_extra_title) {
@@ -7819,7 +7886,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 $menu_item_extra_quantitys = isset($menu_item_extra_quantity[$key]) ? $menu_item_extra_quantity[$key] : '';
 
                                                 $menu_item_extra_subtitle = isset($menu_item_extra_subtitles[$key]) ? $menu_item_extra_subtitles[$key] : '';
-                                                
+
                                                 $field_type = '';
                                                 $checked = '';
                                                 $disabled = '';
@@ -7827,13 +7894,13 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 $disablestyle = '';
                                                 $defult_qty = 1;
 
-                                                if ($menu_item_extra_quantitys == 0 && $menu_item_extra_quantitys !='') { //edit sagar
+                                                if ($menu_item_extra_quantitys == 0 && $menu_item_extra_quantitys != '') { //edit sagar
                                                     $disabled = 'disabled';
                                                     $disablestyle = 'style="text-decoration-line: line-through; "';
                                                     //$sa_total -= $menu_item_extra_price;
                                                 }
-                                                
-                                                $menu_item_extra_quantity2  = (int) $menu_item_extra_quantitys ;
+
+                                                $menu_item_extra_quantity2  = (int) $menu_item_extra_quantitys;
 
                                                 if ($menu_item_extra_prechecked == 'on' && ($menu_item_extra_quantitys == '' || $menu_item_extra_quantity2 > 0)) { //edit sagar
                                                     $checked = 'checked';
@@ -7841,10 +7908,10 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                     $sa_total += $menu_item_extra_price;
                                                     $defult_qty = 1;
                                                 }
-                                                
-                                            
-                                                
-                                                
+
+
+
+
 
                                                 if ($menu_item_extra_price == '') {
                                                     $menu_item_extra_price = 0;
@@ -7855,34 +7922,25 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                 } else {
                                                     $field_type = 'checkbox';
                                                 }
-                                                ?>
+                                            ?>
                                                 <div class="extras-detail-att">
                                                     <div class="row">
 
                                                         <?php
-                                                            if(!empty($menu_item_extra_subtitle) && $menu_item_extra_subtitle !=''){
-                                                                echo "<h3 class='subtitle text-left'>$menu_item_extra_subtitle</h3>";
-                                                            }
+                                                        if (!empty($menu_item_extra_subtitle) && $menu_item_extra_subtitle != '') {
+                                                            echo "<h3 class='subtitle text-left'>$menu_item_extra_subtitle</h3>";
+                                                        }
                                                         ?>
 
                                                         <div class="col-lg-12 col-xs-12">
-                                                            <input <?php echo $disabled ?>   
-                                                                price="<?php echo $menu_item_extra_price; ?>" 
-                                                                class="sa_extra_checkbox <?php echo $radio_class; ?>" <?php echo $checked; ?> 
-                                                                title="<?php echo esc_html($menu_item_extra_title); ?>"
-                                                                type="<?php echo $field_type; ?>" 
-                                                                max_qty="<?php echo $menu_item_extra_quantitys; ?>" 
-                                                                id="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" 
-                                                                data-ind="<?php echo absint($menu_extra_att_counter) ?>" data-menucat-id="<?php echo isset($menu_loop) ? absint($menu_loop) : '' ?>" 
-                                                                data-menu-id="<?php echo absint($menu_items_loop) ?>" 
-                                                                name="extra-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-counter="<?php echo $menu_extra_counter; ?>-<?php echo $menu_item_extra_title; ?>">
+                                                            <input <?php echo $disabled ?> price="<?php echo $menu_item_extra_price; ?>" class="sa_extra_checkbox <?php echo $radio_class; ?>" <?php echo $checked; ?> title="<?php echo esc_html($menu_item_extra_title); ?>" type="<?php echo $field_type; ?>" max_qty="<?php echo $menu_item_extra_quantitys; ?>" id="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-ind="<?php echo absint($menu_extra_att_counter) ?>" data-menucat-id="<?php echo isset($menu_loop) ? absint($menu_loop) : '' ?>" data-menu-id="<?php echo absint($menu_items_loop) ?>" name="extra-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" data-counter="<?php echo $menu_extra_counter; ?>-<?php echo $menu_item_extra_title; ?>">
                                                             <label for="extra-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>">
-                                                                <span class="extra-title" <?php echo $disablestyle; ?>><?php echo esc_html($menu_item_extra_title) ?>  </span>
+                                                                <span class="extra-title" <?php echo $disablestyle; ?>><?php echo esc_html($menu_item_extra_title) ?> </span>
                                                                 <span class="extra-price" <?php echo $disablestyle; ?>><?php echo foodbakery_get_currency($menu_item_extra_price, true);
-                                                                     /*
+                                                                                                                        /*
                                                                      $menu_item_extra_prechecked; 
                                                                     */
-                                                                    ?> </span>
+                                                                                                                        ?> </span>
                                                             </label>
 
                                                         </div>
@@ -7892,7 +7950,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                                     </div>
 
                                                 </div>
-                                                <?php
+                                            <?php
                                                 $menu_extra_att_counter++;
                                             }
                                             ?>
@@ -7903,7 +7961,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                                         </div>
                                         <div class="extras-detail-selected"></div>
                                     </div>
-                                    <?php
+                            <?php
                                     $menu_extra_counter++;
                                 }
                             }
@@ -7916,7 +7974,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
 
                             <h2 style="padding: 15px 0px 10px 22px;"><a><?php echo $restaurant_menu_list[$menu_items_loop]['menu_item_title']; ?> x <span class="total_quantity">1</span></a> </h2>
                             <p style="width: 100%;clear: both;padding: 0px 0px 7px 22px;margin-bottom: 0px;font-size: 14px;font-weight: 100;color: #9D9D9D !important;line-height: 1.4;"><?php echo $restaurant_menu_list[$menu_items_loop]['menu_item_description']; ?></p>
-                            <h4 style="margin-left:20px;margin-bottom: 8px;float: right;padding-right: 25px;" class="total_count" total_count="<?php echo number_format($sa_total, 2); ?>">  <?php echo number_format($sa_total, 2); ?> €</h4>
+                            <h4 style="margin-left:20px;margin-bottom: 8px;float: right;padding-right: 25px;" class="total_count" total_count="<?php echo number_format($sa_total, 2); ?>"> <?php echo number_format($sa_total, 2); ?> €</h4>
                         </div>
                         <div class="modal-body">
                             <div class="menu-selection-container">
@@ -7929,13 +7987,14 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
 
 
 
-                                    <input type="name" class="form-control" placeholder="Notes" value=""  name="extrasnotes"/>
+                                    <input type="name" class="form-control" placeholder="Notes" value="" name="extrasnotes" />
 
-                                                                                    <!-- <textarea rows="5"  cols="7"  style="height:100px" class="foodbakery-dev-req-field" name="extras-notes-0" placeholder="Notes"></textarea> --><!-- <input id="extra_notes" type="text" placeholder="Notes" class="form control" name="extras-notes-<?php echo $key; ?>" />                   -->
+                                    <!-- <textarea rows="5"  cols="7"  style="height:100px" class="foodbakery-dev-req-field" name="extras-notes-0" placeholder="Notes"></textarea> -->
+                                    <!-- <input id="extra_notes" type="text" placeholder="Notes" class="form control" name="extras-notes-<?php echo $key; ?>" />                   -->
 
                                 </div>
 
-                                <div class="extras-btns-holder"  style="margin-top:10px">
+                                <div class="extras-btns-holder" style="margin-top:10px">
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <a href="javascript:void(0)" class="reset-menu-fields btn"><?php esc_html_e('Reset Fields', 'foodbakery') ?></a>
@@ -7944,12 +8003,12 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
 
                                         <div class="col-lg-3">
                                             <div class=" sa_quantity">
-                                                <input   max_qty="<?php echo $menu_item_extra_quantitys; ?>"   type="hidden" class="sa_quantity_in" name="sa_quantity-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" value="<?php echo $defult_qty; ?>" />
-                                                <button class=" col-4 sa_decrement"  >-</button>
+                                                <input max_qty="<?php echo $menu_item_extra_quantitys; ?>" type="hidden" class="sa_quantity_in" name="sa_quantity-<?php echo absint($menu_extra_att_counter) ?>-<?php echo absint($menu_extra_counter) ?>-<?php echo absint($menu_items_loop) ?>" value="<?php echo $defult_qty; ?>" />
+                                                <button class=" col-4 sa_decrement">-</button>
                                                 <span class="col-4 sa_quantity"><?php echo $defult_qty; ?></span>
 
 
-                                                <button class=" col-4 sa_increment"  >+</button>
+                                                <button class=" col-4 sa_increment">+</button>
 
                                             </div>
                                         </div>
@@ -7972,7 +8031,7 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
                 </div>
             </div>
             </div>
-            <?php
+<?php
         }
         $contents = ob_get_clean();
         //ob_end_clean();
@@ -7984,7 +8043,8 @@ if (!function_exists('foodbakery_show_extra_menu_item')) {
     add_action("wp_ajax_nopriv_foodbakery_show_extra_menu_item", "foodbakery_show_extra_menu_item");
 }
 
-function tags_balnce_func($return = '') {
+function tags_balnce_func($return = '')
+{
 
     return force_balance_tags($return, true);
 }
@@ -7994,7 +8054,8 @@ function tags_balnce_func($return = '') {
  * @param $currency_symbol
  * @return string
  */
-function currency_symbol_possitions($amount, $currency_symbol) {
+function currency_symbol_possitions($amount, $currency_symbol)
+{
     global $foodbakery_plugin_options;
     $currency_alignment = isset($foodbakery_plugin_options['foodbakery_currency_alignment']) ? $foodbakery_plugin_options['foodbakery_currency_alignment'] : 'Left';
     if ($currency_alignment == 'Right') {
@@ -8010,7 +8071,8 @@ function currency_symbol_possitions($amount, $currency_symbol) {
  * @param $currency_symbol_html
  * @return string
  */
-function currency_symbol_possitions_html($amount_html, $currency_symbol_html) {
+function currency_symbol_possitions_html($amount_html, $currency_symbol_html)
+{
     global $foodbakery_plugin_options;
     $currency_alignment = isset($foodbakery_plugin_options['foodbakery_currency_alignment']) ? $foodbakery_plugin_options['foodbakery_currency_alignment'] : 'Left';
     if ($currency_alignment == 'Right') {
@@ -8027,7 +8089,8 @@ add_action('wp_ajax_update_reviews_status', 'update_reviews_status_callback', 10
  * @param $post_id
  * @param $status
  */
-function update_reviews_status_callback() {
+function update_reviews_status_callback()
+{
     $post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
     $status = isset($_POST['status']) ? $_POST['status'] : '';
     $restaurant_id = isset($_POST['restaurant_id']) ? $_POST['restaurant_id'] : '';

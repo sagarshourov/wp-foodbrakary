@@ -46,12 +46,19 @@ if (!class_exists('Foodbakery_Shortcode_Single_Restaurant_front')) {
             $restaurant_menu_list = get_post_meta($foodbakery_restaurant_id, 'foodbakery_menu_items', true);
             $total_items = is_array($restaurant_menu_list) ? count($restaurant_menu_list) : array();
             $total_menu = array();
+            $menu_cats_arr = get_post_meta($foodbakery_restaurant_id,'menu_cat_titles');
             if (isset($restaurant_menu_list) && $restaurant_menu_list != '') {
                 for ($menu_count = 0; $menu_count < $total_items; $menu_count++) {
                     if (isset($restaurant_menu_list[$menu_count]['restaurant_menu'])) {
                         $menu_exists = in_array($restaurant_menu_list[$menu_count]['restaurant_menu'], $total_menu);
                         if (!$menu_exists) {
-                            $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                            $key = array_search($restaurant_menu_list[$menu_count]['restaurant_menu'], $menu_cats_arr[0]);
+                            //$total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                            if($key !== false){
+                                $total_menu[$key] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                            }else{
+                                $total_menu[] = $restaurant_menu_list[$menu_count]['restaurant_menu'];
+                            }
                         }
                     }
                 }
